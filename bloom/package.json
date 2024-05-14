@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@vercel/postgres": "^0.8.0",
-    "next": "14.2.3",
+    "autoprefixer": "^10.4.19",
+    "next": "^14.2.3",
     "react": "^18",
     "react-dom": "^18"
   },
