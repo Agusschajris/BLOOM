@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "@vercel/postgres": "^0.8.0",
     "autoprefixer": "^10.4.19",
     "next": "^14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-router-dom": "^6.23.1"
   },
   "devDependencies": {
     "@types/node": "^20",
