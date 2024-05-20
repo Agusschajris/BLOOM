@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Importar desde next/navigation
-import Popup from '../Components/popUp';
+import Popup from '../src/app/Components/popUp';
 
 const MainPage: React.FC = () => {
   const router = useRouter(); // Usa el enrutador de Next.js para la navegación
