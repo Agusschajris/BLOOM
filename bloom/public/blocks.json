@@ -1,0 +1,126 @@
+[
+    {
+        "visualName": "Dense",
+        "exp": "",
+        "funName": "dense",
+        "args": [
+            {
+                "visualName": "Units",
+                "exp": "Positive integer, dimensionality of the output space.",
+                "argName": "units",
+                "type": "number",
+                "values": "x>0"
+            },
+            {
+                "visualName": "Activation",
+                "exp": "Activation function to use.",
+                "argName": "activation",
+                "type": "string",
+                "values": [
+                    "elu",
+                    "hardSigmoid",
+                    "linear",
+                    "relu",
+                    "relu6",
+                    "selu",
+                    "sigmoid",
+                    "softmax",
+                    "softplus",
+                    "softsign",
+                    "tanh",
+                    "swish",
+                    "mish",
+                    "gelu",
+                    "gelu_new",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Use Bias",
+                "exp": "Whether to apply a bias.",
+                "argName": "useBias",
+                "type": "boolean",
+                "default": false
+            },
+            {
+                "visualName": "Kernel Initializer",
+                "exp": "Initializer for the dense kernel weights matrix.",
+                "argName": "kernelInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Initializer for the bias vector.",
+                "argName": "biasInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Kernel Constraint",
+                "exp": "Constraint for the kernel weights.",
+                "argName": "kernelConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Constraint for the bias vector.",
+                "argName": "biasConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            }
+        ]
+    }
+]
