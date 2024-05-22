@@ -10,5 +10,55 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  id              Int     @id @default(autoincrement())
+  email           String  @unique
+  username        String  @unique
+  name            String
+  professor       Boolean
+  organization    String?
+}
+
+model Project {
+  id              Int     @id @default(autoincrement())
+  name            String
+  owner           User    @relation(fields: [ownerId], references: [id])
+  ownerId         Int
+  // debería agregar uno para el modelo propiamente dicho, pero no se como se va a guardar, tengo que preguntar
+}
+
+model Class {
+  id              Int     @id @default(autoincrement())
+  name            String
+  owner           User    @relation(fields: [ownerId], references: [id])
+  ownerId         Int
+  // falta la consigna, no se el formato
+}
+
+model Dataset {
+  id          Int     @id @default(autoincrement())
+  // falta agregar el dataset propiamente dicho --> ML Croissant
+}
+
+//RELATIONSHIPS
+model Enrollment { // User - Class
+  id              Int     @id @default(autoincrement())
+  userId          Int
+  classId         Int
+}
+
+model DatasetClass { // Dataset - Class
+  id              Int     @id @default(autoincrement())
+  datasetId       Int
+  classId         Int
+}
+
+model DatasetProject { // Dataset - Project
+  id              Int     @id @default(autoincrement())
+  datasetId       Int
+  projectId       Int
 }
