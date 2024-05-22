@@ -2,6 +2,7 @@
     {
         "visualName": "Dense",
         "exp": "",
+        "category": "Basic",
         "funName": "dense",
         "args": [
             {
@@ -42,6 +43,578 @@
                 "argName": "useBias",
                 "type": "boolean",
                 "default": false
+            },
+            {
+                "visualName": "Kernel Initializer",
+                "exp": "Initializer for the dense kernel weights matrix.",
+                "argName": "kernelInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Initializer for the bias vector.",
+                "argName": "biasInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Kernel Constraint",
+                "exp": "Constraint for the kernel weights.",
+                "argName": "kernelConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Constraint for the bias vector.",
+                "argName": "biasConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            }
+        ]
+    },
+    {
+        "visualName": "Dropout",
+        "exp": "Dropout consists in randomly setting a fraction rate of input units to 0 at each update during training time, which helps prevent overfitting.",
+        "category": "Basic",
+        "funName": "dropout",
+        "args": [
+            {
+                "visualName": "Rate",
+                "exp": "Fraction of the input units to drop.",
+                "argName": "rate",
+                "type": "number",
+                "values": "0<=x<=1"
+            },
+            {
+                "visualName": "Seed",
+                "exp": "An integer to use as random seed.",
+                "argName": "seed",
+                "type": "number",
+                "default": null
+            }
+        ]
+    },
+    {
+        "visualName": "Flatten",
+        "exp": "Flattens the input to 1D. Does not affect the batch size.",
+        "category": "Basic",
+        "args": []
+    },
+    {
+        "visualName": "1D Convolution",
+        "exp": "This layer creates a convolution kernel that is convolved with the layer input over a single spatial (or temporal) dimension to produce a tensor of outputs.",
+        "category": "Convolution",
+        "args": [
+            {
+                "visualName": "Filters",
+                "exp": "The dimensionality of the output space (i.e. the number of filters in the convolution).",
+                "argName": "filters",
+                "type": "number"
+            },
+            {
+                "visualName": "Padding",
+                "exp": "Padding mode.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Activation",
+                "exp": "Activation function to use.",
+                "argName": "activation",
+                "type": "string",
+                "values": [
+                    "elu",
+                    "hardSigmoid",
+                    "linear",
+                    "relu",
+                    "relu6",
+                    "selu",
+                    "sigmoid",
+                    "softmax",
+                    "softplus",
+                    "softsign",
+                    "tanh",
+                    "swish",
+                    "mish",
+                    "gelu",
+                    "gelu_new",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Use Bias",
+                "exp": "Whether to apply a bias.",
+                "argName": "useBias",
+                "type": "boolean",
+                "default": true
+            },
+            {
+                "visualName": "Kernel Initializer",
+                "exp": "Initializer for the dense kernel weights matrix.",
+                "argName": "kernelInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Initializer for the bias vector.",
+                "argName": "biasInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Kernel Constraint",
+                "exp": "Constraint for the kernel weights.",
+                "argName": "kernelConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Constraint for the bias vector.",
+                "argName": "biasConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            }
+        ]
+    },
+    {
+        "visualName": "2D Convolution",
+        "exp": "This layer creates a convolution kernel that is convolved with the layer input to produce a tensor of outputs.",
+        "category": "Convolution",
+        "args": [
+            {
+                "visualName": "Filters",
+                "exp": "The dimensionality of the output space (i.e. the number of filters in the convolution).",
+                "argName": "filters",
+                "type": "number"
+            },
+            {
+                "visualName": "Padding",
+                "exp": "Padding mode.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Activation",
+                "exp": "Activation function to use.",
+                "argName": "activation",
+                "type": "string",
+                "values": [
+                    "elu",
+                    "hardSigmoid",
+                    "linear",
+                    "relu",
+                    "relu6",
+                    "selu",
+                    "sigmoid",
+                    "softmax",
+                    "softplus",
+                    "softsign",
+                    "tanh",
+                    "swish",
+                    "mish",
+                    "gelu",
+                    "gelu_new",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Use Bias",
+                "exp": "Whether to apply a bias.",
+                "argName": "useBias",
+                "type": "boolean",
+                "default": true
+            },
+            {
+                "visualName": "Kernel Initializer",
+                "exp": "Initializer for the dense kernel weights matrix.",
+                "argName": "kernelInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Initializer for the bias vector.",
+                "argName": "biasInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Kernel Constraint",
+                "exp": "Constraint for the kernel weights.",
+                "argName": "kernelConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Constraint for the bias vector.",
+                "argName": "biasConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            }
+        ]
+    },
+    {
+        "visualName": "2d Deconvolution",
+        "exp": "The need for transposed convolutions generally arises from the desire to use a transformation going in the opposite direction of a normal convolution, i.e., from something that has the shape of the output of some convolution to something that has the shape of its input while maintaining a connectivity pattern that is compatible with said convolution.",
+        "category": "Convolution",
+        "args": [
+            {
+                "visualName": "Filters",
+                "exp": "The dimensionality of the output space (i.e. the number of filters in the convolution).",
+                "argName": "filters",
+                "type": "number"
+            },
+            {
+                "visualName": "Padding",
+                "exp": "Padding mode.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Activation",
+                "exp": "Activation function to use.",
+                "argName": "activation",
+                "type": "string",
+                "values": [
+                    "elu",
+                    "hardSigmoid",
+                    "linear",
+                    "relu",
+                    "relu6",
+                    "selu",
+                    "sigmoid",
+                    "softmax",
+                    "softplus",
+                    "softsign",
+                    "tanh",
+                    "swish",
+                    "mish",
+                    "gelu",
+                    "gelu_new",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Use Bias",
+                "exp": "Whether to apply a bias.",
+                "argName": "useBias",
+                "type": "boolean",
+                "default": true
+            },
+            {
+                "visualName": "Kernel Initializer",
+                "exp": "Initializer for the dense kernel weights matrix.",
+                "argName": "kernelInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Initializer for the bias vector.",
+                "argName": "biasInitializer",
+                "type": "string",
+                "values": [
+                    "constant",
+                    "glorotNormal",
+                    "glorotUniform",
+                    "heNormal",
+                    "heUniform",
+                    "identical",
+                    "leCunNormal",
+                    "leCunUniform",
+                    "ones",
+                    "orthogonal",
+                    "randomNormal",
+                    "randomUniform",
+                    "truncatedNormal",
+                    "varianceScaling",
+                    "zeros",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Kernel Constraint",
+                "exp": "Constraint for the kernel weights.",
+                "argName": "kernelConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Bias Initializer",
+                "exp": "Constraint for the bias vector.",
+                "argName": "biasConstraint",
+                "type": "string",
+                "values": [
+                    "maxNorm",
+                    "minMaxNorm",
+                    "nonNeg",
+                    "unitNorm",
+                    null
+                ],
+                "default": null
+            }
+        ]
+    },
+    {
+        "visualName": "3D Convolution",
+        "exp": "This layer creates a convolution kernel that is convolved with the layer input to produce a tensor of outputs.",
+        "category": "Convolution",
+        "args": [
+            {
+                "visualName": "Filters",
+                "exp": "The dimensionality of the output space (i.e. the number of filters in the convolution).",
+                "argName": "filters",
+                "type": "number"
+            },
+            {
+                "visualName": "Padding",
+                "exp": "Padding mode.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Activation",
+                "exp": "Activation function to use.",
+                "argName": "activation",
+                "type": "string",
+                "values": [
+                    "elu",
+                    "hardSigmoid",
+                    "linear",
+                    "relu",
+                    "relu6",
+                    "selu",
+                    "sigmoid",
+                    "softmax",
+                    "softplus",
+                    "softsign",
+                    "tanh",
+                    "swish",
+                    "mish",
+                    "gelu",
+                    "gelu_new",
+                    null
+                ],
+                "default": null
+            },
+            {
+                "visualName": "Use Bias",
+                "exp": "Whether to apply a bias.",
+                "argName": "useBias",
+                "type": "boolean",
+                "default": true
             },
             {
                 "visualName": "Kernel Initializer",
