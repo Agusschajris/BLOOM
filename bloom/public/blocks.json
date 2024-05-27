@@ -1,7 +1,7 @@
 [
     {
         "visualName": "Dense",
-        "exp": "",
+        "exp": "Default simple layer of nodes.",
         "category": "Basic",
         "funName": "dense",
         "args": [
@@ -425,7 +425,7 @@
         ]
     },
     {
-        "visualName": "2d Deconvolution",
+        "visualName": "2D Deconvolution",
         "exp": "The need for transposed convolutions generally arises from the desire to use a transformation going in the opposite direction of a normal convolution, i.e., from something that has the shape of the output of some convolution to something that has the shape of its input while maintaining a connectivity pattern that is compatible with said convolution.",
         "category": "Convolution",
         "args": [
