@@ -695,5 +695,221 @@
                 "default": null
             }
         ]
+    },
+    {
+        "visualName": "1D Average Pooling",
+        "exp": "Average pooling operation for spatial data.",
+        "category": "Pooling",
+        "funName": "averagePooling1d",
+        "args": [
+            {
+                "visualName": "Pool Size",
+                "exp": "Size of the window to pool over, should be an integer.",
+                "argName": "poolSize",
+                "type": "number"
+            },
+            {
+                "visualName": "Strides",
+                "exp": "Period at which to sample the pooled values. If null, defaults to poolSize.",
+                "argName": "strides",
+                "type": "number",
+                "default": null
+            },
+            {
+                "visualName": "Padding",
+                "exp": "How to fill in data that's not an integer multiple of poolSize.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual"
+                ]
+            }
+        ]
+    },
+    {
+        "visualName": "2D Average Pooling",
+        "exp": "Max pooling operation for spatial data.",
+        "category": "Pooling",
+        "funName": "averagePooling2d",
+        "args": [
+            {
+                "visualName": "Pool Size",
+                "exp": "Factors by which to downscale in each dimension [vertical, horizontal].",
+                "argName": "poolSize",
+                "type": "number[2]"
+            },
+            {
+                "visualName": "Strides",
+                "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
+                "argName": "strides",
+                "type": "number[2]",
+                "default": null
+            },
+            {
+                "visualName": "Padding",
+                "exp": "How to fill in data that's not an integer multiple of poolSize.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual"
+                ]
+            }
+        ]
+    },
+    {
+        "visualName": "3D Average Pooling",
+        "exp": "Average pooling operation for 3D data.",
+        "category": "Pooling",
+        "funName": "averagePooling3d",
+        "args": [
+            {
+                "visualName": "Pool Size",
+                "exp": "Factors by which to downscale in each dimension [depth, height, width].",
+                "argName": "poolSize",
+                "type": "number[3]"
+            },
+            {
+                "visualName": "Strides",
+                "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
+                "argName": "strides",
+                "type": "number[3]",
+                "default": null
+            },
+            {
+                "visualName": "Padding",
+                "exp": "How to fill in data that's not an integer multiple of poolSize.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual"
+                ]
+            }
+        ]
+    },
+    {
+        "visualName": "1D Global Average Pooling",
+        "exp": "Global average pooling operation for temporal data.",
+        "category": "Pooling",
+        "funName": "globalAveragePooling1d"
+    },
+    {
+        "visualName": "2D Global Average Pooling",
+        "exp": "Global average pooling operation for spatial data.",
+        "category": "Pooling",
+        "funName": "globalAveragePooling2d"
+    },
+    {
+        "visualName": "1D Global Max Pooling",
+        "exp": "Global max pooling operation for temporal data.",
+        "category": "Pooling",
+        "funName": "globalMaxPooling1d"
+    },
+    {
+        "visualName": "2D Global Max Pooling",
+        "exp": "Global max pooling operation for spatial data.",
+        "category": "Pooling",
+        "funName": "globalMaxPooling1d"
+    },
+    {
+        "visualName": "1D Max Pooling",
+        "exp": "Max pooling operation for temporal data.",
+        "category": "Pooling",
+        "funName": "maxPooling1d",
+        "args": [
+            {
+                "visualName": "Pool Size",
+                "exp": "Size of the window to pool over, should be an integer.",
+                "argName": "poolSize",
+                "type": "number"
+            },
+            {
+                "visualName": "Strides",
+                "exp": "Period at which to sample the pooled values. If null, defaults to poolSize.",
+                "argName": "strides",
+                "type": "number",
+                "default": null
+            },
+            {
+                "visualName": "Padding",
+                "exp": "How to fill in data that's not an integer multiple of poolSize.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual"
+                ]
+            }
+        ]
+    },
+    {
+        "visualName": "2D Max Pooling",
+        "exp": "Max pooling operation for spatial data.",
+        "category": "Pooling",
+        "funName": "maxPooling2d",
+        "args": [
+            {
+                "visualName": "Pool Size",
+                "exp": "Factors by which to downscale in each dimension [vertical, horizontal].",
+                "argName": "poolSize",
+                "type": "number[2]"
+            },
+            {
+                "visualName": "Strides",
+                "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
+                "argName": "strides",
+                "type": "number[2]",
+                "default": null
+            },
+            {
+                "visualName": "Padding",
+                "exp": "How to fill in data that's not an integer multiple of poolSize.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual"
+                ]
+            }
+        ]
+    },
+    {
+        "visualName": "3D Max Pooling",
+        "exp": "Max pooling operation for 3D data.",
+        "category": "Pooling",
+        "funName": "maxPooling3d",
+        "args": [
+            {
+                "visualName": "Pool Size",
+                "exp": "Factors by which to downscale in each dimension [depth, height, width].",
+                "argName": "poolSize",
+                "type": "number[3]"
+            },
+            {
+                "visualName": "Strides",
+                "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
+                "argName": "strides",
+                "type": "number[3]",
+                "default": null
+            },
+            {
+                "visualName": "Padding",
+                "exp": "How to fill in data that's not an integer multiple of poolSize.",
+                "argName": "padding",
+                "type": "string",
+                "values": [
+                    "valid",
+                    "same",
+                    "casual"
+                ]
+            }
+        ]
     }
 ]
