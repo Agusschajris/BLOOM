@@ -1,7 +1,7 @@
 "use client"; // Asegura que este componente se ejecute en el cliente
 
 import React from 'react';
-import Bloque from '../Components/bloque';
+import Bloque from '../components/bloque';
 import data from "../public/blocks.json"
 
 const Proyecto: React.FC = () => {

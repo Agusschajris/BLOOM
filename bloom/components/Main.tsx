@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
-import Popup from '../Components/popUp';
+import Popup from './popUp';
 
 const MainPage: React.FC = () => {
   const router = useRouter(); 
