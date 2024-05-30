@@ -17,41 +17,41 @@ datasource db {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  email         String    @unique
-  username      String    @unique
-  name          String
-  professor     Boolean
-  organization  String?
-  projects      Project[]
-  classes       Class[]   @relation("UserClasses")
-  createdClasses Class[]  @relation("OwnerClasses")
-  datasets      Dataset[]
+  id                Int           @id @default(autoincrement())
+  email             String        @unique
+  username          String        @unique
+  name              String
+  professor         Boolean
+  organization      String?
+  projects          Project[]
+  classes           Class[]       @relation("UserClasses")
+  createdClasses    Class[]       @relation("OwnerClasses")
+  datasets          Dataset[]
 }
 
 model Project { 
-  id          Int       @id @default(autoincrement())
-  name        String
-  owner       User      @relation(fields: [ownerId], references: [id])
-  ownerId     Int
-  dataset    Dataset   @relation(fields: [datasetId], references: [id])
-  datasetId  Int
+  id                Int           @id @default(autoincrement())
+  name              String
+  owner             User          @relation(fields: [ownerId], references: [id])
+  ownerId           Int
+  dataset           Dataset       @relation(fields: [datasetId], references: [id])
+  datasetId         Int
 }
 
-model Class { // dtaset
-  id          Int       @id @default(autoincrement())
-  name        String
-  owner       User      @relation("OwnerClasses", fields: [ownerId], references: [id])
-  ownerId     Int
-  users       User[]    @relation("UserClasses")
-  datasets    Dataset[] @relation("ClassDatasets")
+model Class {
+  id                Int           @id @default(autoincrement())
+  name              String
+  owner             User          @relation("OwnerClasses", fields: [ownerId], references: [id])
+  ownerId           Int
+  users             User[]        @relation("UserClasses")
+  datasets          Dataset[]     @relation("ClassDatasets")
 }
 
-model Dataset { // class
-  id          Int       @id @default(autoincrement())
-  dataset     String    // URL
-  user        User?     @relation(fields: [userId], references: [id])
-  userId      Int?
-  projects  Project[]
-  classes     Class[]   @relation("ClassDatasets")
+model Dataset {
+  id                Int           @id @default(autoincrement())
+  dataset           String        // URL
+  user              User?         @relation(fields: [userId], references: [id])
+  userId            Int?
+  projects          Project[]
+  classes           Class[]       @relation("ClassDatasets")
 }
