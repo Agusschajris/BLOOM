@@ -4,6 +4,8 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// DOWNLOAD PRISMA EXTENSION
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,50 +17,41 @@ datasource db {
 }
 
 model User {
-  id              Int     @id @default(autoincrement())
-  email           String  @unique
-  username        String  @unique
-  name            String
-  professor       Boolean
-  organization    String?
+  id                Int           @id @default(autoincrement())
+  email             String        @unique
+  username          String        @unique
+  name              String
+  professor         Boolean
+  organization      String?
+  projects          Project[]
+  classes           Class[]       @relation("UserClasses")
+  createdClasses    Class[]       @relation("OwnerClasses")
+  datasets          Dataset[]
 }
 
-model Project {
-  id              Int     @id @default(autoincrement())
-  name            String
-  owner           User    @relation(fields: [ownerId], references: [id])
-  ownerId         Int
-  // debería agregar uno para el modelo propiamente dicho, pero no se como se va a guardar, tengo que preguntar
+model Project { 
+  id                Int           @id @default(autoincrement())
+  name              String
+  owner             User          @relation(fields: [ownerId], references: [id])
+  ownerId           Int
+  dataset           Dataset       @relation(fields: [datasetId], references: [id])
+  datasetId         Int
 }
 
 model Class {
-  id              Int     @id @default(autoincrement())
-  name            String
-  owner           User    @relation(fields: [ownerId], references: [id])
-  ownerId         Int
-  // falta la consigna, no se el formato
+  id                Int           @id @default(autoincrement())
+  name              String
+  owner             User          @relation("OwnerClasses", fields: [ownerId], references: [id])
+  ownerId           Int
+  users             User[]        @relation("UserClasses")
+  datasets          Dataset[]     @relation("ClassDatasets")
 }
 
 model Dataset {
-  id          Int     @id @default(autoincrement())
-  // falta agregar el dataset propiamente dicho --> ML Croissant
-}
-
-//RELATIONSHIPS
-model Enrollment { // User - Class
-  id              Int     @id @default(autoincrement())
-  userId          Int
-  classId         Int
-}
-
-model DatasetClass { // Dataset - Class
-  id              Int     @id @default(autoincrement())
-  datasetId       Int
-  classId         Int
-}
-
-model DatasetProject { // Dataset - Project
-  id              Int     @id @default(autoincrement())
-  datasetId       Int
-  projectId       Int
+  id                Int           @id @default(autoincrement())
+  dataset           String        // URL
+  user              User?         @relation(fields: [userId], references: [id])
+  userId            Int?
+  projects          Project[]
+  classes           Class[]       @relation("ClassDatasets")
 }

@@ -1,7 +1,7 @@
 "use client"; // Asegura que este componente se ejecute en el cliente
 
 import React from 'react';
-import Bloque from '../Components/bloque';
+import Bloque from '../components/bloque';
 import data from "../public/blocks.json"
 
 const Proyecto: React.FC = () => {
@@ -9,9 +9,9 @@ const Proyecto: React.FC = () => {
     <>
       <h1>Página de Confirmación</h1>
       <p>Proyecto creado exitosamente.</p>
-      {data.map(bloque => (
-        <Bloque key={bloque.visualName} name={bloque.visualName} exp={bloque.exp} />
-      ))}
+      <div className="overflow-auto h-64">
+        {data.map(bloque => (<Bloque key={bloque.visualName} name={bloque.visualName} exp={bloque.exp} />))}
+      </div>
     </>
   );
 };

@@ -1,1 +1,3 @@
 .env
+/bloom/.idea
+bloom/pnpm-lock.yaml

@@ -9,7 +9,7 @@ interface BloqueProps {
 
 const Bloque: React.FC<BloqueProps> = (props) => {
     return (
-        <motion.div drag>
+        <motion.div drag >
             <h2 className="">{props.name}</h2>
             <span>{props.exp}</span>
         </motion.div>
