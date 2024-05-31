@@ -14,9 +14,11 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
   
     const handleConfirm = () => {
       if (selectedFiles) {
-        onConfirm(selectedFiles); // Si se selecciono un archivo, lo envio
+        //fetch para cuando se sube un dataset/file
+        onConfirm(selectedFiles); 
       } else if (selectedDataset) {
-        onConfirm(selectedDataset); // Si se selecciono un dataset, lo envio
+        //fetch para cuando se selecciona uno de los datasets predeterminados
+        onConfirm(selectedDataset); 
       }
     };
   
