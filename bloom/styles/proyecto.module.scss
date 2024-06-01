@@ -1,0 +1,39 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 100vh;
+}
+
+.header{
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home{
+    background-image: url('../public/home.svg');
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+
+.container{
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    overflow: hidden;
+}
+
+.canvas{
+    flex: 1;
+    overflow: auto;
+    
+}
+
+.blocksAside, .codigoWrap{
+    flex: 0 0 20%;
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+}
