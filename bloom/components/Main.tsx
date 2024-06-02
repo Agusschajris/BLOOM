@@ -19,6 +19,17 @@ const MainPage: React.FC = () => {
   const handleConfirm = (dataset: FileList | string) => {
     if (typeof dataset === 'string') {
       console.log('Dataset seleccionado:', dataset);
+      fetch("http://localhost:3000/api/dataset/url",
+        {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({dataset})
+        }
+      ).then((response) => {
+        console.log(response);
+      });
     } else {
       Array.from(dataset).forEach(file => {
         console.log('Archivo seleccionado:', file.name);
