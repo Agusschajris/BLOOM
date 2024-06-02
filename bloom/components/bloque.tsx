@@ -1,6 +1,7 @@
 "use client"
 import React from "react"
 import { motion } from 'framer-motion';
+import style from '../styles/bloque.module.scss'
 
 interface BloqueProps {
     name: string
@@ -9,10 +10,12 @@ interface BloqueProps {
 
 const Bloque: React.FC<BloqueProps> = (props) => {
     return (
-        <motion.div drag >
-            <p className="">{props.name}</p>
-            <span>{props.exp}</span>
-        </motion.div>
+        <div className={style.container}>    
+            <motion.div drag className={style.bloque} >
+                <p className={style.name}>{props.name}</p>
+            </motion.div>
+            <span className={style.span}>{props.exp}</span>
+        </div>
     )
 }
 

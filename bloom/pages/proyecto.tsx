@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 import Bloque from '../components/bloque'
 import data from "../public/blocks.json"
 import styles from '../styles/proyecto.module.scss'
-import homeSVG from '../public/home.svg'
+import Image from 'next/image'; 
+import homeSVG from '../public/home.svg';
 
 const Proyecto: React.FC = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const Proyecto: React.FC = () => {
     <div className={styles.wrapper}>
       <header className={styles.header}>
         <button className={styles.home} onClick={handleClick}>
-          <img src={homeSVG} alt="home" />
+          <Image src={homeSVG} alt="home" width={24} height={24} />
         </button>
         <h1>Proyecto</h1>
         <button className={styles.export}>Exportar</button>
@@ -30,7 +31,7 @@ const Proyecto: React.FC = () => {
           {data.map(bloque => (<Bloque key={bloque.visualName} name={bloque.visualName} exp={bloque.exp} />))}
         </div>
       </aside>
-      <div className={styles.canvas}>canvas</div>
+      <div className={styles.canvas}></div>
       <aside className={styles.codigoWrap}>
         <h1>CÓDIGO</h1>
       </aside>

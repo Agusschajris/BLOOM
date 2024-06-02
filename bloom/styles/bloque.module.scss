@@ -1,0 +1,23 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+.bloque{
+    border-radius: 6px;
+    background: #0C2BA7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    width: 190px;
+    height: 55px;
+    box-shadow: 0px 0px 10px 2px rgba(12, 43, 167, 0.90), 0px 0px 20px 10px rgba(6, 12, 101, 0.75), 0px 0px 30px 15px rgba(12, 43, 167, 0.50);
+}
+
+.span{
+    display: none;
+}
