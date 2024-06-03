@@ -19,10 +19,32 @@ const MainPage: React.FC = () => {
   const handleConfirm = (dataset: FileList | string) => {
     if (typeof dataset === 'string') {
       console.log('Dataset seleccionado:', dataset);
+      fetch("http://localhost:3000/api/dataset/url",
+        {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({dataset})
+        }
+      ).then((response) => {
+        console.log(response);
+      });
     } else {
+      let formData = new FormData();
       Array.from(dataset).forEach(file => {
         console.log('Archivo seleccionado:', file.name);
+        formData.append(file.name, file);
       });
+      formData.append("close", "close");
+      fetch("http://localhost:3000/api/dataset/upload", {
+        method: 'POST',
+        body: formData
+      }).then((response) => {
+        console.log(response);
+      }).catch(err => {
+        console.log(err);
+      })
     }
     setShowPopup(false);
     router.push('/proyecto'); 

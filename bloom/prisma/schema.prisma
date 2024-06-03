@@ -49,6 +49,7 @@ model Class {
 
 model Dataset {
   id                Int           @id @default(autoincrement())
+  name              String?
   dataset           String        // URL
   user              User?         @relation(fields: [userId], references: [id])
   userId            Int?
