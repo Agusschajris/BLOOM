@@ -1,0 +1,18 @@
+
+.popupContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.segmentPredefined {
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+}
+
+.segmentUpload {
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+}
