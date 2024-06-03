@@ -10,7 +10,7 @@
                 "exp": "Positive integer, dimensionality of the output space.",
                 "argName": "units",
                 "type": "number",
-                "values": "x>0"
+                "values": "N"
             },
             {
                 "visualName": "Activation",
@@ -135,13 +135,14 @@
                 "exp": "Fraction of the input units to drop.",
                 "argName": "rate",
                 "type": "number",
-                "values": "0<=x<=1"
+                "values": "%"
             },
             {
                 "visualName": "Seed",
                 "exp": "An integer to use as random seed.",
                 "argName": "seed",
                 "type": "number",
+                "values": "Z",
                 "default": null
             }
         ]
@@ -706,13 +707,15 @@
                 "visualName": "Pool Size",
                 "exp": "Size of the window to pool over, should be an integer.",
                 "argName": "poolSize",
-                "type": "number"
+                "type": "number",
+                "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "Period at which to sample the pooled values. If null, defaults to poolSize.",
                 "argName": "strides",
                 "type": "number",
+                "values": "Z",
                 "default": null
             },
             {
@@ -738,13 +741,15 @@
                 "visualName": "Pool Size",
                 "exp": "Factors by which to downscale in each dimension [vertical, horizontal].",
                 "argName": "poolSize",
-                "type": "number[2]"
+                "type": "number[2]",
+                "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
                 "argName": "strides",
                 "type": "number[2]",
+                "values": "Z",
                 "default": null
             },
             {
@@ -770,13 +775,15 @@
                 "visualName": "Pool Size",
                 "exp": "Factors by which to downscale in each dimension [depth, height, width].",
                 "argName": "poolSize",
-                "type": "number[3]"
+                "type": "number[3]",
+                "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
                 "argName": "strides",
                 "type": "number[3]",
+                "values": "Z",
                 "default": null
             },
             {
@@ -826,13 +833,15 @@
                 "visualName": "Pool Size",
                 "exp": "Size of the window to pool over, should be an integer.",
                 "argName": "poolSize",
-                "type": "number"
+                "type": "number",
+                "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "Period at which to sample the pooled values. If null, defaults to poolSize.",
                 "argName": "strides",
                 "type": "number",
+                "values": "Z",
                 "default": null
             },
             {
@@ -858,13 +867,15 @@
                 "visualName": "Pool Size",
                 "exp": "Factors by which to downscale in each dimension [vertical, horizontal].",
                 "argName": "poolSize",
-                "type": "number[2]"
+                "type": "number[2]",
+                "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
                 "argName": "strides",
                 "type": "number[2]",
+                "values": "Z",
                 "default": null
             },
             {
@@ -890,13 +901,15 @@
                 "visualName": "Pool Size",
                 "exp": "Factors by which to downscale in each dimension [depth, height, width].",
                 "argName": "poolSize",
-                "type": "number[3]"
+                "type": "number[3]",
+                "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
                 "argName": "strides",
                 "type": "number[3]",
+                "values": "Z",
                 "default": null
             },
             {
