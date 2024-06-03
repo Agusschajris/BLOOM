@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
 import Popup from './popUp';
+import styles from '../styles/proyecto.module.scss';
 
 const MainPage: React.FC = () => {
   const router = useRouter(); 
@@ -53,7 +54,7 @@ const MainPage: React.FC = () => {
   return (
     <div className="main-page">
       <h1>Página Principal</h1>
-      <button onClick={handleCreateProject}>Crear Proyecto</button>
+      <button className={styles.export} onClick={handleCreateProject}>Crear Proyecto</button>
       {showPopup && <Popup onConfirm={handleConfirm} onCancel={handleCancel} />}
     </div>
   );
