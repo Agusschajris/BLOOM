@@ -1,22 +1,20 @@
-"use client"
-import React from "react"
-import { motion } from 'framer-motion';
-import style from '../styles/bloque.module.scss'
+import React from "react";
+import style from '../styles/bloque.module.scss';
 
 interface BloqueProps {
-    name: string
-    exp: string
+    name: string;
+    exp: string;
 }
 
-const Bloque: React.FC<BloqueProps> = (props) => {
+const Bloque: React.FC<BloqueProps> = ({ name, exp }) => {
     return (
-        <div className={style.container}>    
-            <motion.div drag className={style.bloque} >
-                <p className={style.name}>{props.name}</p>
-            </motion.div>
-            <span className={style.span}>{props.exp}</span>
+        <div className={style.container}>
+            <div className={style.bloque}>
+                <p className={style.name}>{name}</p>
+            </div>
+            <span className={style.span}>{exp}</span>
         </div>
-    )
-}
+    );
+};
 
-export default Bloque
+export default Bloque;

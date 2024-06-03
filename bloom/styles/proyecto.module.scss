@@ -12,7 +12,11 @@
     justify-content: space-between;
     align-items: center;
     border: none; 
-    border-bottom: 4px solid #060C65;
+    border-bottom: 2px solid #060C65;
+}
+
+.name{
+    font-size: 35px;
 }
 
 .home{
@@ -44,6 +48,8 @@
     overflow: auto;
     background-image: url('../public/punto.svg');
     background-repeat: repeat;
+    border-left: 2px solid #060C65;
+    border-right: 2px solid #060C65;
 }
 
 .blocksAside{
