@@ -1,6 +1,6 @@
 .container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row ;
     align-items: center;
     justify-content: center;
     margin-bottom: 35px;
@@ -10,14 +10,48 @@
     border-radius: 6px;
     background: #0C2BA7;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
     cursor: pointer;
     width: 190px;
-    height: 55px;
+    height: 60px;
     box-shadow: 0px 0px 10px 2px rgba(12, 43, 167, 0.90), 0px 0px 20px 10px rgba(6, 12, 101, 0.75), 0px 0px 30px 15px rgba(12, 43, 167, 0.50);
 }
 
-.span{
-    display: none;
+.mas{
+    background-color: #0C2BA7;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: 5px;
 }
+  
+.expContainer {
+    width: 250px; 
+    height:fit-content; 
+    position: absolute;
+    background-color: #060C65; 
+    font-size: 14px;
+    margin-left: 450px;
+    opacity: 0; 
+    visibility: hidden;
+    justify-content: center;
+    align-items:start;
+    border-radius: 10px;
+}
+  
+
+.exp {
+    color: white;
+    opacity: 0;
+    visibility: hidden;
+    margin: 10px;
+}
+
+.container:hover .expContainer, .container:hover .exp {
+    opacity: 1; 
+    visibility: visible;
+    transition: opacity 0.3s ease-in;
+}
+

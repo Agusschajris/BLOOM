@@ -5,11 +5,13 @@ import data from "../public/blocks.json";
 import styles from '../styles/proyecto.module.scss';
 import Image from 'next/image';
 import homeSVG from '../public/home.svg';
+import masSVG from '../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
 
 const Proyecto: React.FC = () => {
   const router = useRouter();
   const [canvasBlocks, setCanvasBlocks] = useState<any[]>([]);
+  const [showCanvasElements, setShowCanvasElements] = useState(false);
 
   const handleClick = () => {
     router.push('/');
@@ -36,6 +38,10 @@ const Proyecto: React.FC = () => {
     }
   };
 
+  const handleAddCanvasElement = () => {
+    setShowCanvasElements(true);
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={styles.wrapper}>
@@ -46,25 +52,18 @@ const Proyecto: React.FC = () => {
           <h1 className={styles.name}>Proyecto</h1>
           <button className={styles.export}>Exportar</button>
         </header>
+
         <div className={styles.container}>
           <aside className={styles.blocksAside}>
             <h1>CAPAS</h1>
             <Droppable droppableId="blocksList">
               {(provided: DroppableProvided) => (
-                <div
-                  className={styles.blocksWrap}
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
+                <div className={styles.blocksWrap} {...provided.droppableProps} ref={provided.innerRef}>
                   {data.map((bloque, index) => (
                     <Draggable key={bloque.visualName} draggableId={bloque.visualName} index={index}>
                       {(provided: DraggableProvided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <Bloque name={bloque.visualName} exp={bloque.exp} />
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <Bloque name={bloque.visualName} exp={bloque.exp} isInBlockList={true} isInCanvas={false} />
                         </div>
                       )}
                     </Draggable>
@@ -74,33 +73,39 @@ const Proyecto: React.FC = () => {
               )}
             </Droppable>
           </aside>
+
           <div className={styles.canvas}>
-            <Droppable droppableId="canvasContainer">
-              {(provided: DroppableProvided) => (
-                <div
-                  className={styles.canvasContainer}
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {canvasBlocks.map((bloque, index) => (
-                    <Draggable key={bloque.id} draggableId={bloque.id} index={index}>
-                      {(provided: DraggableProvided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{ ...provided.draggableProps.style, marginBottom: '8px' }}
-                        >
-                          <Bloque name={bloque.visualName} exp={bloque.exp} />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+            <div className={styles.dataSet}><h1>DataSet</h1></div>
+            {!showCanvasElements && (
+              <button className={styles.mas} onClick={handleAddCanvasElement}>
+                <Image src={masSVG} alt="more" width={15} height={15} />
+              </button>
+            )}
+            {showCanvasElements && (
+              <>
+                <div className={styles.line}></div>
+                <Droppable droppableId="canvas">
+                  {(provided: DroppableProvided) => (
+                    <div className={styles.canvasContainer} {...provided.droppableProps} ref={provided.innerRef}>
+                      <h1>Tf.Sequential</h1>
+                      {canvasBlocks.map((bloque, index) => (
+                        <Draggable key={bloque.id} draggableId={bloque.id} index={index}>
+                          {(provided: DraggableProvided) => (
+                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                              <Bloque name={bloque.visualName} exp={bloque.exp} isInBlockList={false} isInCanvas={true} />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                      <p className={styles.bloque}>Bloque +</p>
+                    </div>
+                  )}
+                </Droppable>
+              </>
+            )}
           </div>
+
           <aside className={styles.codigoWrap}>
             <h1>CÓDIGO</h1>
           </aside>
