@@ -1,18 +1,73 @@
-
-.popupContent {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.segmentPredefined {
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+.wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  align-content: space-around;
+  align-items: center;
+  justify-content: center;
+  background: #0B032B;
+  padding: 40px 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001; 
+  border-radius: 8px;
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000; // Asegúrate de que el overlay esté por debajo del popup pero por encima de otros elementos
+}
+
+.tittle{
+  margin-top: 0px;
+}
+
+.optionsWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.segmentPredefined,
 .segmentUpload {
   display: flex;
   flex-direction: column;
-  align-content: space-around;
+  align-items: center;
+  width: 40%;
+  padding: 10px;
+}
+
+.footer {
+  display: flex;
+  align-self: flex-end;
+  gap: 10px;
+}
+
+.cancel, 
+.confirm {
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.cancel {
+  background-color: #0B032B;
+  text-decoration: underline;
+  color: #EAE9FC;
+}
+
+.confirm {
+  background-color: #70A2FF;
+  color: #EAE9FC;
 }

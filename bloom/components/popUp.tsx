@@ -1,65 +1,62 @@
 "use client";
 import React, { useState } from 'react';
 import popupStyle from "../styles/popup.module.scss";
-import proyectoStyle from "../styles/proyecto.module.scss";
 
-//Defino las props que quiero que reciba el PopUp
-//Tomara una file subida o un string del dataset predeterminado (hablar con agus para ver como se maneja el dataset)
 interface PopupProps {
     onConfirm: (dataset: FileList | string) => void;
     onCancel: () => void;
 }
 
 const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
-    const [selectedDataset, setSelectedDataset] = useState<string | null>(null); // Dataset seleccionado
-    const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null); // Archivos seleccionados
-  
+    const [selectedDataset, setSelectedDataset] = useState<string | null>(null);
+    const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+
     const handleConfirm = () => {
-      if (selectedFiles) {
-        //fetch para cuando se sube un dataset/file
-        onConfirm(selectedFiles); 
-      } else if (selectedDataset) {
-        //fetch para cuando se selecciona uno de los datasets predeterminados
-        onConfirm(selectedDataset); 
-      }
+        if (selectedFiles) {
+            onConfirm(selectedFiles);
+        } else if (selectedDataset) {
+            onConfirm(selectedDataset);
+        }
     };
-  
+
     return (
-      <div className="popup">
-        <h2 className={popupStyle.popupContent}>Seleccionar Dataset</h2>
-          <div className={popupStyle.popupContent}>
-              <div className={popupStyle.segmentPredefined}>
-                <label>Defaults:</label>
-                <label>
-                  Dataset 1
-                  <input type="radio" name="dataset" value="dataset1" onChange={() => {
-                      setSelectedDataset('dataset1');
-                      setSelectedFiles(null); // Verifico que no haya archivos seleccionados
-                    }}/>
-                </label>
-                <label>
-                  Dataset 2
-                  <input type="radio" name="dataset" value="dataset2" onChange={() => {
-                      setSelectedDataset('dataset2');
-                      setSelectedFiles(null); // Verifico que no haya archivos seleccionados
-                    }}/>
-                </label>
-              </div>
-              <div className={popupStyle.segmentUpload}>
-                  <label>Subir Archivo</label>
-                  <input type="file" onChange={(e) => {
-                      setSelectedFiles(e.target.files);
-                      setSelectedDataset(null); // Pongo en null los datasets presubidos
-                    }}
-                  />
-              </div>
-          </div>
-          <div className={popupStyle.popupContent}>
-            <button className={proyectoStyle.export} onClick={handleConfirm}>Confirmar</button>
-            <button className={proyectoStyle.export} onClick={onCancel}>Cancelar</button>
-          </div>
-      </div>
+        <>
+            <div className={popupStyle.overlay} onClick={onCancel} />
+            <div className={popupStyle.wrapper}>
+                <h1 className={popupStyle.tittle}>Seleccionar Dataset</h1>
+                <div className={popupStyle.optionsWrapper}>
+                    <div className={popupStyle.segmentPredefined}>
+                        <h1>Predeterminados</h1>
+                        <label>
+                            Dataset 1
+                            <input type="radio" name="dataset" value="dataset1" onChange={() => {
+                                setSelectedDataset('dataset1');
+                                setSelectedFiles(null);
+                            }} />
+                        </label>
+                        <label>
+                            Dataset 2
+                            <input type="radio" name="dataset" value="dataset2" onChange={() => {
+                                setSelectedDataset('dataset2');
+                                setSelectedFiles(null);
+                            }} />
+                        </label>
+                    </div>
+                    <div className={popupStyle.segmentUpload}>
+                        <h1>Subir Archivo</h1>
+                        <input type="file" onChange={(e) => {
+                            setSelectedFiles(e.target.files);
+                            setSelectedDataset(null);
+                        }} />
+                    </div>
+                </div>
+                <div className={popupStyle.footer}>
+                    <button className={popupStyle.cancel} onClick={onCancel}>Cancelar</button>
+                    <button className={popupStyle.confirm} onClick={handleConfirm}>Confirmar</button>
+                </div>
+            </div>
+        </>
     );
-  };
-  
-  export default Popup;
+};
+
+export default Popup;
