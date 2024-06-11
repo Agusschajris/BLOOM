@@ -13,9 +13,27 @@ cloudinary.config({
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === 'GET') {
-      // Get all datasets
-      // const datasets = await prisma.dataset.findMany();
-      // res.status(200).json(datasets);
+      if (req.url === '/datasets') {
+        // Get all datasets
+        const datasets = await prisma.dataset.findMany();
+        res.status(200).json(datasets);
+      } else if (req.url === '/datasets/project/:projectId') {
+        // Get dataset from specific project
+        const projectId = Number(req.query.projectId);
+        const dataset = await prisma.dataset.findMany({
+          where: {
+            userId: 1,
+            projects: {
+              some: {
+                id: projectId,
+              },
+            },
+          },
+        });
+        res.status(200).json(dataset);
+      } else {
+        res.status(404).end();
+      }
     } else if (req.method === 'POST') {
       // Save a new dataset
       console.log(req.body);
