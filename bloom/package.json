@@ -14,7 +14,7 @@
     "@tensorflow/tfjs-node": "^4.20.0",
     "@types/busboy": "^1.5.4",
     "@types/react-router-dom": "^5.3.3",
-    "@vercel/postgres": "^0.8.0",
+    "@vercel/postgres": "^0.9.0",
     "autoprefixer": "^10.4.19",
     "busboy": "^1.6.0",
     "cloudinary": "^2.2.0",
