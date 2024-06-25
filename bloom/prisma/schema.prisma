@@ -32,6 +32,8 @@ model User {
 model Project { 
   id                Int           @id @default(autoincrement())
   name              String
+  creationDate      DateTime?
+  lastEdited        DateTime?
   owner             User          @relation(fields: [ownerId], references: [id])
   ownerId           Int
   dataset           Dataset       @relation(fields: [datasetId], references: [id])
@@ -56,3 +58,8 @@ model Dataset {
   projects          Project[]
   classes           Class[]       @relation("ClassDatasets")
 }
+
+
+// agregar: 
+// al schema fecha de creacion y fecha de ultima vez editado
+// yo recibo un parametro de en que orden les tengo que mandar los proyectos (ultimo editado (default) - A a Z - Z a A- fecha de creación)
