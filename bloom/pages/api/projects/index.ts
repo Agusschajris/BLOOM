@@ -14,13 +14,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'GET') {
       // Get all projects
       const userId = 1 // req.query.userId --> para cuando tenga más de un user
+      let orderBy = {};
+
+      // verifico el valor del parametro orderBy que me manda el front
+    switch (req.query.orderBy) {
+      case 'AZ': // A - Z
+        orderBy = { name: 'asc' };
+        break;
+      case 'ZA': // Z - A
+        orderBy = { name: 'desc' };
+        break;
+      case 'creationDate':
+        orderBy = { creationDate: 'desc' };
+        break;
+      case 'lastEdited':
+        orderBy = { lastEdited: 'desc' };
+        break;
+    
+    default: // por default se ordena por el último editado
+      orderBy = { lastEdited: 'desc' };
+  }
+
       const projects = await prisma.project.findMany({
         where: {
           id: userId,
         },
+        orderBy,
       });
       res.status(200).json(projects);
-    } else if (req.method === 'POST') {
+    } 
+    
+    else if (req.method === 'POST') {
       // Save a new project
       const { project } = req.body;
       if (!project || !project.name || !project.ownerId || !project.datasetId) {
@@ -31,6 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           name: project.name,
           ownerId: project.ownerId,
           datasetId: project.datasetId,
+          creationDate: project.creationDate
         },
       });
       res.status(201).json(newProject);
