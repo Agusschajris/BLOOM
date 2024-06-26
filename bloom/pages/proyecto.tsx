@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Bloque from '../components/bloque';
 import data from "../public/blocks.json";
@@ -42,6 +42,23 @@ const Proyecto: React.FC = () => {
     setShowCanvasElements(true);
   };
 
+  const updateBackend = async (blocks: any[]) => {
+    const blocksToSend = blocks.map(block => ({
+      id: block.id,
+      visualName: block.visualName,
+      exp: block.exp
+    }));
+
+
+    //actualizar el backend con los bloques	mediante un fetch
+    //debería tomar { canvasBlocks: blocksToSend } como body segun entiendo
+    //blur sabra como :p
+  };
+
+  useEffect(() => {
+    updateBackend(canvasBlocks);
+  }, [canvasBlocks]);
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={styles.wrapper}>
@@ -50,7 +67,6 @@ const Proyecto: React.FC = () => {
             <Image src={homeSVG} alt="home" width={24} height={24} />
           </button>
           <h1 className={styles.name}>Proyecto</h1>
-          <button className={styles.export}>Exportar</button>
         </header>
 
         <div className={styles.container}>
