@@ -7,6 +7,8 @@ import Image from 'next/image';
 import homeSVG from '../public/home.svg';
 import masSVG from '../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
+import * as tf from '@tensorflow/tfjs';
+import {Layer} from "@tensorflow/tfjs-layers/dist/engine/topology";
 
 type ArgValue = undefined | null | StoredArgValue;
 type StoredArgValue = number | [number, number] | [number, number, number] | string;
@@ -98,6 +100,17 @@ const Proyecto: React.FC = () => {
       funName: block.funName,
       args
     }
+  }
+
+  const generateModel = async (blockInstances: BlockInstance[]) => {
+    const blocks = blockInstances.map(getBackendBlock)
+    const seq = tf.sequential(/*TODO: set name to proyect name*/)
+
+    blocks.forEach(block => {
+      seq.add((tf.layers[block.funName as keyof typeof tf.layers] as (args: any) => Layer)(block.args));
+    })
+
+    // TODO: save model somewhere, then accessible in the generated code to train it or sth...
   }
 
   useEffect(() => {
