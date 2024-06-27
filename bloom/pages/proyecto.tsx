@@ -8,6 +8,9 @@ import homeSVG from '../public/home.svg';
 import masSVG from '../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
 
+type ArgValue = undefined | null | StoredArgValue;
+type StoredArgValue = number | [number, number] | [number, number, number] | string;
+
 type Block = {
   visualName: string,
   exp: string,
@@ -22,7 +25,7 @@ type Argument = {
   argName: string,
   type: string,
   values: undefined | null | string | [string | null]
-  default: undefined | null | number | string
+  default: ArgValue
 }
 
 
@@ -67,7 +70,6 @@ const Proyecto: React.FC = () => {
       visualName: block.visualName,
       exp: block.exp
     }));
-
 
     //actualizar el backend con los bloques	mediante un fetch
     //debería tomar { canvasBlocks: blocksToSend } como body segun entiendo
