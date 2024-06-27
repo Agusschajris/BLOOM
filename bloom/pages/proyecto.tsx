@@ -11,6 +11,15 @@ import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, D
 type ArgValue = undefined | null | StoredArgValue;
 type StoredArgValue = number | [number, number] | [number, number, number] | string;
 
+interface BackendBlock {
+  id: string,
+  funName: string,
+  args: {
+    argName: string,
+    value: StoredArgValue
+  }[]
+}
+
 type Block = {
   visualName: string,
   exp: string,
@@ -28,7 +37,14 @@ type Argument = {
   default: ArgValue
 }
 
+interface BlockInstance extends Block {
+  id: string
+  args: ArgumentInstance[]
+}
 
+interface ArgumentInstance extends Argument {
+  value: ArgValue
+}
 
 const Proyecto: React.FC = () => {
   const router = useRouter();
