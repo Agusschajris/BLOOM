@@ -8,6 +8,25 @@ import homeSVG from '../public/home.svg';
 import masSVG from '../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
 
+type Block = {
+  visualName: string,
+  exp: string,
+  category: string,
+  funName: string,
+  args: [Argument]
+}
+
+type Argument = {
+  visualName: string,
+  exp: string,
+  argName: string,
+  type: string,
+  values: undefined | null | string | [string | null]
+  default: undefined | null | number | string
+}
+
+
+
 const Proyecto: React.FC = () => {
   const router = useRouter();
   const [canvasBlocks, setCanvasBlocks] = useState<any[]>([]);
