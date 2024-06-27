@@ -11,13 +11,10 @@ import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, D
 type ArgValue = undefined | null | StoredArgValue;
 type StoredArgValue = number | [number, number] | [number, number, number] | string;
 
-interface BackendBlock {
+interface DataBlock {
   id: string,
   funName: string,
-  args: {
-    argName: string,
-    value: StoredArgValue
-  }[]
+  args: {[key: string]: StoredArgValue}
 }
 
 type Block = {
@@ -81,20 +78,27 @@ const Proyecto: React.FC = () => {
   };
 
   const updateBackend = async (blocks: BlockInstance[]) => {
-    const blocksToSend: BackendBlock[] = blocks.map(block => ({
-      id: block.id,
-      funName: block.funName,
-      args: block.args.filter(arg => arg.value !== undefined && arg.value !== null)
-          .map(arg => ({
-        argName: arg.argName,
-        value: arg.value as StoredArgValue
-      }))
-    }));
+    const blocksToSend: DataBlock[] = blocks.map(getBackendBlock)
 
     //actualizar el backend con los bloques	mediante un fetch
     //debería tomar { canvasBlocks: blocksToSend } como body segun entiendo
     //blur sabra como :p
   };
+
+  function getBackendBlock(block: BlockInstance): DataBlock {
+    const args = block.args.reduce((acc, arg) => {
+        if (arg.value !== undefined && arg.value !== null) {
+            acc[arg.argName] = arg.value as StoredArgValue
+        }
+        return acc
+    }, {} as {[key: string]: StoredArgValue})
+
+    return {
+      id: block.id,
+      funName: block.funName,
+      args
+    }
+  }
 
   useEffect(() => {
     updateBackend(canvasBlocks);
