@@ -80,11 +80,15 @@ const Proyecto: React.FC = () => {
     setShowCanvasElements(true);
   };
 
-  const updateBackend = async (blocks: any[]) => {
-    const blocksToSend = blocks.map(block => ({
+  const updateBackend = async (blocks: BlockInstance[]) => {
+    const blocksToSend: BackendBlock[] = blocks.map(block => ({
       id: block.id,
-      visualName: block.visualName,
-      exp: block.exp
+      funName: block.funName,
+      args: block.args.filter(arg => arg.value !== undefined && arg.value !== null)
+          .map(arg => ({
+        argName: arg.argName,
+        value: arg.value as StoredArgValue
+      }))
     }));
 
     //actualizar el backend con los bloques	mediante un fetch
