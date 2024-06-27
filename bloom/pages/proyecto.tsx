@@ -25,7 +25,7 @@ type Block = {
   exp: string,
   category: string,
   funName: string,
-  args: [Argument]
+  args: Argument[]
 }
 
 type Argument = {
@@ -33,7 +33,7 @@ type Argument = {
   exp: string,
   argName: string,
   type: string,
-  values: undefined | null | string | [string | null]
+  values: undefined | null | string | (string | null)[]
   default: ArgValue
 }
 
