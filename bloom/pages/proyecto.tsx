@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Bloque from '../components/bloque';
+import Bloque from '../components/block';
 import data from "../public/blocks.json";
 import styles from '../styles/proyecto.module.scss';
 import Image from 'next/image';
@@ -108,6 +108,7 @@ const Proyecto: React.FC = () => {
             <Image src={homeSVG} alt="home" width={24} height={24} />
           </button>
           <h1 className={styles.name}>Proyecto</h1>
+          <button className={styles.export}>Exportar</button>
         </header>
 
         <div className={styles.container}>

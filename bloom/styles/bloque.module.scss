@@ -1,9 +1,11 @@
 .container{
+    position: relative;
     display: flex;
     flex-direction: row ;
     align-items: center;
     justify-content: center;
     margin-bottom: 35px;
+    z-index: 1;
 }
 
 .bloque{
@@ -28,17 +30,17 @@
 }
   
 .expContainer {
-    width: 250px; 
-    height:fit-content; 
     position: absolute;
+    width: 250px; 
+    height:fit-content;
     background-color: #060C65; 
     font-size: 14px;
     margin-left: 450px;
     opacity: 0; 
     visibility: hidden;
     justify-content: center;
-    align-items:start;
     border-radius: 10px;
+    z-index: 100;
 }
   
 

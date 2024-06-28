@@ -109,6 +109,7 @@
 .blocksAside{
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .blocksAside, .codigoWrap{
