@@ -113,6 +113,20 @@ const Proyecto: React.FC = () => {
     // TODO: save model somewhere, then accessible in the generated code to train it or sth...
   }
 
+  const generateCode = async (blockInstances: BlockInstance[]): Promise<string> => {
+    const blocks = blockInstances.map(getBackendBlock)
+    // TODO: ADD PROYECT NAME TO tf.sequential
+    let code = "import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential();\n\n"
+
+    blocks.forEach(block => {
+      code += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`
+    })
+
+    code += "\nmodel.compile({\n  optimizer: 'sgd',\n  loss: 'meanSquaredError',\n  metrics: ['accuracy'],\n});\n"
+
+    return code
+  }
+
   useEffect(() => {
     updateBackend(canvasBlocks);
   }, [canvasBlocks]);
