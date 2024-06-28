@@ -13,36 +13,39 @@ type ArgValue = undefined | null | StoredArgValue;
 type StoredArgValue = number | [number, number] | [number, number, number] | string;
 
 interface DataBlock {
-  id: string,
-  funName: string,
-  args: {[key: string]: StoredArgValue}
+  id: string;
+  visualName: string;
+  funName: string;
+  args: { [key: string]: StoredArgValue };
 }
 
 type Block = {
-  visualName: string,
-  exp: string,
-  category: string,
-  funName: string,
-  args: Argument[]
-}
+  visualName: string;
+  exp: string;
+  category: string;
+  funName: string;
+  args: Argument[];
+};
 
 type Argument = {
-  visualName: string,
-  exp: string,
-  argName: string,
-  type: string,
-  values: undefined | null | string | (string | null)[]
-  default: ArgValue
-}
+  visualName: string;
+  exp: string;
+  argName: string;
+  type: string;
+  values: undefined | null | string | (string | null)[];
+  default: ArgValue;
+};
 
 interface BlockInstance extends Block {
-  id: string
-  args: ArgumentInstance[]
+  id: string;
+  args: ArgumentInstance[];
 }
 
 interface ArgumentInstance extends Argument {
-  value: ArgValue
+  value: ArgValue;
 }
+
+export type { BlockInstance, ArgumentInstance };
 
 const Proyecto: React.FC = () => {
   const router = useRouter();
@@ -78,53 +81,62 @@ const Proyecto: React.FC = () => {
     setShowCanvasElements(true);
   };
 
-  const updateBackend = async (blocks: BlockInstance[]) => {
-    const blocksToSend: DataBlock[] = blocks.map(getBackendBlock)
+  const handleSaveArgs = (id: string, newArgs: ArgumentInstance[]) => {
+    setCanvasBlocks((prevBlocks) =>
+      prevBlocks.map((block) =>
+        block.id === id ? { ...block, args: newArgs } : block
+      )
+    );
+  };
 
-    //actualizar el backend con los bloques	mediante un fetch
-    //debería tomar { canvasBlocks: blocksToSend } como body segun entiendo
-    //blur sabra como :p
+  const updateBackend = async (blocks: BlockInstance[]) => {
+    const blocksToSend: DataBlock[] = blocks.map(getBackendBlock);
   };
 
   function getBackendBlock(block: BlockInstance): DataBlock {
     const args = block.args.reduce((acc, arg) => {
-        if (arg.value !== undefined && arg.value !== null) {
-            acc[arg.argName] = arg.value as StoredArgValue
-        }
-        return acc
-    }, {} as {[key: string]: StoredArgValue})
+      if (arg.value !== undefined && arg.value !== null) {
+        acc[arg.argName] = arg.value as StoredArgValue;
+      }
+      return acc;
+    }, {} as { [key: string]: StoredArgValue });
 
     return {
       id: block.id,
+      visualName: block.visualName,
       funName: block.funName,
       args
-    }
+    };
   }
 
   const generateModel = async (blockInstances: BlockInstance[]) => {
-    const blocks = blockInstances.map(getBackendBlock)
-    const seq = tf.sequential(/*TODO: set name to proyect name*/)
+    const blocks = blockInstances.map(getBackendBlock);
+    const seq = tf.sequential(/* TODO: set name to project name */);
 
-    blocks.forEach(block => {
-      seq.add((tf.layers[block.funName as keyof typeof tf.layers] as (args: any) => tf.layers.Layer)(block.args));
-    })
+    blocks.forEach((block) => {
+      seq.add(
+        (tf.layers[block.funName as keyof typeof tf.layers] as (
+          args: any
+        ) => tf.layers.Layer)(block.args)
+      );
+    });
 
     // TODO: save model somewhere, then accessible in the generated code to train it or sth...
-  }
+  };
 
   const generateCode = async (blockInstances: BlockInstance[]): Promise<string> => {
-    const blocks = blockInstances.map(getBackendBlock)
-    // TODO: ADD PROYECT NAME TO tf.sequential
-    let code = "import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential();\n\n"
+    const blocks = blockInstances.map(getBackendBlock);
+    // TODO: ADD PROJECT NAME TO tf.sequential
+    let code = "import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential();\n\n";
 
-    blocks.forEach(block => {
-      code += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`
-    })
+    blocks.forEach((block) => {
+      code += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`;
+    });
 
-    code += "\nmodel.compile({\n  optimizer: 'sgd',\n  loss: 'meanSquaredError',\n  metrics: ['accuracy'],\n});\n"
+    code += "\nmodel.compile({\n  optimizer: 'sgd',\n  loss: 'meanSquaredError',\n  metrics: ['accuracy'],\n});\n";
 
-    return code
-  }
+    return code;
+  };
 
   useEffect(() => {
     updateBackend(canvasBlocks);
@@ -147,11 +159,11 @@ const Proyecto: React.FC = () => {
             <Droppable droppableId="blocksList">
               {(provided: DroppableProvided) => (
                 <div className={styles.blocksWrap} {...provided.droppableProps} ref={provided.innerRef}>
-                  {data.map((bloque, index) => (
-                    <Draggable key={bloque.visualName} draggableId={bloque.visualName} index={index}>
+                  {data.map((block, index) => (
+                    <Draggable key={block.visualName} draggableId={block.visualName} index={index}>
                       {(provided: DraggableProvided) => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <Bloque name={bloque.visualName} exp={bloque.exp} isInBlockList={true} isInCanvas={false} />
+                          <Bloque block={block} isInBlockList={true} isInCanvas={false} onSave={() => {}} />
                         </div>
                       )}
                     </Draggable>
@@ -163,7 +175,9 @@ const Proyecto: React.FC = () => {
           </aside>
 
           <div className={styles.canvas}>
-            <div className={styles.dataSet}><h1>DataSet</h1></div>
+            <div className={styles.dataSet}>
+              <h1>DataSet</h1>
+            </div>
             {!showCanvasElements && (
               <button className={styles.mas} onClick={handleAddCanvasElement}>
                 <Image src={masSVG} alt="more" width={15} height={15} />
@@ -176,11 +190,16 @@ const Proyecto: React.FC = () => {
                   {(provided: DroppableProvided) => (
                     <div className={styles.canvasContainer} {...provided.droppableProps} ref={provided.innerRef}>
                       <h1>Tf.Sequential</h1>
-                      {canvasBlocks.map((bloque, index) => (
-                        <Draggable key={bloque.id} draggableId={bloque.id} index={index}>
+                      {canvasBlocks.map((block, index) => (
+                        <Draggable key={block.id} draggableId={block.id} index={index}>
                           {(provided: DraggableProvided) => (
                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                              <Bloque name={bloque.visualName} exp={bloque.exp} isInBlockList={false} isInCanvas={true} />
+                              <Bloque
+                                block={block}
+                                isInBlockList={false}
+                                isInCanvas={true}
+                                onSave={(newArgs) => handleSaveArgs(block.id, newArgs)}
+                              />
                             </div>
                           )}
                         </Draggable>

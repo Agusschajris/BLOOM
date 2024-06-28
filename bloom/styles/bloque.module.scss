@@ -53,7 +53,9 @@
 
 .container:hover .expContainer, .container:hover .exp {
     opacity: 1; 
+    z-index: 100;
     visibility: visible;
     transition: opacity 0.3s ease-in;
+    overflow: visible;
 }
 
