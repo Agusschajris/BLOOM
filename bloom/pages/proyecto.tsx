@@ -7,17 +7,15 @@ import Image from 'next/image';
 import homeSVG from '../public/home.svg';
 import masSVG from '../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
+import * as tf from '@tensorflow/tfjs';
 
 type ArgValue = undefined | null | StoredArgValue;
 type StoredArgValue = number | [number, number] | [number, number, number] | string;
 
-interface BackendBlock {
+interface DataBlock {
   id: string,
   funName: string,
-  args: {
-    argName: string,
-    value: StoredArgValue
-  }[]
+  args: {[key: string]: StoredArgValue}
 }
 
 type Block = {
@@ -81,20 +79,52 @@ const Proyecto: React.FC = () => {
   };
 
   const updateBackend = async (blocks: BlockInstance[]) => {
-    const blocksToSend: BackendBlock[] = blocks.map(block => ({
-      id: block.id,
-      funName: block.funName,
-      args: block.args.filter(arg => arg.value !== undefined && arg.value !== null)
-          .map(arg => ({
-        argName: arg.argName,
-        value: arg.value as StoredArgValue
-      }))
-    }));
+    const blocksToSend: DataBlock[] = blocks.map(getBackendBlock)
 
     //actualizar el backend con los bloques	mediante un fetch
     //debería tomar { canvasBlocks: blocksToSend } como body segun entiendo
     //blur sabra como :p
   };
+
+  function getBackendBlock(block: BlockInstance): DataBlock {
+    const args = block.args.reduce((acc, arg) => {
+        if (arg.value !== undefined && arg.value !== null) {
+            acc[arg.argName] = arg.value as StoredArgValue
+        }
+        return acc
+    }, {} as {[key: string]: StoredArgValue})
+
+    return {
+      id: block.id,
+      funName: block.funName,
+      args
+    }
+  }
+
+  const generateModel = async (blockInstances: BlockInstance[]) => {
+    const blocks = blockInstances.map(getBackendBlock)
+    const seq = tf.sequential(/*TODO: set name to proyect name*/)
+
+    blocks.forEach(block => {
+      seq.add((tf.layers[block.funName as keyof typeof tf.layers] as (args: any) => tf.layers.Layer)(block.args));
+    })
+
+    // TODO: save model somewhere, then accessible in the generated code to train it or sth...
+  }
+
+  const generateCode = async (blockInstances: BlockInstance[]): Promise<string> => {
+    const blocks = blockInstances.map(getBackendBlock)
+    // TODO: ADD PROYECT NAME TO tf.sequential
+    let code = "import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential();\n\n"
+
+    blocks.forEach(block => {
+      code += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`
+    })
+
+    code += "\nmodel.compile({\n  optimizer: 'sgd',\n  loss: 'meanSquaredError',\n  metrics: ['accuracy'],\n});\n"
+
+    return code
+  }
 
   useEffect(() => {
     updateBackend(canvasBlocks);
