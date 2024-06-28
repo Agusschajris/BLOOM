@@ -33,10 +33,11 @@ model Project {
   id                Int           @id @default(autoincrement())
   name              String
   creationDate      DateTime?     @default(now())
-  lastEdited        DateTime?
+  lastEdited        DateTime?     @default(now()) @updatedAt
+  blocks            String?
   owner             User          @relation(fields: [ownerId], references: [id])
   ownerId           Int
-  dataset           Dataset       @relation(fields: [datasetId], references: [id])
+  dataset           Dataset?      @relation(fields: [datasetId], references: [id])
   datasetId         Int
 }
 

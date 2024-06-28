@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Project" ADD COLUMN     "blocks" TEXT,
+ALTER COLUMN "lastEdited" SET DEFAULT CURRENT_TIMESTAMP;
