@@ -12,13 +12,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // verifico el valor del parametro orderBy que me manda el front
     switch (req.query.orderBy) {
       case 'alfabetic': // Orden alfabético
-        orderBy = { name: 'asc' };
+        orderBy = { name: req.query.orderDirection === 'asc' ? 'asc' : 'desc' };
         break;
       case 'creationDate':
-        orderBy = { creationDate: 'desc' };
+        orderBy = { creationDate: req.query.orderDirection === 'asc' ? 'asc' : 'desc' };
         break;
       case 'lastEdited':
-        orderBy = { lastEdited: 'desc' };
+        orderBy = { lastEdited: req.query.orderDirection === 'asc' ? 'asc' : 'desc' };
         break;
     
     default: // por default se ordena por el último editado
