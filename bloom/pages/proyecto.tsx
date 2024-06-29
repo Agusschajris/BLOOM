@@ -34,18 +34,14 @@ type Argument = {
   type: string;
   values: undefined | null | string | (string | null)[];
   default: ArgValue;
+  value: ArgValue;
 };
 
 interface BlockInstance extends Block {
   id: string;
-  args: ArgumentInstance[];
 }
 
-interface ArgumentInstance extends Argument {
-  value: ArgValue;
-}
-
-export type { BlockInstance, ArgumentInstance };
+export type { BlockInstance, Argument };
 
 const Proyecto: React.FC = () => {
   const router = useRouter();
@@ -81,7 +77,7 @@ const Proyecto: React.FC = () => {
     setShowCanvasElements(true);
   };
 
-  const handleSaveArgs = (id: string, newArgs: ArgumentInstance[]) => {
+  const handleSaveArgs = (id: string, newArgs: Argument[]) => {
     setCanvasBlocks((prevBlocks) =>
       prevBlocks.map((block) =>
         block.id === id ? { ...block, args: newArgs } : block
@@ -163,7 +159,7 @@ const Proyecto: React.FC = () => {
                     <Draggable key={block.visualName} draggableId={block.visualName} index={index}>
                       {(provided: DraggableProvided) => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <Bloque block={block} isInBlockList={true} isInCanvas={false} onSave={() => {}} />
+                          <Bloque block={{...block as Block, id: `block-${index}`}} isInBlockList={true} isInCanvas={false} onSave={() => {}} />
                         </div>
                       )}
                     </Draggable>

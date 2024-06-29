@@ -4,13 +4,13 @@ import Image from 'next/image';
 import masSVG from '../public/mas.svg';
 import PopUp from '../components/arguments';
 import { useState } from 'react';
-import { ArgumentInstance, BlockInstance } from '../pages/proyecto';
+import { BlockInstance, Argument } from '../pages/proyecto';
 
 interface BloqueProps {
   block: BlockInstance;
   isInBlockList: boolean;
   isInCanvas: boolean;
-  onSave: (args: ArgumentInstance[]) => void;
+  onSave: (args: Argument[]) => void;
 }
 
 const Bloque: React.FC<BloqueProps> = ({ block, isInBlockList, isInCanvas, onSave }) => {
