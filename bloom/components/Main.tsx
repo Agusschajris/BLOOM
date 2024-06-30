@@ -17,7 +17,13 @@ const MainPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    //fetch que use setProjects
+    fetch("http://localhost:3000/api/projects", {
+      method: 'GET'
+    }).then(response => {
+      response.json().then(data => {
+        setProjects(data);
+      });
+    });
   }, []);
 
 
