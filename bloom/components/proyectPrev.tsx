@@ -29,6 +29,14 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({}) => {
 
     }
 
+    const handleDuplicate = () => {
+
+    }
+
+    const handleDelete = () => {
+
+    }
+
     return (
         <div className={style.container}>
             <div className={style.preview}></div>
