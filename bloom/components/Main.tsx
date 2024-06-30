@@ -1,13 +1,25 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; 
 import Popup from './popUp';
 import styles from '../styles/proyecto.module.scss';
+import ProyectPrev from './proyectPrev';
+
+interface Project {
+  id: number;
+  name: string;
+}
 
 const MainPage: React.FC = () => {
   const router = useRouter(); 
   const [showPopup, setShowPopup] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    //fetch que use setProjects
+  }, []);
+
 
   const handleCreateProject = () => {
     setShowPopup(true);
@@ -56,6 +68,11 @@ const MainPage: React.FC = () => {
       <h1>Mis proyectos</h1>
       <button className={styles.export} onClick={handleCreateProject}>Crear Proyecto</button>
       {showPopup && <Popup onConfirm={handleConfirm} onCancel={handleCancel} />}
+      <div>
+        {projects.map((project) => (
+          <ProyectPrev key={project.id} id={project.id} name={project.name} />
+        ))}
+      </div>
     </div>
   );
 };
