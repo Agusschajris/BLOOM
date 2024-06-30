@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Bloque from '../components/block';
-import data from "../public/blocks.json";
+import Bloque from '../../components/block';
+import data from "../../public/blocks.json";
 import styles from '../styles/proyecto.module.scss';
 import Image from 'next/image';
 import homeSVG from '../public/home.svg';
@@ -46,8 +46,15 @@ export type { BlockInstance, Argument };
 
 const Proyecto: React.FC = () => {
   const router = useRouter();
+  const { id } = router.query;
   const [canvasBlocks, setCanvasBlocks] = useState<any[]>([]);
   const [showCanvasElements, setShowCanvasElements] = useState(false);
+
+  useEffect(() => {
+    if (id) {
+      // fetch
+    }
+  }, [id]);
 
   const handleClick = () => {
     router.push('/');

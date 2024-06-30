@@ -53,7 +53,7 @@ const MainPage: React.FC = () => {
 
   return (
     <div className="main-page">
-      <h1>Página Principal</h1>
+      <h1>Mis proyectos</h1>
       <button className={styles.export} onClick={handleCreateProject}>Crear Proyecto</button>
       {showPopup && <Popup onConfirm={handleConfirm} onCancel={handleCancel} />}
     </div>

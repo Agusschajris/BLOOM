@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArgumentInstance, BlockInstance } from '../pages/proyecto';
+import { ArgumentInstance, BlockInstance } from '../pages/proyecto/[id]';
 
 interface PopupProps {
     block: BlockInstance;
