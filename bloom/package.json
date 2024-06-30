@@ -10,7 +10,7 @@
     "prisma": "prisma"
   },
   "dependencies": {
-    "@prisma/client": "^5.14.0",
+    "@prisma/client": "^5.16.1",
     "@tensorflow/tfjs": "^4.20.0",
     "@types/busboy": "^1.5.4",
     "@types/react-router-dom": "^5.3.3",
@@ -34,7 +34,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
-    "prisma": "^5.14.0",
+    "prisma": "^5.16.1",
     "typescript": "^5"
   }
 }
