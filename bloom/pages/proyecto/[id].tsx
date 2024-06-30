@@ -9,6 +9,7 @@ import masSVG from '../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
 import * as tf from '@tensorflow/tfjs';
 import { gzip, gunzip } from "node:zlib";
+import { Project } from '@prisma/client';
 
 type ArgValue = undefined | null | StoredArgValue;
 type StoredArgValue = number | [number, number] | [number, number, number] | string;
@@ -47,7 +48,7 @@ export type { BlockInstance, Argument };
 const Proyecto: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [canvasBlocks, setCanvasBlocks] = useState<any[]>([]);
+  const [canvasBlocks, setCanvasBlocks] = useState<BlockInstance[]>([]);
   const [showCanvasElements, setShowCanvasElements] = useState(false);
 
   useEffect(() => {
@@ -56,8 +57,33 @@ const Proyecto: React.FC = () => {
     }
   }, [id]);
 
+  let project: Project
+  fetch(`/api/projects`, {
+    method: 'GET'
+  }).then(response => {
+    response.json().then(data => {
+      project = data.find((project: any) => project.id === id) as Project;
+      if (!project)
+        handle404();
+
+      if (!project.blocks) return
+
+      gunzip(project.blocks, (error, result) => {
+        if (error)
+          return console.error(error);
+
+        const blocks = JSON.parse(result.toString()) as DataBlock[];
+        setCanvasBlocks(blocks.map(getFrontendBlock));
+      });
+    });
+  });
+
+  function handle404() {
+
+  }
+
   const handleClick = () => {
-    router.push('/');
+    router.push('/').then();
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -68,7 +94,7 @@ const Proyecto: React.FC = () => {
     }
 
     if (source.droppableId === 'blocksList' && destination.droppableId === 'canvas') {
-      const newBlock = { ...data[source.index], id: `canvas-${canvasBlocks.length}` };
+      const newBlock = { ...data[source.index], id: `canvas-${canvasBlocks.length}` } as BlockInstance;
       setCanvasBlocks([...canvasBlocks, newBlock]);
     } else if (source.droppableId === 'canvas' && destination.droppableId === 'blocksList') {
       const newCanvasBlocks = canvasBlocks.filter((_, index) => index !== source.index);
@@ -96,7 +122,7 @@ const Proyecto: React.FC = () => {
   const updateBackend = async (blocks: BlockInstance[]) => {
     const blocksToSend: DataBlock[] = blocks.map(getBackendBlock);
     const zippedBlocks = await gzip.__promisify__(JSON.stringify(blocksToSend));
-    await fetch('/api/projects', {
+    await fetch(`https://localhost:3000/api/projects?id=${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -121,9 +147,18 @@ const Proyecto: React.FC = () => {
     };
   }
 
+  function getFrontendBlock(dataBlock: DataBlock): BlockInstance {
+    const blockReference = data.find((block) => block.funName === dataBlock.funName) as Block;
+    const rebuiltBlock = {...blockReference, id: dataBlock.id} as BlockInstance;
+    rebuiltBlock.args.forEach((arg) => {
+        arg.value = dataBlock.args[arg.argName] as ArgValue;
+    });
+    return rebuiltBlock;
+  }
+
   const generateModel = async (blockInstances: BlockInstance[]) => {
     const blocks = blockInstances.map(getBackendBlock);
-    const seq = tf.sequential(/* TODO: set name to project name */);
+    const seq = tf.sequential({name: project.name});
 
     blocks.forEach((block) => {
       seq.add(
@@ -138,8 +173,7 @@ const Proyecto: React.FC = () => {
 
   const generateCode = async (blockInstances: BlockInstance[]): Promise<string> => {
     const blocks = blockInstances.map(getBackendBlock);
-    // TODO: ADD PROJECT NAME TO tf.sequential
-    let code = "import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential();\n\n";
+    let code = `import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential({name: ${project.name});\n\n`;
 
     blocks.forEach((block) => {
       code += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`;
