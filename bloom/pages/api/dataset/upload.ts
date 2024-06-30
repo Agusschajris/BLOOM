@@ -37,6 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } else if (req.method === 'POST') {
       // Save a new dataset
       console.log(req.body);
+      //const { userId } = req.body; -> para guardar también el userId así se linkea con el User (lo dejo comentado por las dudas)
       const bb = busboy({ headers: req.headers })
       let accInfo: any[] = []
       bb.on('file', (name, file, info) => {
@@ -51,7 +52,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           prisma.dataset.create({
             data: {
               name,
-              dataset: result!.url
+              dataset: result!.url,
+              //userId
             },
           }).then((entry) => {
             accInfo.push(entry);
