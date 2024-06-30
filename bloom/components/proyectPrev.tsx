@@ -2,19 +2,25 @@ import React from "react";
 import style from "../styles/proyectPrev.module.scss";
 import Image from 'next/image';
 import configSVG from '../public/config.svg';
+import { useRouter } from 'next/router';
 
 interface ProyectPrevProps {
-    
+    id: number
+    name: string
 }
 
-const ProyectPrev: React.FC<ProyectPrevProps> = ({}) => {
-    
+const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name}) => {
+    const router = useRouter();
     const handleEdit = () => {
 
     }
     
     const handleConfig = () => {
 
+    }
+
+    const handleModify = () => {
+        router.push(`/proyecto/${id}`);
     }
 
     const handleDownload = () => {
@@ -41,7 +47,7 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({}) => {
         <div className={style.container}>
             <div className={style.preview}></div>
             <div className={style.footer}>
-                <p className={style.name}>Proyecto 1</p>
+                <p className={style.name}>{name}</p>
                 <button className={style.edit} onClick={handleEdit}>Editar</button>
             </div>
 
@@ -55,6 +61,7 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({}) => {
                         </button>
                     </div>
                     <hr className={style.line}/>
+                    <button className={style.modify} onClick={handleModify}>Modificar</button>
                     <button className={style.download} onClick={handleDownload}>Descargar</button>
                     <button className={style.open} onClick={handleOpen}>Abrir en Collab</button>
                     <hr className={style.line}/>
