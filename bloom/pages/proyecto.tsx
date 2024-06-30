@@ -8,6 +8,7 @@ import homeSVG from '../public/home.svg';
 import masSVG from '../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
 import * as tf from '@tensorflow/tfjs';
+import { gzip, gunzip } from "node:zlib";
 
 type ArgValue = undefined | null | StoredArgValue;
 type StoredArgValue = number | [number, number] | [number, number, number] | string;
@@ -87,6 +88,14 @@ const Proyecto: React.FC = () => {
 
   const updateBackend = async (blocks: BlockInstance[]) => {
     const blocksToSend: DataBlock[] = blocks.map(getBackendBlock);
+    const zippedBlocks = await gzip.__promisify__(JSON.stringify(blocksToSend));
+    await fetch('/api/projects', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ blocks: zippedBlocks.toString() }),
+    });
   };
 
   function getBackendBlock(block: BlockInstance): DataBlock {
