@@ -20,6 +20,7 @@
     "cloudinary": "^2.2.0",
     "framer-motion": "^11.2.6",
     "next": "^14.2.4",
+    "prisma": "^5.16.1",
     "react": "^18",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18",
@@ -34,7 +35,6 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
-    "prisma": "^5.16.1",
     "typescript": "^5"
   }
 }
