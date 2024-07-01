@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Popup from './popUp';
 import styles from '../styles/proyecto.module.scss';
 import ProyectPrev from './proyectPrev';
+import { Dataset } from "@prisma/client";
 
 interface Project {
   id: number;
@@ -35,21 +36,8 @@ const MainPage: React.FC = () => {
     setShowPopup(false);
   };
 
-  const handleConfirm = (dataset: FileList | string) => {
-    if (typeof dataset === 'string') {
-      console.log('Dataset seleccionado:', dataset);
-      fetch("http://localhost:3000/api/dataset/url",
-        {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({dataset})
-        }
-      ).then((response) => {
-        console.log(response);
-      });
-    } else {
+  const handleConfirm = (dataset: FileList | number) => {
+    if (typeof dataset !== 'number') {
       let formData = new FormData();
       Array.from(dataset).forEach(file => {
         console.log('Archivo seleccionado:', file.name);
@@ -60,13 +48,34 @@ const MainPage: React.FC = () => {
         method: 'POST',
         body: formData
       }).then((response) => {
-        console.log(response);
+        response.json().then((data: Dataset[]) => {
+          dataset = data[0].id;
+        });
       }).catch(err => {
         console.log(err);
-      })
+      });
     }
-    setShowPopup(false);
-    router.push('/proyecto'); 
+    fetch("http://localhost:3000/api/projects", {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          name: "Nuevo proyecto",
+          datasetId: dataset
+      })
+    }).then(response => {
+      if (response.status !== 201) {
+        console.log('Error al crear el proyecto: ');
+        response.json().then(data => console.log(data));
+        return;
+      }
+
+      response.json().then((project: Project) => {
+        setShowPopup(false);
+        router.push(`/proyecto/${project.id}`);
+      });
+    })
   };
 
   return (

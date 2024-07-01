@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import popupStyle from "../styles/popup.module.scss";
 
 interface PopupProps {
-    onConfirm: (dataset: FileList | string) => void;
+    onConfirm: (dataset: FileList | number) => void;
     onCancel: () => void;
 }
 
 const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
-    const [selectedDataset, setSelectedDataset] = useState<string | null>(null);
+    const [selectedDataset, setSelectedDataset] = useState<number | null>(null);
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
 
     const handleConfirm = () => {
@@ -29,13 +29,14 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
                     <div className={popupStyle.segmentPredefined}>
                         <h1 className={popupStyle.nombre}>Predeterminados</h1>
                         <button className={popupStyle.btn} onClick={() => {
-                            setSelectedDataset('DataSet 1');
+                            setSelectedDataset(2);
                             setSelectedFiles(null);
-                        }}>DataSet 1</button>
+                        }}>Fashion Mnist</button>
                         <button className={popupStyle.btn} onClick={() => {
-                            setSelectedDataset('DataSet 2');
+                            setSelectedDataset(3);
                             setSelectedFiles(null);
-                        }}>DataSet 2</button>
+                        }}>Titanic</button>
+                        {/*TODO: Add Iris dataset of id 4*/}
                     </div>
 
                     <div className={popupStyle.segmentUpload}>
