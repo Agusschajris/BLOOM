@@ -69,7 +69,7 @@ const MainPage: React.FC = () => {
           'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-          name: "Nuevo proyecto",
+          name: `Nuevo proyecto (${projects[projects.length - 1].id + 1})`,
           datasetId: dataset
       })
     }).then(response => {
