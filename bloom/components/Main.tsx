@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { useRouter } from 'next/navigation'; 
 import Popup from './popUp';
 import styles from '../styles/main.module.scss';
@@ -18,9 +18,9 @@ const MainPage: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
 
-  function onDelete(id: number) {
+  const onDelete = useCallback((id: number) => {
     setProjects(projects.filter(p => p.id !== id));
-  }
+  }, [projects]);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/projects", {
@@ -32,9 +32,6 @@ const MainPage: React.FC = () => {
       return response.json();
     }).then(data => {
       if (Array.isArray(data)) {
-        data.forEach((project: Project & { onDelete: (id: number) => void }) => {
-          project.onDelete = onDelete;
-        });
         setProjects(data);
       } else {
         console.error("API response is not an array:", data);
@@ -42,7 +39,7 @@ const MainPage: React.FC = () => {
     }).catch(err => {
       console.error("Failed to fetch projects:", err);
     });
-  }, [onDelete]);
+  }, []);
                                                                                      
   const handleCreateProject = () => {
     setShowPopup(true);
@@ -107,7 +104,7 @@ const MainPage: React.FC = () => {
           </div>
             <div className={styles.proyectos}>
               {projects.map((project) => (
-                <ProyectPrev key={project.id} id={project.id} name={project.name} />
+                <ProyectPrev key={project.id} id={project.id} name={project.name} onDelete={onDelete} />
               ))}
             </div>
 
