@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+.container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 15%;
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: #0B032B;
+    background-clip: padding-box;
+    padding: 10px;
+    height: 170px;
+    justify-content: center;
+}
+
+.container::after {
+    position: absolute;
+    top: -2px; bottom: -2px;
+    left: -2px; right: -2px;
+    background: linear-gradient(150deg, #70A2FF, #0B032B, #0C2BA7);
+    content: '';
+    z-index: -1;
+    border-radius: 8px;
+}
+
+.preview{
+    width:85%;
+    height: 60%;
+    position: relative;
+    border: 1px solid #0C2BA7;
+    border-radius: 8px;
+    background-color: #0B032B;
+    background-clip: padding-box;
+    padding: 10px;
+    background-image: url('../public/punto.svg');
+    background-repeat: repeat;
+}
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    width: 90%;
+    height: 10%;
+    padding: 0px 10px;
+    border-radius: 0px 0px 8px 8px;
+    background-color: #0B032B;
+    background-clip: padding-box;
+    backdrop-filter: blur(25px);
+}
+
+.name{
+    font-size: 15px ;
+    font-weight: 100;
+}
+
+.edit{
+    background-color: #060C65;
+    font-family: 'Ubuntu', sans-serif;
+    border: none;
+    color: #EAE9FC;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.popUp{
+    z-index: 2;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #0C2BA7;
+    border-radius: 8px;
+    background-color: #0B032B;
+    background-clip: padding-box;
+    padding: 10px;
+    justify-content: center;
+    background-color: #0B032B;
+}
+
+.cancel{
+    background-color: #0B032B;
+    border: none;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+
+.bigPreview{
+    width:55%;
+    height: 85%;
+    border: 1px solid #0C2BA7;
+    border-radius: 8px;
+    background-color: #0B032B;
+    background-clip: padding-box;
+    background-image: url('../public/punto.svg');
+    background-repeat: repeat;
+}
+.aside{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+
