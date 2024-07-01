@@ -161,7 +161,7 @@ const Proyecto: React.FC = () => {
     return code;
   };
 
-  useEffect(() => {+
+  useEffect(() => {
     if (!id || !projectName.current) return
 
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
