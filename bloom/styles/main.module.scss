@@ -1,0 +1,39 @@
+.mainPage{
+    background-color: #07021A;
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    width: 90%;
+    height: 90%;
+    border: #07021A;
+}
+
+.tittle{
+    font-size: 35px;
+}
+
+.buttons{
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button{
+    font-family: "Ubuntu", sans-serif;
+    border: none;
+    cursor: pointer;
+    background-color: #060C65;
+    color:#EAE9FC;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 20px;
+    border-radius: 6px;
+    font-weight: 300;
+}

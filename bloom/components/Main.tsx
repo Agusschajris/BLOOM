@@ -88,17 +88,25 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <div className="main-page">
+    <>
       <NavBar/>
-      <h1>Mis proyectos</h1>
-      <button className={styles.export} onClick={handleCreateProject}>Crear Proyecto</button>
-      {showPopup && <Popup onConfirm={handleConfirm} onCancel={handleCancel} />}
-      <div>
-        {projects.map((project) => (
-          <ProyectPrev key={project.id} id={project.id} name={project.name} />
-        ))}
-      </div>
-    </div>
+      <div className={styles.mainPage}>
+        <div className={styles.container}>
+          <h1 className={styles.tittle}>Mis proyectos</h1>
+          <div className={styles.buttons}>
+            <button className={styles.button} onClick={handleCreateProject}>Crear Proyecto</button>
+             {showPopup && <Popup onConfirm={handleConfirm} onCancel={handleCancel} />}
+           <button className={styles.button}>Última modificación</button>
+          </div>
+            <div className={styles.proyectos}>
+              {projects.map((project) => (
+                <ProyectPrev key={project.id} id={project.id} name={project.name} />
+              ))}
+            </div>
+
+        </div>
+     </div>
+    </>
   );
 };
 

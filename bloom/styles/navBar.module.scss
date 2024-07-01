@@ -10,6 +10,7 @@
 
 .logo{
     margin-top: 30px;
+    margin-left: 15px;
 }
 
 .options{
@@ -42,12 +43,16 @@
     font-size: 20px; 
 }
 
+.notSelected:hover{
+    opacity: 85%;
+}
+
 .userBtn{
     background-color: transparent;
     border: none;
     cursor: pointer;
     margin-left: 100px;
-    margin-right: 40px;
+    margin-right: 55px;
 }
 
 .user{
