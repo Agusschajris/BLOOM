@@ -108,18 +108,6 @@ const Proyecto: React.FC = () => {
     );
   };
 
-  const updateBackend = async (blocks: BlockInstance[]) => {
-    const blocksToSend: DataBlock[] = blocks.map(getBackendBlock);
-    const zippedBlocks = await gzip.__promisify__(JSON.stringify(blocksToSend));
-    await fetch(`https://localhost:3000/api/projects?id=${id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ blocks: zippedBlocks.toString() }),
-    });
-  };
-
   function getBackendBlock(block: BlockInstance): DataBlock {
     const args = block.args.reduce((acc, arg) => {
       if (arg.value !== undefined && arg.value !== null) {
@@ -174,8 +162,15 @@ const Proyecto: React.FC = () => {
   };
 
   useEffect(() => {
-    updateBackend(canvasBlocks);
-  }, [canvasBlocks]);
+    const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
+    fetch(`https://localhost:3000/api/projects/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ blocks }),
+    }).then();
+  }, [canvasBlocks, id]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
