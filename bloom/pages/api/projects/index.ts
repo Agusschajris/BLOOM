@@ -36,9 +36,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Guardar un nuevo proyecto
       const { name, datasetId } = req.body;
       if (!name || !datasetId)
-        return res.status(400).json({ error: 'Falta información para crear un proyecto' });
+        return res.status(400).json('Falta información para crear un proyecto');
       if (typeof name !== 'string' || typeof datasetId !== 'number')
-        return res.status(400).json({ error: 'Datos inválidos' });
+        return res.status(400).json('Datos inválidos');
 
       const newProject = await prisma.project.create({
         data: {

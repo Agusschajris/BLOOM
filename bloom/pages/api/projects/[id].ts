@@ -20,12 +20,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(404).json({ error: 'Proyecto no encontrado' });
 
       if (project.blocks)
-        project.blocks = JSON.parse((await gunzip.__promisify__(project.blocks)).toString());
+        gunzip(project.blocks, (err, result) => {
+            if (err) {
+                console.error('Error al descomprimir los bloques:', err);
+                return res.status(500).json({ error: 'Error al descomprimir los bloques' });
+            }
+            project.blocks = JSON.parse(result.toString());
+        });
 
       res.status(200).json(project);
     } else if (req.method === 'PUT') {
       let { name, blocks } = req.body;
-      const data: Prisma.ProjectUpdateInput = { lastEdited: { set: new Date() } };
+      const data: Prisma.ProjectUpdateInput = {};
 
       // Buscar el proyecto por su ID
       const existingProject = await prisma.project.findUnique({
@@ -37,8 +43,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       if (name)
         data.name = name;
-      if (blocks)
-        data.blocks = (await gzip.__promisify__(JSON.stringify(blocks))).toString();
+      if (blocks) {
+        gzip(JSON.stringify(blocks), (err, result) => {
+            if (err) {
+                console.error('Error al comprimir los bloques:', err);
+                return res.status(500).json({ error: 'Error al comprimir los bloques' });
+            }
+            data.blocks = result.toString();
+        });
+        data.lastEdited = { set: new Date() };
+      }
 
       // Actualizo
       await prisma.project.update({
