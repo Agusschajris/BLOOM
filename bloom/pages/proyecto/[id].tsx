@@ -53,19 +53,20 @@ const Proyecto: React.FC = () => {
   let projectName = useRef<string>('');
 
   useEffect(() => {
-    if (id) {
-      fetch(`/api/projects/${id}`, {
-        method: 'GET'
-      }).then(response => {
-        if (response.status !== 200)
-          return handle404();
+    if (!id) return;
 
-        response.json().then((project: Project) => {
-            projectName.current = project.name;
-            setCanvasBlocks((project.blocks as any as DataBlock[]).map(getFrontendBlock));
-        })
-      });
-    }
+    fetch(`/api/projects/${id}`, {
+      method: 'GET'
+    }).then(response => {
+      if (response.status === 404)
+        return handle404();
+
+      response.json().then((project: Project) => {
+        projectName.current = project.name;
+        if (project.blocks)
+          setCanvasBlocks((project.blocks as any as DataBlock[]).map(getFrontendBlock));
+      })
+    });
   }, [id]);
 
   function handle404() {
@@ -162,8 +163,10 @@ const Proyecto: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!id) return
+
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
-    fetch(`https://localhost:3000/api/projects/${id}`, {
+    fetch(`http://localhost:3000/api/projects/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
