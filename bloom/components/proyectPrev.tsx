@@ -57,8 +57,7 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name, onDelete}) => {
 
     return (
         <div className={style.container}>
-            <div className={style.preview}>
-            </div>
+            <div className={style.preview}></div>
             <div className={style.footer}>
                 <p className={style.name}>{name}</p>
                 <button className={style.edit} onClick={handleEdit}>Editar</button>

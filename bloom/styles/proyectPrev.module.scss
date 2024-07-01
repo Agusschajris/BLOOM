@@ -5,25 +5,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 15%;
+    width: 20%;
     position: relative;
-    border: 1px solid transparent;
+    border: 1px solid #0C2BA7;
     border-radius: 8px;
     background-color: #0B032B;
     background-clip: padding-box;
-    padding: 10px;
+    padding: 15px;
     height: 170px;
     justify-content: center;
-}
-
-.container::after {
-    position: absolute;
-    top: -2px; bottom: -2px;
-    left: -2px; right: -2px;
-    background: linear-gradient(150deg, #70A2FF, #0B032B, #0C2BA7);
-    content: '';
-    z-index: -1;
-    border-radius: 8px;
 }
 
 .preview{
