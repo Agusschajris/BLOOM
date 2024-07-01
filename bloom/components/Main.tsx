@@ -3,9 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; 
 import Popup from './popUp';
-import styles from '../styles/proyecto.module.scss';
+import styles from '../styles/main.module.scss';
 import ProyectPrev from './proyectPrev';
 import { Dataset } from "@prisma/client";
+import NavBar from './navBar';
 
 interface Project {
   id: number;
@@ -88,6 +89,7 @@ const MainPage: React.FC = () => {
 
   return (
     <div className="main-page">
+      <NavBar/>
       <h1>Mis proyectos</h1>
       <button className={styles.export} onClick={handleCreateProject}>Crear Proyecto</button>
       {showPopup && <Popup onConfirm={handleConfirm} onCancel={handleCancel} />}
