@@ -57,6 +57,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       res.status(200).json({ message: 'Proyecto actualizado correctamente' });
+    } else if (req.method === 'DELETE') {
+      // Eliminar un proyecto
+      if (!projectId)
+        return res.status(400).json('Falta información para eliminar un proyecto');
+      if (typeof projectId !== 'number')
+        return res.status(400).json('Datos inválidos');
+    
+      const deletedProject = await prisma.project.delete({
+        where: {
+          id: projectId,
+        },
+      });
+      res.status(200).json(deletedProject);
     } else {
       res.status(405).end();
     }
