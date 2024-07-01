@@ -34,15 +34,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).json(projects);
     } else if (req.method === 'POST') {
       // Guardar un nuevo proyecto
-      const { project } = req.body;
-      if (!project || !project.name || !project.ownerId || !project.datasetId) {
+      const { name, datasetId } = req.body;
+      if (!name || !datasetId)
         return res.status(400).json({ error: 'Falta información para crear un proyecto' });
-      }
+      if (typeof name !== 'string' || typeof datasetId !== 'number')
+        return res.status(400).json({ error: 'Datos inválidos' });
+
       const newProject = await prisma.project.create({
         data: {
-          name: project.name,
+          name,
           ownerId: 1, //project.ownerId,
-          datasetId: project.datasetId,
+          datasetId: datasetId,
           creationDate: new Date(),
         },
       });
