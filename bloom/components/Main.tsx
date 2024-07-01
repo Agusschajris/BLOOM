@@ -21,12 +21,20 @@ const MainPage: React.FC = () => {
     fetch("http://localhost:3000/api/projects", {
       method: 'GET'
     }).then(response => {
-      response.json().then(data => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    }).then(data => {
+      if (Array.isArray(data)) {
         setProjects(data);
-      });
+      } else {
+        console.error("API response is not an array:", data);
+      }
+    }).catch(err => {
+      console.error("Failed to fetch projects:", err);
     });
   }, []);
-
 
   const handleCreateProject = () => {
     setShowPopup(true);
