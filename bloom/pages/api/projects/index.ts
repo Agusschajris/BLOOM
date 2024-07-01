@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       // Verificar el valor del parámetro orderBy que envía el front
       switch (req.query.orderBy) {
-        case 'alfabetic': // Orden alfabético
+        case 'alphabetic': // Orden alfabético
           orderBy = { name: defaultOrAsc };
           break;
         case 'creationDate':
@@ -41,40 +41,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const newProject = await prisma.project.create({
         data: {
           name: project.name,
-          ownerId: project.ownerId,
+          ownerId: 1, //project.ownerId,
           datasetId: project.datasetId,
+          creationDate: new Date(),
         },
       });
       res.status(201).json(newProject);
-    } else if (req.method === 'PUT') {
-      const { projectId } = req.query;
-      let { name, blocks } = req.body;
-
-      // Buscar el proyecto por su ID
-      const existingProject = await prisma.project.findUnique({
-        where: { id: Number(projectId) },
-      });
-
-      if (!existingProject)
-        return res.status(404).json({ error: 'Proyecto no encontrado' });
-
-      if (!name || typeof name !== 'string') name = existingProject.name;
-      if (!blocks || typeof blocks !== 'string') blocks = existingProject.blocks;
-
-      // Actualizo
-      await prisma.project.update({
-        where: { id: Number(projectId) },
-        data: {
-          name,
-          blocks,
-          lastEdited: { set: new Date() },
-        },
-      });    
-
-      res.status(200).json({ message: 'Proyecto actualizado correctamente' });
-    } else {
+    } else
       res.status(405).end();
-    }
   } catch (error) {
     console.error('Error en la API:', error);
     res.status(500).json({ error: 'Error en el servidor' });
