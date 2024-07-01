@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
+import { gzip as _gzip } from 'node:zlib';
+import { promisify } from 'node:util';
+
+const gzip = promisify(_gzip);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -45,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           name,
           ownerId: 1, //project.ownerId,
           datasetId: datasetId,
-          creationDate: new Date(),
+          blocks: await gzip('[]')
         },
       });
       res.status(201).json(newProject);

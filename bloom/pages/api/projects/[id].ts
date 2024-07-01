@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 import { Prisma, Project } from '@prisma/client';
-import { gzip, gunzip } from "node:zlib";
+import { gzip as _gzip, gunzip as _gunzip } from "node:zlib";
+import { promisify } from 'node:util';
+
+const gzip = promisify(_gzip);
+const gunzip = promisify(_gunzip);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const projectId = Number(req.query.id);
@@ -19,14 +23,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (!project)
         return res.status(404).json({ error: 'Proyecto no encontrado' });
 
-      if (project.blocks)
-        gunzip(project.blocks, (err, result) => {
-            if (err) {
-                console.error('Error al descomprimir los bloques:', err);
-                return res.status(500).json({ error: 'Error al descomprimir los bloques' });
-            }
-            project.blocks = JSON.parse(result.toString());
-        });
+      if (project.blocks) {
+        const gunzippedBlocks = await gunzip(project.blocks);
+        console.log(gunzippedBlocks.toString());
+        project.blocks = JSON.parse(gunzippedBlocks.toString());
+      }
+
 
       res.status(200).json(project);
     } else if (req.method === 'PUT') {
@@ -44,13 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (name)
         data.name = name;
       if (blocks) {
-        gzip(JSON.stringify(blocks), (err, result) => {
-            if (err) {
-                console.error('Error al comprimir los bloques:', err);
-                return res.status(500).json({ error: 'Error al comprimir los bloques' });
-            }
-            data.blocks = result.toString();
-        });
+      data.blocks = await gzip(JSON.stringify(blocks));
         data.lastEdited = { set: new Date() };
       }
 
