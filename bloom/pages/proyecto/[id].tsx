@@ -161,9 +161,11 @@ const Proyecto: React.FC = () => {
     return code;
   };
 
-  useEffect(() => {
+  useEffect(() => {+
+    if (!id || !projectName.current) return
+
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
-    fetch(`https://localhost:3000/api/projects/${id}`, {
+    fetch(`http://localhost:3000/api/projects/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
