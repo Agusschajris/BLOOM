@@ -163,7 +163,7 @@ const Proyecto: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!id) return
+    if (!id || !projectName.current) return
 
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
     fetch(`http://localhost:3000/api/projects/${id}`, {
