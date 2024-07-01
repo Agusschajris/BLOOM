@@ -181,7 +181,7 @@ const Proyecto: React.FC = () => {
           <button className={styles.home} onClick={handleClick}>
             <Image src={homeSVG} alt="home" width={24} height={24} />
           </button>
-          <h1 className={styles.name}>Proyecto</h1>
+          <h1 className={styles.name}>{projectName.current}</h1>
           <button className={styles.export}>Exportar</button>
         </header>
 
