@@ -7,11 +7,12 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 interface ProyectPrevProps {
-    id: number
-    name: string
+    id: number,
+    name: string,
+    onDelete: (id: number) => void
 }
 
-const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name}) => {
+const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name, onDelete}) => {
     const [showPopup, setShowPopup] = useState(false);
     const [showConfig, setShowConfig] = useState(false);
     const router = useRouter();
@@ -49,7 +50,9 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name}) => {
     }
 
     const handleDelete = () => {
-
+        fetch(`http://localhost:3000/api/projects/${id}`, {
+            method: 'DELETE'
+        }).then(() => {onDelete(id)});
     }
 
     return (

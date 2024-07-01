@@ -18,6 +18,10 @@ const MainPage: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
 
+  function onDelete(id: number) {
+    setProjects(projects.filter(p => p.id !== id));
+  }
+
   useEffect(() => {
     fetch("http://localhost:3000/api/projects", {
       method: 'GET'
@@ -28,6 +32,9 @@ const MainPage: React.FC = () => {
       return response.json();
     }).then(data => {
       if (Array.isArray(data)) {
+        data.forEach((project: Project & { onDelete: (id: number) => void }) => {
+          project.onDelete = onDelete;
+        });
         setProjects(data);
       } else {
         console.error("API response is not an array:", data);
@@ -35,8 +42,8 @@ const MainPage: React.FC = () => {
     }).catch(err => {
       console.error("Failed to fetch projects:", err);
     });
-  }, []);
-
+  }, [onDelete]);
+                                                                                     
   const handleCreateProject = () => {
     setShowPopup(true);
   };
