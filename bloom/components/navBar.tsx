@@ -27,19 +27,27 @@ const NavBar: React.FC = () => {
       break;
   }
 
+  const handleProyects = () => {
+    router.push('/')
+  }
+
+  const handleClasses = () => {
+    
+  }
+
   const handleUser = () => {
     
   }
 
   return (
     <div className={style.bar}>
-      <Image src={logoSVG} alt="logo" width={10} height={5} />
+      <Image className={style.logo} src={logoSVG} alt="logo" />
       <div className={style.options}>
-        <button className={classProyect}>Proyectos</button>
-        <button className={classClass}>Clases</button>
+        <button className={classProyect} onClick={handleProyects}>Proyectos</button>
+        <button className={classClass} onClick={handleClasses}>Clases</button>
       </div>
       <button className={style.userBtn} onClick={handleUser}>
-        <Image src={userSVG} alt="user" width={5} height={5} />
+        <Image src={userSVG} alt="user" className={style.user}/>
       </button>
     </div>
   );
