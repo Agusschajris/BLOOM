@@ -51,6 +51,7 @@ const Proyecto: React.FC = () => {
   const [showCanvasElements, setShowCanvasElements] = useState(false);
 
   let projectName = useRef<string>('');
+  let generatedCode = useRef<string>('');
 
   useEffect(() => {
     if (id) {
@@ -148,18 +149,18 @@ const Proyecto: React.FC = () => {
     // TODO: save model somewhere, then accessible in the generated code to train it or sth...
   };
 
-  const generateCode = async (blockInstances: BlockInstance[]): Promise<string> => {
-    const blocks = blockInstances.map(getBackendBlock);
-    let code = `import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential({name: ${projectName.current});\n\n`;
+  useEffect(() => {
+    const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
+    
+    generatedCode.current = `import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential({name: ${projectName.current});\n\n`;
 
     blocks.forEach((block) => {
-      code += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`;
+      generatedCode.current += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`;
     });
 
-    code += "\nmodel.compile({\n  optimizer: 'sgd',\n  loss: 'meanSquaredError',\n  metrics: ['accuracy'],\n});\n";
+    generatedCode.current += "\nmodel.compile({\n  optimizer: 'sgd',\n  loss: 'meanSquaredError',\n  metrics: ['accuracy'],\n});\n";
 
-    return code;
-  };
+  }, [canvasBlocks]);
 
   useEffect(() => {
     if (!id || !projectName.current) return
@@ -247,7 +248,7 @@ const Proyecto: React.FC = () => {
 
           <aside className={styles.codigoWrap}>
             <h1 className={styles.h1}>CÓDIGO</h1>
-            <p>{generatedCode}</p>
+            <p>{generatedCode.current}</p>
           </aside>
         </div>
       </div>
