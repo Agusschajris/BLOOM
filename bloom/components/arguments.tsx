@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { ArgumentInstance, BlockInstance } from '../pages/proyecto/[id]';
+import { Argument, BlockInstance } from '../pages/proyecto/[id]';
+import style from "../styles/arguments.module.scss"
 
 interface PopupProps {
     block: BlockInstance;
     onClose: () => void;
-    onSave: (args: ArgumentInstance[]) => void;
+    onSave: (args: Argument[]) => void;
 }
 
 const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
-    const [args, setArgs] = useState<ArgumentInstance[]>(block.args);
+    const [args, setArgs] = useState<Argument[]>(block.args);
 
     const handleChange = (index: number, value: any) => {
         const newArgs = [...args];
@@ -34,6 +35,8 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
 
   return (
     <div>
+      <div className={style.overlay}></div>
+      <div className={style.popUp}>
         <h2>{block.visualName}</h2>
         {args.map((arg, index) => (
           <div key={arg.argName}>
@@ -46,6 +49,7 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
         ))}
         <button onClick={handleSave}>Save</button>
         <button onClick={onClose}>Cancel</button>
+      </div>
     </div>
   );
 };
