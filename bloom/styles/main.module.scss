@@ -9,7 +9,7 @@
 
 .container{
     width: 90%;
-    height: 85%;
+    height: 90%;
     border: #07021A;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .buttons{
-    margin-top: 30px;
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
 }
@@ -36,4 +36,9 @@
     font-size: 20px;
     border-radius: 6px;
     font-weight: 300;
+    transition: all 0.5s ease;
+}
+
+.button:hover{
+    background-color: #0C2BA7;
 }
