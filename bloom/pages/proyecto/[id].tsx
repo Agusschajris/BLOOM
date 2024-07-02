@@ -187,7 +187,7 @@ const Proyecto: React.FC = () => {
 
         <div className={styles.container}>
           <aside className={styles.blocksAside}>
-            <h1>CAPAS</h1>
+            <h1 className={styles.h1}>CAPAS</h1>
             <Droppable droppableId="blocksList">
               {(provided: DroppableProvided) => (
                 <div className={styles.blocksWrap} {...provided.droppableProps} ref={provided.innerRef}>
@@ -246,7 +246,8 @@ const Proyecto: React.FC = () => {
           </div>
 
           <aside className={styles.codigoWrap}>
-            <h1>CÓDIGO</h1>
+            <h1 className={styles.h1}>CÓDIGO</h1>
+            <p>{generatedCode}</p>
           </aside>
         </div>
       </div>
