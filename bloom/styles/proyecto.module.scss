@@ -16,7 +16,7 @@
 }
 
 .name{
-    font-size: 35px;
+    font-size: 30px;
 }
 
 .home{
@@ -61,7 +61,7 @@
 
 .dataSet{
     margin-top: 20px;
-    padding: 0px 35px;
+    padding: 5px 35px;
     border: 1px solid;
     border-image: linear-gradient(150deg, #70A2FF, #0B032B, #0C2BA7) 1;
     border-radius: 10px;
@@ -97,6 +97,8 @@
     min-height: 100px;
     width: 35%;
     height: fit-content;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .bloque{
@@ -129,4 +131,9 @@
     &::-webkit-scrollbar-thumb {
         background: #0C2BA7;
     }
+}
+
+.h1{
+    margin-bottom: 15px;
+    margin-top: 15px;
 }

@@ -42,3 +42,9 @@
 .button:hover{
     background-color: #0C2BA7;
 }
+
+.proyectos{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
