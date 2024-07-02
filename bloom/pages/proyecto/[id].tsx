@@ -247,6 +247,7 @@ const Proyecto: React.FC = () => {
 
           <aside className={styles.codigoWrap}>
             <h1 className={styles.h1}>CÓDIGO</h1>
+            <p>{generatedCode}</p>
           </aside>
         </div>
       </div>
