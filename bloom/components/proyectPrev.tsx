@@ -21,11 +21,12 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name, onDelete}) => {
     }
 
     const handleCancel = () => {
-        setShowPopup(false);
+        setShowPopup(false)
+        setShowConfig(false)
     };
     
     const handleConfig = () => {
-        setShowConfig(true);
+        setShowConfig(!showConfig);
 
     }
 
@@ -56,13 +57,16 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name, onDelete}) => {
     }
 
     return (
+        <>
+        
         <div className={style.container}>
             <div className={style.preview}></div>
             <div className={style.footer}>
                 <p className={style.name}>{name}</p>
                 <button className={style.edit} onClick={handleEdit}>Editar</button>
             </div>
-            
+        </div>
+
             {showPopup && (
             <>
             <div className={style.overlay} onClick={handleCancel} />
@@ -96,10 +100,10 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name, onDelete}) => {
             <div className={style.configPopUp}>
                 <button className={style.change} onClick={handleChangeName}>Cambiar nombre</button>
                 <button className={style.duplicate} onClick={handleDuplicate}>Duplicar</button>
-                <button className={style.delete} onClick={handleDelete}>Eliminar</button>
+                <button className={style.duplicate} onClick={handleDelete}>Eliminar</button>
             </div>)}
+        </>
 
-        </div>
     );
 }
 
