@@ -6,13 +6,21 @@ import closeSVG from '../public/close.svg';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-interface ProyectPrevProps {
+export interface ProjectPrevProps {
     id: number,
     name: string,
+    lastEdited: Date | null,
+    creationDate: Date,
     onDelete: (id: number) => void
 }
 
-const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name, onDelete}) => {
+const dateFormater = new Intl.DateTimeFormat("es-AR", {
+    hour12: false,
+    dateStyle: "long",
+    timeStyle: "short"
+})
+
+const ProyectPrev: React.FC<ProjectPrevProps> = ({id, name, lastEdited, creationDate, onDelete}) => {
     const [showPopup, setShowPopup] = useState(false);
     const [showConfig, setShowConfig] = useState(false);
     const router = useRouter();
@@ -84,8 +92,8 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name, onDelete}) => {
                         <button className={style.download} onClick={handleDownload}>Descargar</button>
                         <button className={style.open} onClick={handleOpen}>Abrir en Collab</button>
                         <hr className={style.line}/>
-                        <p className={style.time}>Editado Septiembre 20, 2023</p>
-                        <p className={style.time}>Creado Septiembre 12, 2023</p>
+                        <p className={style.time}>{lastEdited ? `Editado ${dateFormater.format(lastEdited)}` : "Nunca editado"}</p>
+                        <p className={style.time}>Creado {dateFormater.format(creationDate)}</p>
                     </div>
                 </div>
             </div>

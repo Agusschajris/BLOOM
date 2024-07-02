@@ -7,16 +7,17 @@ import styles from '../styles/main.module.scss';
 import ProyectPrev from './proyectPrev';
 import { Dataset } from "@prisma/client";
 import NavBar from './navBar';
+import { ProjectPrevProps } from './proyectPrev';
 
-interface Project {
-  id: number;
-  name: string;
+type ProjectData = ProjectPrevProps & {
+  lastEdited: string | null,
+  creationDate: string
 }
 
 const MainPage: React.FC = () => {
   const router = useRouter(); 
   const [showPopup, setShowPopup] = useState(false);
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ProjectData[]>([]);
 
   const onDelete = useCallback((id: number) => {
     setProjects(projects.filter(p => p.id !== id));
@@ -84,7 +85,7 @@ const MainPage: React.FC = () => {
         return;
       }
 
-      response.json().then((project: Project) => {
+      response.json().then((project) => {
         setShowPopup(false);
         router.push(`/proyecto/${project.id}`);
       });
@@ -104,7 +105,7 @@ const MainPage: React.FC = () => {
           </div>
             <div className={styles.proyectos}>
               {projects.map((project) => (
-                <ProyectPrev key={project.id} id={project.id} name={project.name} onDelete={onDelete} />
+                <ProyectPrev key={project.id} id={project.id} name={project.name} lastEdited={new Date(project.lastEdited as string)} creationDate={new Date(project.creationDate)} onDelete={onDelete} />
               ))}
             </div>
 
