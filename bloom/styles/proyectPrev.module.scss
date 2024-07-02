@@ -5,14 +5,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 20%;
+    width: 17%;
     position: relative;
     border: 1px solid #0C2BA7;
     border-radius: 8px;
     background-color: #0B032B;
     background-clip: padding-box;
     padding: 15px;
-    height: 170px;
+    height: 150px;
     justify-content: center;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .name{
-    font-size: 15px ;
+    font-size: 12px ;
     font-weight: 100;
 }
 
@@ -56,6 +56,11 @@
     cursor: pointer;
     padding: 6px 10px;
     border-radius: 6px;
+    transition: all 0.5s ease;
+}
+
+.edit:hover{
+    background-color: #0C2BA7;
 }
 
 .overlay {
@@ -75,7 +80,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 50%;
-    height: 60%;
+    height: 65%;
     display: flex;
     flex-direction: column;
     border: 1px solid #0C2BA7;
@@ -83,12 +88,11 @@
     background-color: #0B032B;
     background-clip: padding-box;
     padding: 10px;
-    justify-content: center;
     background-color: #0B032B;
 }
 
 .cancel{
-    background-color: #0B032B;
+    background-color: transparent;
     border: none;
     align-self: flex-end;
     cursor: pointer;
@@ -96,12 +100,13 @@
 
 .wrapper{
     display: flex;
-    justify-content: space-between;
+    justify-content:space-around;
+    height: 100%;
 }
 
 .bigPreview{
-    width:55%;
-    height: 85%;
+    width:60%;
+    height: 95%;
     border: 1px solid #0C2BA7;
     border-radius: 8px;
     background-color: #0B032B;
@@ -113,5 +118,85 @@
     display: flex;
     flex-direction: column;
     width: 30%;
+    gap: 10px;
 }
 
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popUpName{
+    font-size: 25px;
+}
+
+.config{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.modify{
+    font-family: "Ubuntu", sans-serif;
+    border: none;
+    cursor: pointer;
+    background-color: #060C65;
+    color:#EAE9FC;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 21px;
+    border-radius: 6px;
+    font-weight: 300;
+    transition: all 0.5s ease;
+}
+
+.modify:hover{
+    background-color: #0C2BA7;
+}
+
+.download{
+    font-family: "Ubuntu", sans-serif;
+    border: 2px solid #70A2FF;
+    cursor: pointer;
+    background-color: transparent;
+    color:#70A2FF;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 21px;
+    border-radius: 6px;
+    font-weight: 300;
+    transition: all 0.5s ease;
+}
+
+.open{
+    font-family: "Ubuntu", sans-serif;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    color:#EAE9FC;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 21px;
+    border-radius: 6px;
+    font-weight: 300;
+    transition: all 0.5s ease; 
+    text-decoration: underline;
+}
+
+.line{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.time{
+    font-size: 15px;
+    opacity: 50%;
+    margin: 0;
+}

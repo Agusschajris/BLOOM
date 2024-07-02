@@ -74,9 +74,9 @@ const ProyectPrev: React.FC<ProyectPrevProps> = ({id, name, onDelete}) => {
                     <div className={style.bigPreview}></div>
                     <div className={style.aside}>
                         <div className={style.header}>
-                            <h1>{name}</h1>
+                            <h1 className={style.popUpName}>{name}</h1>
                             <button className={style.config} onClick={handleConfig}>
-                                <Image src={configSVG} alt="configuration" width={15} height={15} />
+                                <Image src={configSVG} alt="configuration" />
                             </button>
                         </div>
                         <hr className={style.line}/>
