@@ -12,6 +12,7 @@ export interface ProjectPrevProps {
     lastEdited: Date | null,
     creationDate: Date,
     onDelete: (id: number) => void
+    onDuplicate: (id: number) => void
 }
 
 const dateFormater = new Intl.DateTimeFormat("es-AR", {
@@ -20,7 +21,7 @@ const dateFormater = new Intl.DateTimeFormat("es-AR", {
     timeStyle: "short"
 })
 
-const ProyectPrev: React.FC<ProjectPrevProps> = ({id, name, lastEdited, creationDate, onDelete}) => {
+const ProyectPrev: React.FC<ProjectPrevProps> = ({id, name, lastEdited, creationDate, onDelete, onDuplicate}) => {
     const [showPopup, setShowPopup] = useState(false);
     const [showConfig, setShowConfig] = useState(false);
     const router = useRouter();
@@ -55,7 +56,7 @@ const ProyectPrev: React.FC<ProjectPrevProps> = ({id, name, lastEdited, creation
     }
 
     const handleDuplicate = () => {
-
+        onDuplicate(id);
     }
 
     const handleDelete = () => {

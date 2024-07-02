@@ -70,6 +70,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
       res.status(200).json(deletedProject);
+    } else if (req.method === 'POST'){
+      const existingProject = await prisma.project.findUnique({
+        where: { id: projectId },
+      });
+
+      if (!existingProject)
+        return res.status(404).json({ error: 'Proyecto no encontrado' });
+
+      const duplicatedProject = await prisma.project.create({
+        data: {
+          name: `Copia de ${existingProject.name}`,
+          ownerId: existingProject.ownerId,
+          datasetId: existingProject.datasetId,
+          blocks: existingProject.blocks
+        },
+      });
+      res.status(200).json(duplicatedProject);
     } else {
       res.status(405).end();
     }

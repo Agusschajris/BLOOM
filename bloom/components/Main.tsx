@@ -7,20 +7,25 @@ import styles from '../styles/main.module.scss';
 import ProyectPrev from './proyectPrev';
 import { Dataset } from "@prisma/client";
 import NavBar from './navBar';
-import { ProjectPrevProps } from './proyectPrev';
-
-type ProjectData = ProjectPrevProps & {
-  lastEdited: string | null,
-  creationDate: string
-}
+import { Project } from '@prisma/client';
 
 const MainPage: React.FC = () => {
   const router = useRouter(); 
   const [showPopup, setShowPopup] = useState(false);
-  const [projects, setProjects] = useState<ProjectData[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   const onDelete = useCallback((id: number) => {
     setProjects(projects.filter(p => p.id !== id));
+  }, [projects]);
+
+  const onDuplicate = useCallback((id: number) => {
+    fetch(`http://localhost:3000/api/projects/${id}`, {
+      method: "POST",
+    }).then(response => {
+      response.json().then((copy: Project) => {
+        setProjects([...projects, copy]);
+      });
+    });
   }, [projects]);
 
   useEffect(() => {
@@ -33,6 +38,10 @@ const MainPage: React.FC = () => {
       return response.json();
     }).then(data => {
       if (Array.isArray(data)) {
+        data.forEach(x => {
+          x.lastEdited = new Date(x.lastEdited)
+          x.creationDate = new Date(x.creationDate)
+        })
         setProjects(data);
       } else {
         console.error("API response is not an array:", data);
@@ -72,7 +81,7 @@ const MainPage: React.FC = () => {
     fetch("http://localhost:3000/api/projects", {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
           name: `Proyecto ${projects[projects.length - 1].id + 1}`,
@@ -105,7 +114,7 @@ const MainPage: React.FC = () => {
           </div>
             <div className={styles.proyectos}>
               {projects.map((project) => (
-                <ProyectPrev key={project.id} id={project.id} name={project.name} lastEdited={new Date(project.lastEdited as string)} creationDate={new Date(project.creationDate)} onDelete={onDelete} />
+                <ProyectPrev key={project.id} id={project.id} name={project.name} lastEdited={project.lastEdited} creationDate={project.creationDate} onDelete={onDelete} onDuplicate={onDuplicate} />
               ))}
             </div>
 
