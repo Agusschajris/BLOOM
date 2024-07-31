@@ -2,11 +2,11 @@
 
 import React, {useState, useEffect, useCallback} from 'react';
 import { useRouter } from 'next/navigation'; 
-import Popup from './popUp';
+import Popup from '../components/popUp';
 import styles from '../styles/main.module.scss';
-import ProyectPrev from './proyectPrev';
+import ProyectPrev from '../components/proyectPrev';
 import { Dataset } from "@prisma/client";
-import NavBar from './navBar';
+import NavBar from '../components/navBar';
 import { Project } from '@prisma/client';
 
 const MainPage: React.FC = () => {

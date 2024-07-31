@@ -1,8 +1,7 @@
 import React from 'react';
-import MainPage from '../components/Main';
 
 const App: React.FC = () => {
-  return <MainPage />;
+  return <a href='./dashboard'/>;
 };
 
 export default App;
