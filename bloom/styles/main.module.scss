@@ -9,11 +9,12 @@
 
 .container{
     width: 90%;
-    height: 90%;
+    height: 100%;
     border: #07021A;
 }
 
 .tittle{
+    margin-top: 10px;
     font-size: 35px;
 }
 
@@ -44,7 +45,11 @@
 }
 
 .proyectos{
+    margin-top: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    row-gap: 10px;
+    column-gap: 60px;
 }

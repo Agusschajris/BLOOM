@@ -13,7 +13,7 @@ const NavBar: React.FC = () => {
   let classClass = "";
 
   switch (pathname) {
-    case "/":
+    case "/dashboard":
       classProyect = style.selected;
       classClass = style.notSelected;
       break;
@@ -28,7 +28,7 @@ const NavBar: React.FC = () => {
   }
 
   const handleProyects = () => {
-    router.push('/')
+    router.push('/dashboard')
   }
 
   const handleClasses = () => {
