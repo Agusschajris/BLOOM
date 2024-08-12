@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } else if (req.url === '/datasets/project/:projectId') {
         // Get dataset from specific project
         const projectId = Number(req.query.projectId);
-        const userId = 1 // Number(req.query.ownerId);
+        const userId = "1" // Number(req.query.ownerId);
         const dataset = await prisma.dataset.findMany({
           where: {
             userId,
