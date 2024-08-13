@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 import busboy from "busboy";
 import { v2 as cloudinary } from "cloudinary";
+import { auth } from '../../../auth';
+import { Session } from 'inspector';
 
 cloudinary.config({
   cloud_name: 'project-bloom',
@@ -36,6 +38,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(404).end();
       }
     } else if (req.method === 'POST') {
+      const session = await auth();
+      if (session !instanceof Session)
+        return res.status(403).send("Not authenticated.");
+
       // Save a new dataset
       console.log(req.body);
       //const { userId } = req.body; -> para guardar también el userId así se linkea con el User (lo dejo comentado por las dudas)
@@ -54,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             data: {
               name,
               dataset: result!.url,
-              //userId
+              userId: session?.user?.id
             },
           }).then((entry) => {
             accInfo.push(entry);

@@ -3,19 +3,24 @@ import prisma from '../../../lib/prisma';
 import { Prisma, Project } from '@prisma/client';
 import { gzip as _gzip, gunzip as _gunzip } from "node:zlib";
 import { promisify } from 'node:util';
+import { auth } from '../../../auth';
+import { Session } from 'node:inspector';
 
 const gzip = promisify(_gzip);
 const gunzip = promisify(_gunzip);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const projectId = Number(req.query.id);
+  const session = await auth()
+  if (session !instanceof Session)
+    return res.status(403).send("Not authenticated.");
   try {
     if (req.method === 'GET') {
       // Obtener un proyecto de un usuario en específico
-      const ownerId = 1 // Number(req.query.ownerId);
+      //const ownerId = 1 // Number(req.query.ownerId);
       const project: Project | null = await prisma.project.findUnique({
         where: {
-          ownerId,
+          ownerId: session?.user?.id,
           id: projectId
         }
       });
@@ -29,7 +34,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         project.blocks = JSON.parse(gunzippedBlocks.toString());
       }
 
-
       res.status(200).json(project);
     } else if (req.method === 'PUT') {
       let { name, blocks } = req.body;
@@ -37,7 +41,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       // Buscar el proyecto por su ID
       const existingProject = await prisma.project.findUnique({
-        where: { id: projectId },
+        where: { 
+          id: projectId,
+          ownerId: session?.user?.id
+        },
       });
 
       if (!existingProject)
@@ -67,12 +74,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const deletedProject = await prisma.project.delete({
         where: {
           id: projectId,
+          ownerId: session?.user?.id
         },
       });
       res.status(200).json(deletedProject);
     } else if (req.method === 'POST'){
       const existingProject = await prisma.project.findUnique({
-        where: { id: projectId },
+        where: { id: projectId, ownerId: session?.user?.id },
       });
 
       if (!existingProject)

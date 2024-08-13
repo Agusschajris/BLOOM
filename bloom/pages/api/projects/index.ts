@@ -2,10 +2,16 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 import { gzip as _gzip } from 'node:zlib';
 import { promisify } from 'node:util';
+import { auth } from '../../../auth';
+import { Session } from 'node:inspector';
 
 const gzip = promisify(_gzip);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const session = await auth();
+  if (session !instanceof Session)
+    return res.status(403).send("Not authenticated.");
+
   try {
     if (req.method === 'GET') {
       // Obtener todos los proyectos
@@ -31,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const projects = await prisma.project.findMany({
         where: {
-          ownerId: userId,
+          ownerId: session?.user?.id,
         },
         orderBy,
       });
@@ -47,7 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const newProject = await prisma.project.create({
         data: {
           name,
-          ownerId: 1, //project.ownerId,
+          ownerId: session?.user?.id!, //project.ownerId,
           datasetId: datasetId,
           blocks: await gzip('[]')
         },
