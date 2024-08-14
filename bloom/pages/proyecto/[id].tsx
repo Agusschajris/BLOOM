@@ -9,6 +9,7 @@ import masSVG from '../../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
 import * as tf from '@tensorflow/tfjs';
 import { Project } from '@prisma/client';
+import Prism from 'prismjs';
 
 type ArgValue = undefined | null | StoredArgValue;
 type StoredArgValue = number | [number, number] | [number, number, number] | string;

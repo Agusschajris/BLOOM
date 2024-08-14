@@ -29,14 +29,17 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
                     <div className={popupStyle.segmentPredefined}>
                         <h1 className={popupStyle.nombre}>Predeterminados</h1>
                         <button className={popupStyle.btn} onClick={() => {
+                            setSelectedDataset(1);
+                            setSelectedFiles(null);
+                        }}>DataSet 1</button>
+                        <button className={popupStyle.btn} onClick={() => {
                             setSelectedDataset(2);
                             setSelectedFiles(null);
-                        }}>Fashion Mnist</button>
+                        }}>DataSet 2</button>
                         <button className={popupStyle.btn} onClick={() => {
                             setSelectedDataset(3);
                             setSelectedFiles(null);
-                        }}>Titanic</button>
-                        {/*TODO: Add Iris dataset of id 4*/}
+                        }}>DataSet 3</button>
                     </div>
 
                     <div className={popupStyle.segmentUpload}>
@@ -48,7 +51,7 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
                                 setSelectedDataset(null);
                             }} />
                         </button>
-                        <span>{selectedFiles ? `"${selectedFiles[0].name}"` : '"DataSet A"'}</span>
+                        <span>{selectedFiles ? `"${selectedFiles[0].name}"` : '""'}</span>
                     </div>
                 </div>
                 <div className={popupStyle.footer}>
