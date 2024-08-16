@@ -1,13 +1,15 @@
+"use server"
 import React from 'react';
 import { signIn } from "../auth";
 
-const App: React.FC = () => {
-  const handleSignIn = async () => {
-    "use server"
-    await signIn("google", { redirectTo: "/dashboard" })
-  }
-
-  return <button onClick={handleSignIn}>Sign In</button>;
+const App = () => {
+  return 
+  <form
+    action={async () => {
+      await signIn("google", { redirectTo: "/dashboard" })
+  }}>
+    <button type="submit">Sign in</button>
+  </form>;
 };
 
 export default App;
