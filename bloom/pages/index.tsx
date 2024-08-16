@@ -1,15 +1,13 @@
-"use server"
+"use client";
 import React from 'react';
 import { signIn } from "../auth";
 
 const App = () => {
-  return 
-  <form
-    action={async () => {
-      await signIn("google", { redirectTo: "/dashboard" })
-  }}>
-    <button type="submit">Sign in</button>
-  </form>;
+  return (
+    <button
+      onClick={() => signIn("google", { redirectTo: "/dashboard" })}
+    >Sign in.</button>
+  );
 };
 
 export default App;
