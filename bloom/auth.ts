@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
-import { Prisma } from '@prisma/client';
 import type { Provider } from "next-auth/providers";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from './lib/prisma';
@@ -9,9 +8,11 @@ const providers: Provider[] = [
   Google({
     clientId: process.env.AUTH_GOOGLE_ID,
     clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    /* TODO : get needed values and add to schema
     async profile(profile) {
       return {...profile}
     },
+    */
   }),
 ];
 

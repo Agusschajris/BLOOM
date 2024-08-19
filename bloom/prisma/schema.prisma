@@ -17,24 +17,25 @@ datasource db {
 }
 
 model User {
+  // For auth.js
   id                String        @id @default(cuid())
+  name              String?
   email             String        @unique
-  // emailVerified     DateTime?
-  username          String        @unique
-  name              String
-  professor         Boolean
-  organization      String?
-  projects          Project[]
-  classes           Class[]       @relation("UserClasses")
-  createdClasses    Class[]       @relation("OwnerClasses")
-  datasets          Dataset[]
+  emailVerified     DateTime?
+  image             String?
   accounts          Account[]
   sessions          Session[]
   // Optional for WebAuthn support
   Authenticator     Authenticator[]
- 
+
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
+
+  // Custom
+  projects          Project[]
+  classes           Class[]       @relation("UserClasses")
+  createdClasses    Class[]       @relation("OwnerClasses")
+  datasets          Dataset[]
 }
 
 model Account {
@@ -49,12 +50,12 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
+
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
- 
+
   user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([provider, providerAccountId])
 }
 

@@ -9,13 +9,13 @@ export default function App() {
 
 // server
 import React from 'react';
-import { providerMap, signIn } from "../auth";
+import { signIn } from "../auth";
 
 export default function App() {
   return (
     <form action={async () => {
         "use server"
-        await signIn();//(providerMap[0].id, {redirectTo: "/dashboard"})
+        await signIn("google", {redirectTo: "/dashboard"});
       }}>
     <button type="submit">
       Sign in.
