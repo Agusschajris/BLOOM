@@ -1,12 +1,16 @@
 "use client";
 import React from 'react';
-import { signIn, providerMap } from "../auth";
+import { SignIn } from "../auth-actions";
 
 const App = () => {
   return (
-    <button onClick={() => signIn(providerMap[0].id, { callbackUrl: "/dashboard" })}>
+    <form action={() => {
+      SignIn()
+    }}>
+    <button type="submit">
       Sign in.
     </button>
+    </form>
   );
 };
 
