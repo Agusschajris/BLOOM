@@ -18,9 +18,6 @@ const providers: Provider[] = [
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers,
-  pages: {
-    signIn: "/signin",
-  },
   callbacks: {
     async session({ session, user }) {
       const [googleAccount] = await prisma.account.findMany({
