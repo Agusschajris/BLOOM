@@ -23,23 +23,26 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
         <>
             <div className={popupStyle.overlay} onClick={onCancel} />
             <div className={popupStyle.wrapper}>
-                <h1 className={popupStyle.title}>Seleccionar DataSet</h1>
+                <h1 className={popupStyle.tittle}>Seleccionar DataSet</h1>
 
                 <div className={popupStyle.optionsWrapper}>
+                    
                     <div className={popupStyle.segmentPredefined}>
                         <h1 className={popupStyle.nombre}>Predeterminados</h1>
-                        <button className={popupStyle.btn} onClick={() => {
-                            setSelectedDataset(1);
-                            setSelectedFiles(null);
-                        }}>DataSet 1</button>
-                        <button className={popupStyle.btn} onClick={() => {
-                            setSelectedDataset(2);
-                            setSelectedFiles(null);
-                        }}>DataSet 2</button>
-                        <button className={popupStyle.btn} onClick={() => {
-                            setSelectedDataset(3);
-                            setSelectedFiles(null);
-                        }}>DataSet 3</button>
+                        <div className={popupStyle.predeterminados}>
+                            <button className={popupStyle.btn} onClick={() => {
+                                setSelectedDataset(1);
+                                setSelectedFiles(null);
+                            }}>DataSet 1</button>
+                            <button className={popupStyle.btn} onClick={() => {
+                                setSelectedDataset(2);
+                                setSelectedFiles(null);
+                            }}>DataSet 2</button>
+                            <button className={popupStyle.btn} onClick={() => {
+                                setSelectedDataset(3);
+                                setSelectedFiles(null);
+                            }}>DataSet 3</button>
+                        </div>
                     </div>
 
                     <div className={popupStyle.segmentUpload}>

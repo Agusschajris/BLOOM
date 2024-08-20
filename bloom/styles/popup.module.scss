@@ -9,11 +9,11 @@
   align-items: center;
   justify-content: center;
   background: #0B032B;
-  padding: 40px 30px;
+  padding: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1001; 
   border-radius: 10px;
-  width: 35%;
+  width: 30%;
 }
 
 .overlay {
@@ -27,14 +27,16 @@
 }
 
 .tittle{
-  margin-top: 0px;
+  font-size: 30px;
 }
 
 .optionsWrapper {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 20px;
-  gap: 30px;
+  margin-top: 20px;
+  gap: 25px;
 }
 
 .segmentPredefined,
@@ -42,28 +44,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 200px;
-  height: 170px;
-  padding: 10px;
-  background-color: #060C65;
+  width: 100%;
+  height: 130px;
+  padding: 15px;
+  background-color: #0B032B;
+  border: 2px solid #060C65;
   border-radius: 6px;
-  justify-content: space-around;
 }
 
 .nombre{
   margin-top: 0px;
+  align-self: flex-start;
+}
+
+.predeterminados{
+  display: flex;
 }
 
 .btn{
-  background-color: #0C2BA7;
-  border: none;
+  background-color: #0B032B;
+  border: 2px solid #060C65;
   font-family: "Ubuntu", sans-serif;
   color: #EAE9FC;
   font-size: 25px;
   font-weight: 300;
   cursor: pointer;
   padding: 8px;
-  border-radius: 6px;
 }
 
 .uploadButton{
