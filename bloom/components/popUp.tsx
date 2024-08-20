@@ -10,6 +10,7 @@ interface PopupProps {
 const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
     const [selectedDataset, setSelectedDataset] = useState<number | null>(null);
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+    const [selectedButton, setSelectedButton] = useState<number | null>(null);
 
     const handleConfirm = () => {
         if (selectedFiles) {
@@ -28,30 +29,38 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
                 <div className={popupStyle.optionsWrapper}>
                     
                     <div className={popupStyle.segmentPredefined}>
-                        <h1 className={popupStyle.nombre}>Predeterminados</h1>
+                        <div className={popupStyle.nombreWrap}>
+                            <p className={popupStyle.nombre}>Predeterminados</p>
+                        </div>
                         <div className={popupStyle.predeterminados}>
-                            <button className={popupStyle.btn} onClick={() => {
+                            <button className={`${popupStyle.btn} ${selectedButton === 1 ? popupStyle.clicked : ''}`} onClick={() => {
                                 setSelectedDataset(1);
                                 setSelectedFiles(null);
+                                setSelectedButton(1);
                             }}>DataSet 1</button>
-                            <button className={popupStyle.btn} onClick={() => {
+                            <button className={`${popupStyle.btn} ${selectedButton === 2 ? popupStyle.clicked : ''}`} onClick={() => {
                                 setSelectedDataset(2);
                                 setSelectedFiles(null);
+                                setSelectedButton(2);
                             }}>DataSet 2</button>
-                            <button className={popupStyle.btn} onClick={() => {
+                            <button className={`${popupStyle.btn} ${selectedButton === 3 ? popupStyle.clicked : ''}`} onClick={() => {
                                 setSelectedDataset(3);
                                 setSelectedFiles(null);
+                                setSelectedButton(3);
                             }}>DataSet 3</button>
                         </div>
                     </div>
 
                     <div className={popupStyle.segmentUpload}>
-                        <h1 className={popupStyle.nombre}>Subir Archivo</h1>
+                        <div className={popupStyle.nombreWrap}>
+                            <p className={popupStyle.nombre}>Subir Archivo</p>
+                        </div>
                         <button className={popupStyle.uploadButton}>
                             <label className={popupStyle.explorar} htmlFor="fileUpload">Explorar Archivos</label>
                             <input className={popupStyle.input} id="fileUpload" type="file" onChange={(e) => {
                                 setSelectedFiles(e.target.files);
                                 setSelectedDataset(null);
+                                setSelectedButton(null);
                             }} />
                         </button>
                         <span>{selectedFiles ? `"${selectedFiles[0].name}"` : '""'}</span>
