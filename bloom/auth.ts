@@ -74,10 +74,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session
     },
     async authorized({ request, auth}) {
-      console.log("Middleware!");
-      console.log(request.url);
-      console.log(auth);
-
       if (!auth)
         if (request.url.includes("/api"))
           return NextResponse.json("Not authenticated.", { status: 401 });

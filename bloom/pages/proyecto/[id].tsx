@@ -53,6 +53,7 @@ const Proyecto: React.FC = () => {
 
   let projectName = useRef<string>('');
   let generatedCode = useRef<string>('');
+  generateCode();
 
   useEffect(() => {
     if (id) {
@@ -150,18 +151,19 @@ const Proyecto: React.FC = () => {
     // TODO: save model somewhere, then accessible in the generated code to train it or sth...
   };
 
-  useEffect(() => {
+  function generateCode() {
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
-    
-    generatedCode.current = `import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential({name: ${projectName.current});\n\n`;
+
+    generatedCode.current = `import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential({ name: "${projectName.current}" });\n\n`;
 
     blocks.forEach((block) => {
       generatedCode.current += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`;
     });
 
     generatedCode.current += "\nmodel.compile({\n  optimizer: 'sgd',\n  loss: 'meanSquaredError',\n  metrics: ['accuracy'],\n});\n";
+  }
 
-  }, [canvasBlocks]);
+  useEffect(generateCode, [projectName, canvasBlocks, id]);
 
   useEffect(() => {
     if (!id || !projectName.current) return
