@@ -3,6 +3,7 @@ import Google from "next-auth/providers/google";
 import type { Provider } from "next-auth/providers";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from './lib/prisma';
+import {NextResponse} from "next/server";
 
 const providers: Provider[] = [
   Google({
@@ -70,6 +71,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
       return session
+    },
+    async authorized({ request, auth}) {
+      console.log("Middleware!");
+      console.log(request.url);
+      console.log(auth);
+
+      if (!auth)
+        if (request.url.includes("/api"))
+          return NextResponse.json("Not authenticated.", { status: 401 });
+        else
+          return NextResponse.redirect("http://localhost:3000");
+
+      const headers = new Headers(request.headers);
+      headers.set("auth-js-id", auth!.user!.id!);
+      return NextResponse.next({ request: { headers } })
     },
   },
 });
