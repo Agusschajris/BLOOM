@@ -1,3 +1,4 @@
+export const runtime = 'experimental-edge'
 export { auth as middleware } from "./auth";
 export const config = {
   //matcher: "/(^api(?!\\/auth).*$)" // Match all routes except /api/auth

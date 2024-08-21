@@ -1,3 +1,4 @@
+export const runtime = 'experimental-edge'
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import type { Provider } from "next-auth/providers";
