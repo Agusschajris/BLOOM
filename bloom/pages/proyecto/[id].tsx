@@ -154,7 +154,7 @@ const Proyecto: React.FC = () => {
   function generateCode() {
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
 
-    generatedCode.current = `import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential({ name: "${projectName.current}" });\n\n`;
+    generatedCode.current = `import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential({ name: '${projectName.current}' });\n\n`;
 
     blocks.forEach((block) => {
       generatedCode.current += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`;

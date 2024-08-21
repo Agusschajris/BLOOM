@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers,
   callbacks: {
-    async session({ session, user }) {
+    /*async session({ session, user }) {
       const [googleAccount] = await prisma.account.findMany({
         where: { userId: user.id, provider: "google" },
       });
@@ -72,13 +72,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
       return session
-    },
-    async authorized({ request, auth}) {
+    },*/
+    async authorized({ request, auth }) {
+      const serverUrl = `${request.nextUrl.protocol}//${request.nextUrl.hostname}${request.nextUrl.port ? `:${request.nextUrl.port}` : ''}`;
+
       if (!auth)
         if (request.url.includes("/api"))
           return NextResponse.json("Not authenticated.", { status: 401 });
         else
-          return NextResponse.redirect("http://localhost:3000/api/auth/signin");
+          return NextResponse.redirect(serverUrl + "/api/auth/signin");
 
       const headers = new Headers(request.headers);
       headers.set("auth-js-id", auth!.user!.id!);
