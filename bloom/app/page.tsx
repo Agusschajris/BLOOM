@@ -1,26 +1,27 @@
-/*
-"use client";
-import { signIn } from "next-auth/react"
- 
-export default function App() {
-  return <button onClick={() => signIn()}>Sign In</button>
-}
-*/
-
-// server
 import React from 'react';
-import { signIn } from "../auth";
+import { signIn, signOut } from "../auth";
 
 export default function App() {
   return (
-    <form action={async () => {
+    <>
+      <form action={async () => {
         "use server"
         await signIn("google", {redirectTo: "/dashboard"});
       }}>
-    <button type="submit">
-      Sign in.
-    </button>
-    </form>
-  );
+        <button type="submit">
+          Sign in.
+        </button>
+      </form>
+      <form
+        action={async () => {
+          "use server"
+          await signOut()
+        }}
+      >
+        <button type="submit">Sign Out</button>
+      </form>
+    </>
+)
+  ;
 };
 

@@ -82,7 +82,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (request.url.includes("/api"))
           return NextResponse.json("Not authenticated.", { status: 401 });
         else
-          return NextResponse.redirect("http://localhost:3000");
+          return NextResponse.redirect("http://localhost:3000/api/auth/signin");
 
       const headers = new Headers(request.headers);
       headers.set("auth-js-id", auth!.user!.id!);

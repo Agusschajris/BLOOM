@@ -12,5 +12,5 @@ export async function POST(request: Request) {
   if (!newDataset)
     return new Response("Server error (prisma)", { status: 500 });
 
-  return new Response(JSON.stringify(newDataset), { status: 201  });
+  return new Response(JSON.stringify(newDataset), { status: 201 });
 }

@@ -57,7 +57,7 @@ export async function POST(request: Request) {
         data: {
             name,
             ownerId: request.headers.get("auth-js-id")!, //session!.user!.id!, //project.ownerId,
-            datasetId: datasetId,
+            datasetId,
             blocks: await gzip('[]')
         },
     });
