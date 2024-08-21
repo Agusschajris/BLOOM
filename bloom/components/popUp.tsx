@@ -55,20 +55,22 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
                         <div className={popupStyle.nombreWrap}>
                             <p className={popupStyle.nombre}>Subir Archivo</p>
                         </div>
-                        <button className={popupStyle.uploadButton}>
-                            <label className={popupStyle.explorar} htmlFor="fileUpload">Explorar Archivos</label>
-                            <input className={popupStyle.input} id="fileUpload" type="file" onChange={(e) => {
-                                setSelectedFiles(e.target.files);
-                                setSelectedDataset(null);
-                                setSelectedButton(null);
-                            }} />
-                        </button>
-                        <span>{selectedFiles ? `"${selectedFiles[0].name}"` : '""'}</span>
+                        <div className={popupStyle.uploadWrap}>
+                            <button className={popupStyle.uploadButton}>
+                                <label className={popupStyle.explorar} htmlFor="fileUpload">Explorar Archivos</label>
+                                <input className={popupStyle.input} id="fileUpload" type="file" onChange={(e) => {
+                                    setSelectedFiles(e.target.files);
+                                    setSelectedDataset(null);
+                                    setSelectedButton(null);
+                                }} />
+                            </button>
+                            <span>{selectedFiles ? `"${selectedFiles[0].name}"` : '""'}</span>
+                        </div>
                     </div>
                 </div>
                 <div className={popupStyle.footer}>
-                    <button className={popupStyle.cancel} onClick={onCancel}>Cancelar</button>
                     <button className={popupStyle.confirm} onClick={handleConfirm} disabled={!selectedDataset && !selectedFiles}>Confirmar</button>
+                    <button className={popupStyle.cancel} onClick={onCancel}>Cancelar</button>
                 </div>
             </div>
         </>
