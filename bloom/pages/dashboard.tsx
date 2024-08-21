@@ -90,7 +90,7 @@ const MainPage: React.FC = () => {
     }).then(response => {
       if (response.status !== 201) {
         console.log('Error al crear el proyecto: ');
-        response.json().then(data => console.log(data));
+        console.log(response);
         return;
       }
 
