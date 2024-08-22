@@ -133,6 +133,25 @@
     }
 }
 
+.codigoWrap{
+    display: flex;
+    flex-direction: column;
+}
+
+.codigoWrap pre{
+    width: inherit;
+    max-width: inherit;
+    overflow: hidden;
+    text-align: left;
+}
+
+.codigoWrap code{
+    font-size: 15px;
+    display: block;
+    overflow-wrap: break-word; 
+    text-overflow: clip;
+}
+
 .h1{
     margin-bottom: 15px;
     margin-top: 15px;

@@ -1,0 +1,45 @@
+.token {
+    color: #c5c8c6;
+  }
+  
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #8c8c8c;
+  }
+  
+  .token.punctuation {
+    color: #e0e0e0;
+  }
+  
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.selector,
+  .token.attr-name,
+  .token.char,
+  .token.inserted {
+    color: #0C2BA7; /* Azul para los resaltados */
+  }
+  
+  .token.function,
+  .token.class-name {
+    color: #060C65; /* Color para funciones y nombres de clases */
+  }
+  
+  .token.operator,
+  .token.keyword {
+    color: #0C2BA7;
+  }
+  
+  .token.attr-value,
+  .token.string {
+    color: #060C65; /* Color para valores de atributos y cadenas */
+  }
+  
+  pre {
+    background-color: #07021A; /* Fondo negro */
+  }
+  

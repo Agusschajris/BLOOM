@@ -10,6 +10,8 @@ import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, D
 import * as tf from '@tensorflow/tfjs';
 import { Project } from '@prisma/client';
 import Prism from 'prismjs';
+import 'prismjs/components/prism-python';
+import '/styles/prism-custom.css';
 
 type ArgValue = undefined | null | StoredArgValue;
 type StoredArgValue = number | [number, number] | [number, number, number] | string;
@@ -55,6 +57,7 @@ const Proyecto: React.FC = () => {
   let generatedCode = useRef<string>('');
   generateCode();
 
+  
   useEffect(() => {
     if (id) {
       fetch(`/api/projects/${id}`, {
@@ -64,8 +67,8 @@ const Proyecto: React.FC = () => {
           return handle404();
 
         response.json().then((project: Project) => {
-            projectName.current = project.name;
-            setCanvasBlocks((project.blocks as any as DataBlock[]).map(getFrontendBlock));
+          projectName.current = project.name;
+          setCanvasBlocks((project.blocks as any as DataBlock[]).map(getFrontendBlock));
         })
       });
     }
@@ -74,17 +77,17 @@ const Proyecto: React.FC = () => {
   function handle404() {
     // TODO: Implement project not found 404 page
   }
-
+  
   const handleClick = () => {
     router.push('/').then();
   };
-
+  
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
     if (!destination)
       return;
-
+    
     if (source.droppableId === 'blocksList' && destination.droppableId === 'canvas') {
       const newBlock = { ...data[source.index], id: `canvas-${canvasBlocks.length}` } as BlockInstance;
       setCanvasBlocks([...canvasBlocks, newBlock]);
@@ -98,27 +101,27 @@ const Proyecto: React.FC = () => {
       setCanvasBlocks(reorderedCanvasBlocks);
     }
   };
-
+  
   const handleAddCanvasElement = () => {
     setShowCanvasElements(true);
   };
-
+  
   const handleSaveArgs = (id: string, newArgs: Argument[]) => {
     setCanvasBlocks((prevBlocks) =>
       prevBlocks.map((block) =>
         block.id === id ? { ...block, args: newArgs } : block
-      )
-    );
-  };
+  )
+);
+};
 
-  function getBackendBlock(block: BlockInstance): DataBlock {
-    const args = block.args.reduce((acc, arg) => {
-      if (arg.value !== undefined && arg.value !== null) {
+function getBackendBlock(block: BlockInstance): DataBlock {
+  const args = block.args.reduce((acc, arg) => {
+    if (arg.value !== undefined && arg.value !== null) {
         acc[arg.argName] = arg.value as StoredArgValue;
       }
       return acc;
     }, {} as { [key: string]: StoredArgValue });
-
+    
     return {
       id: block.id,
       visualName: block.visualName,
@@ -126,20 +129,20 @@ const Proyecto: React.FC = () => {
       args
     };
   }
-
+  
   function getFrontendBlock(dataBlock: DataBlock): BlockInstance {
     const blockReference = data.find((block) => block.funName === dataBlock.funName) as Block;
     const rebuiltBlock = {...blockReference, id: dataBlock.id} as BlockInstance;
     rebuiltBlock.args.forEach((arg) => {
-        arg.value = dataBlock.args[arg.argName] as ArgValue;
+      arg.value = dataBlock.args[arg.argName] as ArgValue;
     });
     return rebuiltBlock;
   }
-
+  
   const generateModel = async (blockInstances: BlockInstance[]) => {
     const blocks = blockInstances.map(getBackendBlock);
     const seq = tf.sequential({ name: projectName.current });
-
+    
     blocks.forEach((block) => {
       seq.add(
         (tf.layers[block.funName as keyof typeof tf.layers] as (
@@ -147,27 +150,27 @@ const Proyecto: React.FC = () => {
         ) => tf.layers.Layer)(block.args)
       );
     });
-
+    
     // TODO: save model somewhere, then accessible in the generated code to train it or sth...
   };
-
+  
   function generateCode() {
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
-
+    
     generatedCode.current = `import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential({ name: '${projectName.current}' });\n\n`;
-
+    
     blocks.forEach((block) => {
       generatedCode.current += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`;
     });
-
+    
     generatedCode.current += "\nmodel.compile({\n  optimizer: 'sgd',\n  loss: 'meanSquaredError',\n  metrics: ['accuracy'],\n});\n";
   }
-
+  
   useEffect(generateCode, [projectName, canvasBlocks, id]);
-
+  
   useEffect(() => {
     if (!id || !projectName.current) return
-
+    
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
     fetch(`http://localhost:3000/api/projects/${id}`, {
       method: 'PUT',
@@ -177,7 +180,10 @@ const Proyecto: React.FC = () => {
       body: JSON.stringify({ blocks }),
     }).then();
   }, [canvasBlocks, id]);
-
+  useEffect(() => {
+    Prism.highlightAll(); 
+  }, [generatedCode]);
+  
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={styles.wrapper}>
@@ -251,7 +257,9 @@ const Proyecto: React.FC = () => {
 
           <aside className={styles.codigoWrap}>
             <h1 className={styles.h1}>CÓDIGO</h1>
-            <p>{generatedCode.current}</p>
+            <pre>
+              <code className="language-python">{generatedCode.current}</code>
+            </pre>
           </aside>
         </div>
       </div>
