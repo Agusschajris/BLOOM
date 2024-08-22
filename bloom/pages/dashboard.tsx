@@ -84,7 +84,7 @@ const MainPage: React.FC = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-          name: `Proyecto ${projects && projects.length > 0 ? (projects[projects.length - 1].id + 1) : "Inicial"}`,
+          name: `Proyecto ${projects.length > 0 ? projects.length + 1 : "Inicial"}`,
           datasetId: dataset
       })
     }).then(response => {
