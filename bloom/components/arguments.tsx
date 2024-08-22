@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Argument, BlockInstance } from '../pages/proyecto/[id]';
 import style from "../styles/arguments.module.scss"
+import closeSVG from "../public/close.svg"
+import ticSVG from "../public/tic.svg"
+import Image from 'next/image';
 
 interface PopupProps {
     block: BlockInstance;
@@ -37,18 +40,26 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
     <div>
       <div className={style.overlay}></div>
       <div className={style.popUp}>
-        <h2>{block.visualName}</h2>
+        <div className={style.header}>
+          <h1>{block.visualName}</h1>
+          <button className={style.cancel} onClick={onClose}>
+                    <Image src={closeSVG} alt="close" width={15} height={15} />
+          </button>
+        </div>
         {args.map((arg, index) => (
-          <div key={arg.argName}>
-            <label>{arg.visualName}</label>
+          <div className={style.argWrapper} key={arg.argName}>
+            <label className={style.argName} >{arg.visualName}</label>
             <input
+              placeholder='---'
+              className={style.input}
               type={arg.type === 'number' ? 'number' : 'text'}
               onChange={(e) => handleChange(index, e.target.value)}
             />
           </div>
         ))}
-        <button onClick={handleSave}>Save</button>
-        <button onClick={onClose}>Cancel</button>
+        <button className={style.save} onClick={handleSave}>
+          <Image src={ticSVG} alt='save' width={15} height={15}/>
+        </button>
       </div>
     </div>
   );
