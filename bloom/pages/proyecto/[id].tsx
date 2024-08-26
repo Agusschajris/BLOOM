@@ -157,13 +157,16 @@ function getBackendBlock(block: BlockInstance): DataBlock {
   function generateCode() {
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
     
-    generatedCode.current = `import * as tf from '@tensorflow/tfjs';\n\nconst model = tf.sequential({ name: '${projectName.current}' });\n\n`;
+    generatedCode.current = `import * as tf from "@tensorflow/tfjs";\n\nconst model = tf.sequential({\n  name: "${projectName.current}"\n});\n\n`;
     
     blocks.forEach((block) => {
-      generatedCode.current += `model.add(tf.layers.${block.funName}(${JSON.stringify(block.args)}));\n`;
+      generatedCode.current += `model.add(tf.layers.${block.funName}(`; //${JSON.stringify(block.args, null, 2)}));\n`;
+      if (Object.keys(block.args).length !== 0)
+        generatedCode.current += JSON.stringify(block.args, null, 2);
+      generatedCode.current += '));\n';
     });
     
-    generatedCode.current += "\nmodel.compile({\n  optimizer: 'sgd',\n  loss: 'meanSquaredError',\n  metrics: ['accuracy'],\n});\n";
+    generatedCode.current += '\nmodel.compile({\n  optimizer: "sgd",\n  loss: "meanSquaredError",\n  metrics: ["accuracy"],\n});\n';
   }
   
   useEffect(generateCode, [projectName, canvasBlocks, id]);
