@@ -1,0 +1,14 @@
+*{
+    margin: 0;
+}
+body{
+    color: #EAE9FC;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+}
+h1{
+    font-family: "Kanit", sans-serif;
+    font-weight: 300;
+    font-size: 30px;
+}
