@@ -33,7 +33,7 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
-    width: 28%;
+    width: 30%;
     padding: 8px;
     border: none;
     border-radius: 6px;
@@ -52,7 +52,8 @@
 }
 
 .sectionTwo{
-    height:50vh;
+    height:fit-content;
+    margin-bottom: 10%;
 }
 
 .sectionTwo h1{
@@ -91,11 +92,12 @@
 }
 
 .sectionThree{
-    height: 90vh;
+    height: fit-content;
     display: flex;
     margin-left: 10%;
     margin-right: 10%;
     gap: 50px;
+    margin-bottom: 10%;
 }
 
 .columnThree{
@@ -103,7 +105,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 40px;
+    gap: 30px;
 }
 
 .sectionThree h1{
@@ -116,12 +118,13 @@
 }
 
 .sectionFour{
-    height: 100vh;
+    height: fit-content;
     margin-left: 10%;
     margin-right: 10%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-bottom: 10%;
 }
 
 .sectionFour h1{
@@ -142,7 +145,7 @@
 
 .estadistica{
     width: 20%;
-    height: 400px;
+    height: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -161,5 +164,9 @@
 }
 
 .estadistica:last-child{
-    align-items: flex-end;
+    align-items: center;
+}
+
+.estadistica:last-child p{
+    margin-bottom: 15%;
 }
