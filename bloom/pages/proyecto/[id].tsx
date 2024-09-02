@@ -7,7 +7,7 @@ import Image from 'next/image';
 import homeSVG from '../../public/home.svg';
 import masSVG from '../../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
-import * as tf from '@tensorflow/tfjs';
+// import * as tf from '@tensorflow/tfjs'; comentado por vercel
 import { Project } from '@prisma/client';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
@@ -139,6 +139,7 @@ function getBackendBlock(block: BlockInstance): DataBlock {
     return rebuiltBlock;
   }
   
+  /* Comentado porque a vercel le molesta que no lo uses, descomentar cuando la uses (descomentar tambien el import de tf)
   const generateModel = async (blockInstances: BlockInstance[]) => {
     const blocks = blockInstances.map(getBackendBlock);
     const seq = tf.sequential({ name: projectName.current });
@@ -152,7 +153,7 @@ function getBackendBlock(block: BlockInstance): DataBlock {
     });
     
     // TODO: save model somewhere, then accessible in the generated code to train it or sth...
-  };
+  }; */
   
   function generateCode() {
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
