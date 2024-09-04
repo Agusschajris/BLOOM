@@ -59,11 +59,11 @@ export default function App() {
 
     <section className={style.sectionThree}>
       <div className={style.columnThree}>
-        <Image src={codigo} alt='codigo' width={700}/>
+        <Image src={codigo} alt='codigo' width={550}/>
       </div>
       <div className={style.columnThree}>
         <h1>Una herramienta mas comoda para el mundo de la Inteligencia Artificial</h1>
-        <p>Lorem ipsum dolor sit amet consectetur. Sit orci ornare eget mattis vel elit. Dictum at pharetra nibh sem enim vitae id integer felis.<br/><br/>Sem tristique felis consectetur sociis in. Arcu viverra mattis rhoncus mollis consequat sed lacus eu tincidunt.</p>
+        <p>Con el objetivo de que resulte más fácil de comprender sin la necesidad de lectura de códigos como este en la introducción.<br/><br/>Queremos dar la oportunidad a todos de aprender el increíble mundo del Machine Learning.</p>
       </div>
     </section>
 

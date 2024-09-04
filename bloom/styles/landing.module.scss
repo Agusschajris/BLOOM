@@ -103,7 +103,7 @@
 .columnThree{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 30px;
 }
@@ -161,12 +161,13 @@
 .estadistica p{
     margin-left: 5%;
     margin-right: 5%;
+    text-align: center;
 }
 
 .estadistica:last-child{
-    align-items: center;
+    align-items: flex-end;
 }
 
 .estadistica:last-child p{
-    margin-bottom: 15%;
+    margin-bottom: 4%;
 }
