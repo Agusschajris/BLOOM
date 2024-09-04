@@ -20,7 +20,7 @@ export default function App() {
     <section className={style.sectionOne}>
       <aside className={style.columnOne}>
         <Image src={logo} alt='BLOOM logo' />
-        <p>Lorem ipsum dolor sit amet Egestas consectetur volutpat iaculis proin.</p>
+        <p>Tu herramienta preferida para aprender sobre Machine Learning con una simple interfaz visual</p>
         <form action={async () => {
           "use server"
           await signIn("google", {redirectTo: "/dashboard"});
