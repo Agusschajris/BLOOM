@@ -13,11 +13,11 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
 
-type ArgValue = undefined | null | StoredArgValue;
-type StoredArgValue = boolean | number | [number, number] | [number, number, number] | string;
+export type ArgValue = undefined | null | StoredArgValue;
+export type StoredArgValue = boolean | number | [number, number] | [number, number, number] | string;
 
 interface DataBlock {
-  id: string;
+  id: number;
   visualName: string;
   funName: string;
   args: { [key: string]: StoredArgValue };
@@ -57,6 +57,7 @@ const Proyecto: React.FC = () => {
   let generatedCode = useRef<string>('');
   generateCode();
 
+  let maxBlockId = -1;
   
   useEffect(() => {
     if (id) {
@@ -79,7 +80,7 @@ const Proyecto: React.FC = () => {
   }
   
   const handleClick = () => {
-    router.push('/').then();
+    router.push('/dashboard').then();
   };
   
   const onDragEnd = (result: DropResult) => {
@@ -89,7 +90,7 @@ const Proyecto: React.FC = () => {
       return;
     
     if (source.droppableId === 'blocksList' && destination.droppableId === 'canvas') {
-      const newBlock = { ...data[source.index], id: `canvas-${canvasBlocks.length}` } as BlockInstance;
+      const newBlock = { ...data[source.index], id: `canvas-${++maxBlockId}` } as BlockInstance;
       setCanvasBlocks([...canvasBlocks, newBlock]);
     } else if (source.droppableId === 'canvas' && destination.droppableId === 'blocksList') {
       const newCanvasBlocks = canvasBlocks.filter((_, index) => index !== source.index);
@@ -108,8 +109,7 @@ const Proyecto: React.FC = () => {
   
   const handleSaveArgs = (id: string, newArgs: Argument[]) => {
     setCanvasBlocks((prevBlocks) =>
-      prevBlocks.map((block) =>
-        block.id === id ? { ...block, args: newArgs } : block
+      prevBlocks.map((block) => block.id === id ? { ...block, args: newArgs } : block
   )
 );
 };
@@ -123,7 +123,7 @@ function getBackendBlock(block: BlockInstance): DataBlock {
     }, {} as { [key: string]: StoredArgValue });
     
     return {
-      id: block.id,
+      id: Number(block.id.split("-")[1]),
       visualName: block.visualName,
       funName: block.funName,
       args
@@ -132,7 +132,8 @@ function getBackendBlock(block: BlockInstance): DataBlock {
   
   function getFrontendBlock(dataBlock: DataBlock): BlockInstance {
     const blockReference = data.find((block) => block.funName === dataBlock.funName) as Block;
-    const rebuiltBlock = {...blockReference, id: dataBlock.id} as BlockInstance;
+    const rebuiltBlock = {...blockReference, id: `canvas-${dataBlock.id}`} as BlockInstance;
+    maxBlockId = Math.max(maxBlockId, dataBlock.id);
     rebuiltBlock.args.forEach((arg) => {
       arg.value = dataBlock.args[arg.argName] as ArgValue;
     });

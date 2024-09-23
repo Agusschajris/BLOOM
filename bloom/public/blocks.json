@@ -109,7 +109,7 @@
                 "default": null
             },
             {
-                "visualName": "Bias Initializer",
+                "visualName": "Bias Constraint",
                 "exp": "Constraint for the bias vector.",
                 "argName": "biasConstraint",
                 "type": "select",
@@ -151,12 +151,14 @@
         "visualName": "Flatten",
         "exp": "Flattens the input to 1D. Does not affect the batch size.",
         "category": "Basic",
+        "funName": "flatten",
         "args": []
     },
     {
         "visualName": "1D Convolution",
         "exp": "This layer creates a convolution kernel that is convolved with the layer input over a single spatial (or temporal) dimension to produce a tensor of outputs.",
         "category": "Convolution",
+        "funName": "conv1d",
         "args": [
             {
                 "visualName": "Filters",
@@ -293,6 +295,7 @@
         "visualName": "2D Convolution",
         "exp": "This layer creates a convolution kernel that is convolved with the layer input to produce a tensor of outputs.",
         "category": "Convolution",
+        "funName": "conv2d",
         "args": [
             {
                 "visualName": "Filters",
@@ -429,6 +432,7 @@
         "visualName": "2D Deconvolution",
         "exp": "The need for transposed convolutions generally arises from the desire to use a transformation going in the opposite direction of a normal convolution, i.e., from something that has the shape of the output of some convolution to something that has the shape of its input while maintaining a connectivity pattern that is compatible with said convolution.",
         "category": "Convolution",
+        "funName": "conv2dTranspose",
         "args": [
             {
                 "visualName": "Filters",
@@ -565,6 +569,7 @@
         "visualName": "3D Convolution",
         "exp": "This layer creates a convolution kernel that is convolved with the layer input to produce a tensor of outputs.",
         "category": "Convolution",
+        "funName": "conv3d",
         "args": [
             {
                 "visualName": "Filters",
@@ -803,25 +808,29 @@
         "visualName": "1D Global Average Pooling",
         "exp": "Global average pooling operation for temporal data.",
         "category": "Pooling",
-        "funName": "globalAveragePooling1d"
+        "funName": "globalAveragePooling1d",
+        "args": []
     },
     {
         "visualName": "2D Global Average Pooling",
         "exp": "Global average pooling operation for spatial data.",
         "category": "Pooling",
-        "funName": "globalAveragePooling2d"
+        "funName": "globalAveragePooling2d",
+        "args": []
     },
     {
         "visualName": "1D Global Max Pooling",
         "exp": "Global max pooling operation for temporal data.",
         "category": "Pooling",
-        "funName": "globalMaxPooling1d"
+        "funName": "globalMaxPooling1d",
+        "args": []
     },
     {
         "visualName": "2D Global Max Pooling",
         "exp": "Global max pooling operation for spatial data.",
         "category": "Pooling",
-        "funName": "globalMaxPooling1d"
+        "funName": "globalMaxPooling1d",
+        "args": []
     },
     {
         "visualName": "1D Max Pooling",
