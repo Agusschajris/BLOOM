@@ -20,6 +20,12 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
         }
     };
 
+    const onDatasetClick = (dataset: number) => {
+        setSelectedDataset(dataset);
+        setSelectedFiles(null);
+        setSelectedButton(dataset);
+    };
+
     return (
         <>
             <div className={popupStyle.overlay} onClick={onCancel} />
@@ -33,21 +39,18 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
                             <p className={popupStyle.nombre}>Predeterminados</p>
                         </div>
                         <div className={popupStyle.predeterminados}>
-                            <button className={`${popupStyle.btn} ${selectedButton === 1 ? popupStyle.clicked : ''}`} onClick={() => {
-                                setSelectedDataset(1);
-                                setSelectedFiles(null);
-                                setSelectedButton(1);
-                            }}>DataSet 1</button>
-                            <button className={`${popupStyle.btn} ${selectedButton === 2 ? popupStyle.clicked : ''}`} onClick={() => {
-                                setSelectedDataset(2);
-                                setSelectedFiles(null);
-                                setSelectedButton(2);
-                            }}>DataSet 2</button>
-                            <button className={`${popupStyle.btn} ${selectedButton === 3 ? popupStyle.clicked : ''}`} onClick={() => {
-                                setSelectedDataset(3);
-                                setSelectedFiles(null);
-                                setSelectedButton(3);
-                            }}>DataSet 3</button>
+                            <button
+                              className={`${popupStyle.btn} ${selectedButton === 1 ? popupStyle.clicked : ''}`}
+                              onClick={() => onDatasetClick(1)}
+                            >DataSet 1</button>
+                            <button
+                              className={`${popupStyle.btn} ${selectedButton === 2 ? popupStyle.clicked : ''}`}
+                              onClick={() => onDatasetClick(2)}
+                            >DataSet 2</button>
+                            <button
+                              className={`${popupStyle.btn} ${selectedButton === 3 ? popupStyle.clicked : ''}`}
+                              onClick={() => onDatasetClick(3)}
+                            >DataSet 3</button>
                         </div>
                     </div>
 
