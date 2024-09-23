@@ -20,6 +20,14 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
     setArgs(newArgs);
   };
 
+  const handleVectorChange = (index: number, value: any, i: number) => {
+    const newArgs = [...args];
+    if (!newArgs[index].value)
+      newArgs[index].value = newArgs[index].type === '[number, number]' ? [0, 0] : [0, 0, 0];
+    (newArgs[index].value as [number, number]|[number, number, number])[i] = value;
+    setArgs(newArgs);
+  };
+
   const handleSave = () => {
     const isValid = args.every(arg => {
       if (arg.type === 'number') {
@@ -61,15 +69,23 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
                     <option value={value ?? ''} key={i}>{value ?? 'null'}</option>
                   ))}
                 </select>
-              ) : (
+              ) : arg.type.startsWith('[') ? arg.type.split(",").map((_, i) => (
+                <input
+                  placeholder='-'
+                  className={style.input}
+                  type='number'
+                  onChange={(e) => handleVectorChange(index, e.target.value, i)}
+                />
+              )) : (
                 <input
                   placeholder='---'
                   className={style.input}
                   type={arg.type}
                   onChange={(e) => handleChange(index, e.target.value)}
-                  value={arg.type !== 'checkbox' ? arg.default as undefined|null|string|number ?? '' : ''}
-                  checked={arg.default as boolean|null ?? false}
-                />)
+                  value={arg.type !== 'checkbox' ? arg.default as undefined|null|string|number ?? '' : undefined}
+                  checked={arg.type === 'checkbox' ? (arg.default as boolean | null) ?? false : undefined}
+                />
+              )
             }
           </div>
         ))}
