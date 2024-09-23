@@ -14,7 +14,7 @@ import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
 
 type ArgValue = undefined | null | StoredArgValue;
-type StoredArgValue = number | [number, number] | [number, number, number] | string;
+type StoredArgValue = boolean | number | [number, number] | [number, number, number] | string;
 
 interface DataBlock {
   id: string;
