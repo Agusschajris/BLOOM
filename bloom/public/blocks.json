@@ -16,7 +16,7 @@
                 "visualName": "Activation",
                 "exp": "Activation function to use.",
                 "argName": "activation",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "elu",
                     "hardSigmoid",
@@ -41,14 +41,14 @@
                 "visualName": "Use Bias",
                 "exp": "Whether to apply a bias.",
                 "argName": "useBias",
-                "type": "boolean",
+                "type": "checkbox",
                 "default": false
             },
             {
                 "visualName": "Kernel Initializer",
                 "exp": "Initializer for the dense kernel weights matrix.",
                 "argName": "kernelInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -73,7 +73,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Initializer for the bias vector.",
                 "argName": "biasInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -98,7 +98,7 @@
                 "visualName": "Kernel Constraint",
                 "exp": "Constraint for the kernel weights.",
                 "argName": "kernelConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -112,7 +112,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Constraint for the bias vector.",
                 "argName": "biasConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -134,7 +134,7 @@
                 "visualName": "Rate",
                 "exp": "Fraction of the input units to drop.",
                 "argName": "rate",
-                "type": "number",
+                "type": "range",
                 "values": "%"
             },
             {
@@ -168,7 +168,7 @@
                 "visualName": "Padding",
                 "exp": "Padding mode.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
@@ -181,7 +181,7 @@
                 "visualName": "Activation",
                 "exp": "Activation function to use.",
                 "argName": "activation",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "elu",
                     "hardSigmoid",
@@ -206,14 +206,14 @@
                 "visualName": "Use Bias",
                 "exp": "Whether to apply a bias.",
                 "argName": "useBias",
-                "type": "boolean",
+                "type": "checkbox",
                 "default": true
             },
             {
                 "visualName": "Kernel Initializer",
                 "exp": "Initializer for the dense kernel weights matrix.",
                 "argName": "kernelInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -238,7 +238,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Initializer for the bias vector.",
                 "argName": "biasInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -263,7 +263,7 @@
                 "visualName": "Kernel Constraint",
                 "exp": "Constraint for the kernel weights.",
                 "argName": "kernelConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -277,7 +277,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Constraint for the bias vector.",
                 "argName": "biasConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -304,7 +304,7 @@
                 "visualName": "Padding",
                 "exp": "Padding mode.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
@@ -317,7 +317,7 @@
                 "visualName": "Activation",
                 "exp": "Activation function to use.",
                 "argName": "activation",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "elu",
                     "hardSigmoid",
@@ -342,14 +342,14 @@
                 "visualName": "Use Bias",
                 "exp": "Whether to apply a bias.",
                 "argName": "useBias",
-                "type": "boolean",
+                "type": "checkbox",
                 "default": true
             },
             {
                 "visualName": "Kernel Initializer",
                 "exp": "Initializer for the dense kernel weights matrix.",
                 "argName": "kernelInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -374,7 +374,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Initializer for the bias vector.",
                 "argName": "biasInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -399,7 +399,7 @@
                 "visualName": "Kernel Constraint",
                 "exp": "Constraint for the kernel weights.",
                 "argName": "kernelConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -413,7 +413,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Constraint for the bias vector.",
                 "argName": "biasConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -440,7 +440,7 @@
                 "visualName": "Padding",
                 "exp": "Padding mode.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
@@ -453,7 +453,7 @@
                 "visualName": "Activation",
                 "exp": "Activation function to use.",
                 "argName": "activation",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "elu",
                     "hardSigmoid",
@@ -478,14 +478,14 @@
                 "visualName": "Use Bias",
                 "exp": "Whether to apply a bias.",
                 "argName": "useBias",
-                "type": "boolean",
+                "type": "checkbox",
                 "default": true
             },
             {
                 "visualName": "Kernel Initializer",
                 "exp": "Initializer for the dense kernel weights matrix.",
                 "argName": "kernelInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -510,7 +510,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Initializer for the bias vector.",
                 "argName": "biasInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -535,7 +535,7 @@
                 "visualName": "Kernel Constraint",
                 "exp": "Constraint for the kernel weights.",
                 "argName": "kernelConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -549,7 +549,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Constraint for the bias vector.",
                 "argName": "biasConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -576,7 +576,7 @@
                 "visualName": "Padding",
                 "exp": "Padding mode.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
@@ -589,7 +589,7 @@
                 "visualName": "Activation",
                 "exp": "Activation function to use.",
                 "argName": "activation",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "elu",
                     "hardSigmoid",
@@ -614,14 +614,14 @@
                 "visualName": "Use Bias",
                 "exp": "Whether to apply a bias.",
                 "argName": "useBias",
-                "type": "boolean",
+                "type": "checkbox",
                 "default": true
             },
             {
                 "visualName": "Kernel Initializer",
                 "exp": "Initializer for the dense kernel weights matrix.",
                 "argName": "kernelInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -646,7 +646,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Initializer for the bias vector.",
                 "argName": "biasInitializer",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "constant",
                     "glorotNormal",
@@ -671,7 +671,7 @@
                 "visualName": "Kernel Constraint",
                 "exp": "Constraint for the kernel weights.",
                 "argName": "kernelConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -685,7 +685,7 @@
                 "visualName": "Bias Initializer",
                 "exp": "Constraint for the bias vector.",
                 "argName": "biasConstraint",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "maxNorm",
                     "minMaxNorm",
@@ -722,7 +722,7 @@
                 "visualName": "Padding",
                 "exp": "How to fill in data that's not an integer multiple of poolSize.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
@@ -756,7 +756,7 @@
                 "visualName": "Padding",
                 "exp": "How to fill in data that's not an integer multiple of poolSize.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
@@ -790,7 +790,7 @@
                 "visualName": "Padding",
                 "exp": "How to fill in data that's not an integer multiple of poolSize.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
@@ -848,7 +848,7 @@
                 "visualName": "Padding",
                 "exp": "How to fill in data that's not an integer multiple of poolSize.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
@@ -882,7 +882,7 @@
                 "visualName": "Padding",
                 "exp": "How to fill in data that's not an integer multiple of poolSize.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
@@ -916,7 +916,7 @@
                 "visualName": "Padding",
                 "exp": "How to fill in data that's not an integer multiple of poolSize.",
                 "argName": "padding",
-                "type": "string",
+                "type": "select",
                 "values": [
                     "valid",
                     "same",
