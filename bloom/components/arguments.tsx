@@ -63,7 +63,7 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
                   className={style.input}
                   required={null !in (arg.values as (string | null)[])}
                   onChange={(e) => handleChange(index, e.target.value)}
-                  //value={(arg.default as string|null) ?? ''}
+                  value={((arg.default !== undefined && arg.value === undefined) ? arg.default : arg.value) as string|null ?? ''}
                 >
                   {(arg.values! as (string | null)[]).map((value, i) => (
                     <option value={value ?? ''} key={i}>{value ?? 'null'}</option>
@@ -81,7 +81,7 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
                   placeholder='---'
                   className={style.input}
                   type={arg.type}
-                  onChange={(e) => handleChange(index, e.target.value)}
+                  onChange={(e) => handleChange(index, arg.type !== 'checkbox' ? e.target.value : e.target.checked)}
                   value={arg.type === 'checkbox' ? undefined : (arg.default !== undefined && arg.value === undefined ? arg.default : arg.value) as undefined|string|number}
                   checked={arg.type !== 'checkbox' ? undefined : (arg.value === undefined ? arg.default : arg.value) as boolean}
                 />
