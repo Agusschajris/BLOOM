@@ -56,8 +56,6 @@ const Proyecto: React.FC = () => {
   let projectName = useRef<string>('');
   let generatedCode = useRef<string>('');
   generateCode();
-
-  let maxBlockId = -1;
   
   useEffect(() => {
     if (id) {
@@ -90,7 +88,8 @@ const Proyecto: React.FC = () => {
       return;
     
     if (source.droppableId === 'blocksList' && destination.droppableId === 'canvas') {
-      const newBlock = { ...data[source.index], id: `canvas-${++maxBlockId}` } as BlockInstance;
+      const cloneBlock = structuredClone(data[source.index]) as Block;
+      const newBlock = { ...cloneBlock, id: `canvas-${Date.now()}` } as BlockInstance;
       setCanvasBlocks([...canvasBlocks, newBlock]);
     } else if (source.droppableId === 'canvas' && destination.droppableId === 'blocksList') {
       const newCanvasBlocks = canvasBlocks.filter((_, index) => index !== source.index);
@@ -107,12 +106,10 @@ const Proyecto: React.FC = () => {
     setShowCanvasElements(true);
   };
   
-  const handleSaveArgs = (id: string, newArgs: Argument[]) => {
-    setCanvasBlocks((prevBlocks) =>
-      prevBlocks.map((block) => block.id === id ? { ...block, args: newArgs } : block
-  )
-);
-};
+  const handleSaveArgs = (index: number, newArgs: Argument[]) => setCanvasBlocks((prevBlocks) => {
+    prevBlocks[index].args = newArgs;
+    return [...prevBlocks];
+  });
 
 function getBackendBlock(block: BlockInstance): DataBlock {
   const args = block.args.reduce((acc, arg) => {
@@ -131,9 +128,8 @@ function getBackendBlock(block: BlockInstance): DataBlock {
   }
   
   function getFrontendBlock(dataBlock: DataBlock): BlockInstance {
-    const blockReference = data.find((block) => block.funName === dataBlock.funName) as Block;
+    const blockReference = structuredClone(data.find((block) => block.funName === dataBlock.funName)) as Block;
     const rebuiltBlock = {...blockReference, id: `canvas-${dataBlock.id}`} as BlockInstance;
-    maxBlockId = Math.max(maxBlockId, dataBlock.id);
     rebuiltBlock.args.forEach((arg) => {
       arg.value = dataBlock.args[arg.argName] as ArgValue;
     });
@@ -245,7 +241,7 @@ function getBackendBlock(block: BlockInstance): DataBlock {
                                 block={block}
                                 isInBlockList={false}
                                 isInCanvas={true}
-                                onSave={(newArgs) => handleSaveArgs(block.id, newArgs)}
+                                onSave={(newArgs) => handleSaveArgs(index, newArgs)}
                               />
                             </div>
                           )}
