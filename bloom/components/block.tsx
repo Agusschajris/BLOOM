@@ -24,7 +24,7 @@ const Bloque: React.FC<BloqueProps> = ({ block, isInBlockList, isInCanvas, onSav
     <div className={style.container}>
       <div className={style.bloque}>
         <p className={style.name}>{block.visualName}</p>
-        {isInCanvas && (
+        {isInCanvas && block.args.length > 0 && (
           <button className={style.mas} onClick={handleMoreClick}>
             <Image src={masSVG} alt="more" width={15} height={15} />
           </button>

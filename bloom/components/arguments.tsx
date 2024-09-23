@@ -33,7 +33,7 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
       if (arg.type === 'number') {
         return !isNaN(Number(arg.value));
       }
-      return true;
+      return arg.default !== undefined || arg.value !== undefined;
     });
         
     if (isValid) {
@@ -63,7 +63,7 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
                   className={style.input}
                   required={null !in (arg.values as (string | null)[])}
                   onChange={(e) => handleChange(index, e.target.value)}
-                  value={(arg.default as string|null) ?? ''}
+                  //value={(arg.default as string|null) ?? ''}
                 >
                   {(arg.values! as (string | null)[]).map((value, i) => (
                     <option value={value ?? ''} key={i}>{value ?? 'null'}</option>
@@ -82,8 +82,8 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
                   className={style.input}
                   type={arg.type}
                   onChange={(e) => handleChange(index, e.target.value)}
-                  value={arg.type !== 'checkbox' ? arg.default as undefined|null|string|number ?? '' : undefined}
-                  checked={arg.type === 'checkbox' ? (arg.default as boolean | null) ?? false : undefined}
+                  value={arg.type === 'checkbox' ? undefined : (arg.default !== undefined && arg.value === undefined ? arg.default : arg.value) as undefined|string|number}
+                  checked={arg.type !== 'checkbox' ? undefined : (arg.value === undefined ? arg.default : arg.value) as boolean}
                 />
               )
             }

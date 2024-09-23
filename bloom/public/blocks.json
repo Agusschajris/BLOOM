@@ -18,6 +18,7 @@
                 "argName": "activation",
                 "type": "select",
                 "values": [
+                    null,
                     "elu",
                     "hardSigmoid",
                     "linear",
@@ -32,8 +33,7 @@
                     "swish",
                     "mish",
                     "gelu",
-                    "gelu_new",
-                    null
+                    "gelu_new"
                 ],
                 "default": null
             },
@@ -50,6 +50,7 @@
                 "argName": "kernelInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -64,8 +65,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -75,6 +75,7 @@
                 "argName": "biasInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -89,8 +90,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -100,11 +100,11 @@
                 "argName": "kernelConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             },
@@ -114,11 +114,11 @@
                 "argName": "biasConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             }
@@ -170,10 +170,10 @@
                 "argName": "padding",
                 "type": "select",
                 "values": [
+                    null,
                     "valid",
                     "same",
-                    "casual",
-                    null
+                    "casual"
                 ],
                 "default": null
             },
@@ -183,6 +183,7 @@
                 "argName": "activation",
                 "type": "select",
                 "values": [
+                    null,
                     "elu",
                     "hardSigmoid",
                     "linear",
@@ -197,8 +198,7 @@
                     "swish",
                     "mish",
                     "gelu",
-                    "gelu_new",
-                    null
+                    "gelu_new"
                 ],
                 "default": null
             },
@@ -215,6 +215,7 @@
                 "argName": "kernelInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -229,8 +230,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -240,6 +240,7 @@
                 "argName": "biasInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -254,8 +255,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -265,11 +265,11 @@
                 "argName": "kernelConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             },
@@ -279,11 +279,11 @@
                 "argName": "biasConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             }
@@ -306,10 +306,10 @@
                 "argName": "padding",
                 "type": "select",
                 "values": [
+                    null,
                     "valid",
                     "same",
-                    "casual",
-                    null
+                    "casual"
                 ],
                 "default": null
             },
@@ -319,6 +319,7 @@
                 "argName": "activation",
                 "type": "select",
                 "values": [
+                    null,
                     "elu",
                     "hardSigmoid",
                     "linear",
@@ -333,8 +334,7 @@
                     "swish",
                     "mish",
                     "gelu",
-                    "gelu_new",
-                    null
+                    "gelu_new"
                 ],
                 "default": null
             },
@@ -351,6 +351,7 @@
                 "argName": "kernelInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -365,8 +366,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -376,6 +376,7 @@
                 "argName": "biasInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -390,8 +391,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -401,11 +401,11 @@
                 "argName": "kernelConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             },
@@ -415,11 +415,11 @@
                 "argName": "biasConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             }
@@ -442,10 +442,10 @@
                 "argName": "padding",
                 "type": "select",
                 "values": [
+                    null,
                     "valid",
                     "same",
-                    "casual",
-                    null
+                    "casual"
                 ],
                 "default": null
             },
@@ -455,6 +455,7 @@
                 "argName": "activation",
                 "type": "select",
                 "values": [
+                    null,
                     "elu",
                     "hardSigmoid",
                     "linear",
@@ -469,8 +470,7 @@
                     "swish",
                     "mish",
                     "gelu",
-                    "gelu_new",
-                    null
+                    "gelu_new"
                 ],
                 "default": null
             },
@@ -487,6 +487,7 @@
                 "argName": "kernelInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -501,8 +502,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -512,6 +512,7 @@
                 "argName": "biasInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -526,8 +527,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -537,11 +537,11 @@
                 "argName": "kernelConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             },
@@ -551,11 +551,11 @@
                 "argName": "biasConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             }
@@ -578,10 +578,10 @@
                 "argName": "padding",
                 "type": "select",
                 "values": [
+                    null,
                     "valid",
                     "same",
-                    "casual",
-                    null
+                    "casual"
                 ],
                 "default": null
             },
@@ -591,6 +591,7 @@
                 "argName": "activation",
                 "type": "select",
                 "values": [
+                    null,
                     "elu",
                     "hardSigmoid",
                     "linear",
@@ -605,8 +606,7 @@
                     "swish",
                     "mish",
                     "gelu",
-                    "gelu_new",
-                    null
+                    "gelu_new"
                 ],
                 "default": null
             },
@@ -623,6 +623,7 @@
                 "argName": "kernelInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -637,8 +638,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -648,6 +648,7 @@
                 "argName": "biasInitializer",
                 "type": "select",
                 "values": [
+                    null,
                     "constant",
                     "glorotNormal",
                     "glorotUniform",
@@ -662,8 +663,7 @@
                     "randomUniform",
                     "truncatedNormal",
                     "varianceScaling",
-                    "zeros",
-                    null
+                    "zeros"
                 ],
                 "default": null
             },
@@ -673,11 +673,11 @@
                 "argName": "kernelConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             },
@@ -687,11 +687,11 @@
                 "argName": "biasConstraint",
                 "type": "select",
                 "values": [
+                    null,
                     "maxNorm",
                     "minMaxNorm",
                     "nonNeg",
-                    "unitNorm",
-                    null
+                    "unitNorm"
                 ],
                 "default": null
             }
@@ -741,14 +741,14 @@
                 "visualName": "Pool Size",
                 "exp": "Factors by which to downscale in each dimension [vertical, horizontal].",
                 "argName": "poolSize",
-                "type": "number[2]",
+                "type": "[number, number]",
                 "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
                 "argName": "strides",
-                "type": "number[2]",
+                "type": "[number, number]",
                 "values": "Z",
                 "default": null
             },
@@ -775,14 +775,14 @@
                 "visualName": "Pool Size",
                 "exp": "Factors by which to downscale in each dimension [depth, height, width].",
                 "argName": "poolSize",
-                "type": "number[3]",
+                "type": "[number, number, number]",
                 "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
                 "argName": "strides",
-                "type": "number[3]",
+                "type": "[number, number, number]",
                 "values": "Z",
                 "default": null
             },
@@ -867,14 +867,14 @@
                 "visualName": "Pool Size",
                 "exp": "Factors by which to downscale in each dimension [vertical, horizontal].",
                 "argName": "poolSize",
-                "type": "number[2]",
+                "type": "[number, number]",
                 "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
                 "argName": "strides",
-                "type": "number[2]",
+                "type": "[number, number]",
                 "values": "Z",
                 "default": null
             },
@@ -901,14 +901,14 @@
                 "visualName": "Pool Size",
                 "exp": "Factors by which to downscale in each dimension [depth, height, width].",
                 "argName": "poolSize",
-                "type": "number[3]",
+                "type": "[number, number, number]",
                 "values": "Z"
             },
             {
                 "visualName": "Strides",
                 "exp": "The size of the stride in each dimension of the pooling window. If null, defaults to poolSize.",
                 "argName": "strides",
-                "type": "number[3]",
+                "type": "[number, number, number]",
                 "values": "Z",
                 "default": null
             },
