@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Argument, BlockInstance } from '../pages/proyecto/[id]';
+import {Argument, ArgValue, BlockInstance} from '../pages/proyecto/[id]';
 import style from "../styles/arguments.module.scss"
 import closeSVG from "../public/close.svg"
 import ticSVG from "../public/tic.svg"
@@ -14,8 +14,12 @@ interface PopupProps {
 const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
   const [args, setArgs] = useState<Argument[]>(block.args);
 
-  const handleChange = (index: number, value: any) => {
+  const handleChange = (index: number, value: ArgValue) => {
     const newArgs = [...args];
+    if (newArgs[index].values === 'N' || newArgs[index].values === 'Z')
+      value = Math.floor(value as number);
+    else if (value === '')
+      value = null;
     newArgs[index].value = value;
     setArgs(newArgs);
   };
@@ -84,6 +88,9 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
                   onChange={(e) => handleChange(index, arg.type !== 'checkbox' ? e.target.value : e.target.checked)}
                   value={arg.type === 'checkbox' ? undefined : (arg.default !== undefined && arg.value === undefined ? arg.default : arg.value) as undefined|string|number}
                   checked={arg.type !== 'checkbox' ? undefined : (arg.value === undefined ? arg.default : arg.value) as boolean}
+                  min={arg.values === 'N' ? 1 : arg.type === 'range' ? 0 : undefined}
+                  step={(arg.values === 'N' || arg.values === 'Z') ? 1 : undefined}
+                  max={arg.values === '%' ? 1 : undefined}
                 />
               )
             }
