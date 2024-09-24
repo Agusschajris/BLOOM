@@ -5,16 +5,13 @@ import { promisify } from 'node:util';
 //import { auth } from '../../../../auth';
 //import { Session } from 'node:inspector';
 
-const gzip = promisify(_gzip);
-const gunzip = promisify(_gunzip);
-
 // Obtener una clase de un usuario en específico
 export async function GET(request: Request, { params } : { params: { id: string }}) {
     /*const session = await auth();
     if (session !instanceof Session)
         return new Response("Not authenticated.", { status: 403 });*/
 
-    const clase: Clase | null = await prisma.project.findUnique({
+    const clase: Clase | null = await prisma.clase.findUnique({
         where: {
             ownerId: request.headers.get("auth-js-id")!, //session?.user?.id,
             id: Number(params.id),
