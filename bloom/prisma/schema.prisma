@@ -34,8 +34,8 @@ model User {
 
   // Custom
   projects             Project[]
-  classes              Class[]       @relation("UserClasses")
-  createdClasses       Class[]       @relation("OwnerClasses")
+  clases               Clase[]       @relation("UserClases")
+  createdClases        Clase[]       @relation("OwnerClases")
   datasets             Dataset[]
 }
 
@@ -106,20 +106,20 @@ model Project {
   datasetId         Int
 }
 
-model Class {
+model Clase {
   id                Int           @id @default(autoincrement())
   name              String
-  owner             User          @relation("OwnerClasses", fields: [ownerId], references: [id])
+  owner             User          @relation("OwnerClases", fields: [ownerId], references: [id])
   ownerId           String
-  users             User[]        @relation("UserClasses")
+  users             User[]        @relation("UserClases")
   activities        Activity[]
 }
 
 model Activity {
   id                Int           @id @default(autoincrement())
   name              String
-  class             Class?        @relation(fields: [classId], references: [id])
-  classId           Int?
+  clase             Clase?        @relation(fields: [claseId], references: [id])
+  claseId           Int?
   creationDate      DateTime      @default(now())
   lastEdited        DateTime?     @default(now()) @updatedAt
   blocks            Bytes

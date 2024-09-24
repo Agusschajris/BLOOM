@@ -33,7 +33,7 @@ export async function GET(request: Request, { params } : { params: { id: string 
     return new Response(JSON.stringify(project), { status: 200 });
 }
 
-// Buscar el proyecto por su ID
+// Updatear proyecto
 export async function PUT(request: Request, { params } : { params: { id: string }}) {
     /*const session = await auth();
     if (session !instanceof Session)
