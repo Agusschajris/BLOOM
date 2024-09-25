@@ -1,0 +1,67 @@
+//import { auth } from "../../../auth";
+import { gzip as _gzip } from 'node:zlib';
+import { promisify } from 'node:util';
+//import { Session } from "node:inspector";
+import prisma from "../../../../../lib/prisma";
+// import {NextRequest} from "next/server";
+
+const gzip = promisify(_gzip);
+
+// Obtener todas las actividades de una clase determinada
+export async function GET(request: Request, { params } : { params: { id: string }}) {
+    /*const session = await auth();
+    if (session !instanceof Session)
+        return new Response("Not authenticated.", { status: 403 });*/
+
+    let orderBy = {};
+    const url = new URL(request.url);
+
+    const defaultOrAsc = url.searchParams.get("orderDirection") ?? 'asc';
+    const defaultOrDesc = url.searchParams.get("orderDirection") ?? 'desc';
+
+    // Verificar el valor del parámetro orderBy que envía el front
+    switch (url.searchParams.get("orderBy")) {
+        case 'alphabetic': // Orden alfabético
+            orderBy = { name: defaultOrAsc };
+            break;
+        case 'creationDate':
+            orderBy = { creationDate: defaultOrDesc };
+            break;
+        case 'lastEdited':
+            orderBy = { lastEdited: defaultOrDesc };
+            break;
+        default: // Por defecto, se ordena por el último editado
+            orderBy = { lastEdited: 'desc' };
+    }
+
+    const activities = await prisma.activity.findMany({
+        where: {
+            claseId: Number(params.id),
+        },
+        orderBy,
+    });
+    return new Response(JSON.stringify(activities), { status: 200 });
+}
+
+// Crear una nueva actividad
+export async function POST(request: Request, { params }: { params: { id: string }}) {
+    const { name, datasets, task} = await request.json();
+    if (!name || !task)
+        return new Response("Falta información para crear una actividad.", { status: 400 })
+    if (typeof name !== 'string' || typeof task !== 'string')
+        return new Response("Datos inválidos.", { status: 400 })
+
+    const newActivity = await prisma.activity.create({
+        data: {
+            name,
+            claseId: Number(params.id),
+            datasets: {
+                connect: datasets.map((datasetId: number) => ({ id: datasetId })),
+            },
+            task,
+            blocks: await gzip('[]'),
+        },
+    });
+
+    return new Response(JSON.stringify(newActivity), { status: 201 });
+}

@@ -123,6 +123,7 @@ model Activity {
   creationDate      DateTime      @default(now())
   lastEdited        DateTime?     @default(now()) @updatedAt
   blocks            Bytes
+  task              String?
   datasets          Dataset[]
 }
 
