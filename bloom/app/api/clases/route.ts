@@ -29,13 +29,13 @@ export async function GET(request: NextRequest) {
             orderBy = { lastEdited: 'desc' };
     }
 
-    const classes = await prisma.class.findMany({
+    const clases = await prisma.clase.findMany({
         where: {
             ownerId: request.headers.get("auth-js-id")!, //session!.user!.id,
         },
         orderBy,
     });
-    return new Response(JSON.stringify(classes), { status: 200 });
+    return new Response(JSON.stringify(clases), { status: 200 });
 }
 
 // Crear nueva clase
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     if (typeof name !== 'string')
         return new Response("Datos inválidos.", { status: 400 })
 
-    const newClass = await prisma.class.create({
+    const newClase = await prisma.clase.create({
         data: {
             name,
             ownerId: request.headers.get("auth-js-id")!, //session!.user!.id!, //project.ownerId,
@@ -58,5 +58,5 @@ export async function POST(request: Request) {
             users: {},
         },
     });
-    return new Response(JSON.stringify(newClass), { status: 201 });
+    return new Response(JSON.stringify(newClase), { status: 201 });
 }

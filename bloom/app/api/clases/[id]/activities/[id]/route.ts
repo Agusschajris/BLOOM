@@ -9,10 +9,15 @@ const gzip = promisify(_gzip);
 const gunzip = promisify(_gunzip);
 
 // Obtener una actividad de una clase en específico
-export async function GET({ params } : { params: { id: string; claseId: string }}) {
+export async function GET(request: Request, { params } : { params: { id: string; claseId: string }}) {
     /*const session = await auth();
     if (session !instanceof Session)
         return new Response("Not authenticated.", { status: 403 });*/
+
+    const authId = request.headers.get("auth-js-id");
+    if (!authId) {
+        return new Response("Authorization ID is missing.", { status: 400 });
+    }
 
     const activity: Activity | null = await prisma.activity.findUnique({
         where: {
@@ -30,6 +35,16 @@ export async function GET({ params } : { params: { id: string; claseId: string }
         return new Response("Activity does not belong to this class.", { status: 403 });
     }
 
+    // Verifico que soy el dueño de la clase
+    const clase = await prisma.clase.findUnique({
+        where: { id: Number(params.id) },
+        select: { ownerId: true }
+    });
+
+    if (!clase || clase.ownerId !== authId) {
+        return new Response("You do not own this class.", { status: 403 });
+    }
+
     if (activity.blocks) {
         const gunzippedBlocks = await gunzip(activity.blocks);
         console.log(gunzippedBlocks.toString()); // DEBUG
@@ -44,6 +59,11 @@ export async function PUT(request: Request, { params } : { params: { id: string;
     /*const session = await auth();
     if (session !instanceof Session)
         return new Response("Not authenticated.", { status: 403 });*/
+
+    const authId = request.headers.get("auth-js-id");
+    if (!authId) {
+        return new Response("Authorization ID is missing.", { status: 400 });
+    }
 
     let { name, task, blocks } = await request.json();
     const data: Prisma.ActivityUpdateInput = {};
@@ -62,6 +82,16 @@ export async function PUT(request: Request, { params } : { params: { id: string;
 
     if (existingActivity.claseId !== Number(params.claseId)) {
         return new Response("Activity does not belong to this class.", { status: 403 });
+    }
+
+    // Verifico que el usuario es el dueño de la clase
+    const clase = await prisma.clase.findUnique({
+        where: { id: Number(params.claseId) },
+        select: { ownerId: true },
+    });
+
+    if (!clase || clase.ownerId !== authId) {
+        return new Response("Unauthorized: You do not own this class.", { status: 403 });
     }
 
     if (name)
@@ -84,10 +114,15 @@ export async function PUT(request: Request, { params } : { params: { id: string;
 }
 
 // Eliminar una actividad
-export async function DELETE({ params } : { params: { id: string; claseId: string }}) {
+export async function DELETE(request: Request, { params } : { params: { id: string; claseId: string }}) {
     /*const session = await auth();
     if (session !instanceof Session)
         return new Response("Not authenticated.", { status: 403 });*/
+
+    const authId = request.headers.get("auth-js-id");
+    if (!authId) {
+        return new Response("Authorization ID is missing.", { status: 400 });
+    }
 
     const deletedActivity = await prisma.activity.delete({
         where: {
@@ -103,6 +138,16 @@ export async function DELETE({ params } : { params: { id: string; claseId: strin
 
     if (deletedActivity.claseId !== Number(params.claseId)) {
         return new Response("Activity does not belong to this class.", { status: 403 });
+    }
+
+    // Verifico que el usuario es el dueño de la clase
+    const clase = await prisma.clase.findUnique({
+        where: { id: Number(params.claseId) },
+        select: { ownerId: true },
+    });
+
+    if (!clase || clase.ownerId !== authId) {
+        return new Response("Unauthorized: You do not own this class.", { status: 403 });
     }
 
     return new Response(JSON.stringify(deletedActivity), { status: 200 });

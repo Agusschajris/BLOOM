@@ -13,6 +13,11 @@ export async function GET(request: Request, { params } : { params: { id: string 
     if (session !instanceof Session)
         return new Response("Not authenticated.", { status: 403 });*/
 
+    const authId = request.headers.get("auth-js-id");
+    if (!authId) {
+        return new Response("Authorization ID is missing.", { status: 400 });
+    }
+
     let orderBy = {};
     const url = new URL(request.url);
 
@@ -34,6 +39,16 @@ export async function GET(request: Request, { params } : { params: { id: string 
             orderBy = { lastEdited: 'desc' };
     }
 
+    // Verifico que soy el dueño de la clase
+    const clase = await prisma.clase.findUnique({
+        where: { id: Number(params.id) },
+        select: { ownerId: true }
+    });
+
+    if (!clase || clase.ownerId !== authId) {
+        return new Response("You do not own this class.", { status: 403 });
+    }
+
     const activities = await prisma.activity.findMany({
         where: {
             claseId: Number(params.id),
@@ -45,11 +60,26 @@ export async function GET(request: Request, { params } : { params: { id: string 
 
 // Crear una nueva actividad
 export async function POST(request: Request, { params }: { params: { id: string }}) {
+    const authId = request.headers.get("auth-js-id");
+    if (!authId) {
+        return new Response("Authorization ID is missing.", { status: 400 });
+    }
+
     const { name, datasets, task} = await request.json();
     if (!name || !task)
         return new Response("Falta información para crear una actividad.", { status: 400 })
     if (typeof name !== 'string' || typeof task !== 'string')
         return new Response("Datos inválidos.", { status: 400 })
+
+    // Verifico que soy el dueño de la clase
+    const clase = await prisma.clase.findUnique({
+        where: { id: Number(params.id) },
+        select: { ownerId: true }
+    });
+
+    if (!clase || clase.ownerId !== authId) {
+        return new Response("Unauthorized: You do not own this class.", { status: 403 });
+    }
 
     const newActivity = await prisma.activity.create({
         data: {
