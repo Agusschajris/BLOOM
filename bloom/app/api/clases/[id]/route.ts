@@ -63,9 +63,9 @@ export async function POST(request: Request, { params } : { params: { id: string
 
     const alreadyJoined = await prisma.userClase.findUnique({
         where: {
-            userId_classId: {
-                userId: Number(authId),
-                classId: Number(params.id),
+            userId_claseId: {
+                userId: authId,
+                claseId: Number(params.id),
             },
         },
     });
@@ -76,8 +76,8 @@ export async function POST(request: Request, { params } : { params: { id: string
 
     const userClass = await prisma.userClase.create({
         data: {
-            userId: Number(authId),
-            classId: Number(params.id),
+            userId: authId,
+            claseId: Number(params.id),
         },
     });
 
