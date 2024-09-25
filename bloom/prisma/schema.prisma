@@ -34,8 +34,8 @@ model User {
 
   // Custom
   projects             Project[]
-  clases               Clase[]       @relation("UserClases")
-  createdClases        Clase[]       @relation("OwnerClases")
+  clases               UserClase[]
+    createdClases      Clase[]       @relation("OwnerClases")
   datasets             Dataset[]
 }
 
@@ -111,8 +111,18 @@ model Clase {
   name              String
   owner             User          @relation("OwnerClases", fields: [ownerId], references: [id])
   ownerId           String
-  users             User[]        @relation("UserClases")
+  users             UserClase[]
   activities        Activity[]
+}
+
+model UserClase {
+    id      Int     @id @default(autoincrement())
+    userId  String
+    claseId Int
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    clase   Clase   @relation(fields: [claseId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, claseId]) // Asegura que un usuario no se una a la misma clase más de una vez
 }
 
 model Activity {

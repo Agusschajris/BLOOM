@@ -42,3 +42,44 @@ export async function DELETE(request: Request, { params } : { params: { id: stri
 
     return new Response(JSON.stringify(deletedClase), { status: 200 });
 }
+
+// Unirse a una clase (alumnos)
+export async function POST(request: Request, { params } : { params: { id: string }}) {
+    const authId = request.headers.get("auth-js-id");
+
+    if (!authId) {
+        return new Response("Authorization ID is missing.", { status: 400 });
+    }
+
+    const classExists = await prisma.clase.findUnique({
+        where: { 
+            id: Number(params.id),
+        },
+    });
+
+    if (!classExists) {
+        return new Response("Class not found.", { status: 404 });
+    }
+
+    const alreadyJoined = await prisma.userClase.findUnique({
+        where: {
+            userId_classId: {
+                userId: Number(authId),
+                classId: Number(params.id),
+            },
+        },
+    });
+
+    if (alreadyJoined) {
+        return new Response("User already joined this class.", { status: 400 });
+    }
+
+    const userClass = await prisma.userClase.create({
+        data: {
+            userId: Number(authId),
+            classId: Number(params.id),
+        },
+    });
+
+    return new Response(JSON.stringify(userClass), { status: 201 });
+}
