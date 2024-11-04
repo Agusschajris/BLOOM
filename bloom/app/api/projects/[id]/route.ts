@@ -1,12 +1,8 @@
 import prisma from '../../../../lib/prisma';
 import { Prisma, Project } from '@prisma/client';
-import { gzip as _gzip, gunzip as _gunzip } from "node:zlib";
-import { promisify } from 'node:util';
 //import { auth } from '../../../../auth';
 //import { Session } from 'node:inspector';
 
-const gzip = promisify(_gzip);
-const gunzip = promisify(_gunzip);
 
 // Obtener un proyecto de un usuario en específico
 export async function GET(request: Request, { params } : { params: { id: string }}) {
@@ -24,11 +20,11 @@ export async function GET(request: Request, { params } : { params: { id: string 
     if (!project)
         return new Response("Project not found.", { status: 404 });
 
-    if (project.blocks) {
+    /*if (project.blocks) {
         const gunzippedBlocks = await gunzip(project.blocks);
         console.log(gunzippedBlocks.toString()); // DEBUG
         project.blocks = JSON.parse(gunzippedBlocks.toString());
-    }
+    }*/
 
     return new Response(JSON.stringify(project), { status: 200 });
 }
@@ -55,7 +51,7 @@ export async function PUT(request: Request, { params } : { params: { id: string 
     if (name)
         data.name = name;
     if (blocks) {
-        data.blocks = await gzip(JSON.stringify(blocks));
+        data.blocks = blocks;
         data.lastEdited = { set: new Date() };
     }
 

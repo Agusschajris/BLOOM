@@ -1,11 +1,8 @@
 //import { auth } from "../../../auth";
-import { gzip as _gzip } from 'node:zlib';
-import { promisify } from 'node:util';
 //import { Session } from "node:inspector";
 import prisma from "../../../lib/prisma";
 import {NextRequest} from "next/server";
 
-const gzip = promisify(_gzip);
 
 // Obtener todos los proyectos
 export async function GET(request: NextRequest) {
@@ -47,7 +44,7 @@ export async function POST(request: Request) {
     if (session !instanceof Session)
         return new Response("Not authenticated.", { status: 403 });*/
 
-    const { name, datasetId } = await request.json();
+    const { name, datasetId, blocks } = await request.json();
     if (!name || !datasetId)
         return new Response("Falta información para crear un proyecto.", { status: 400 })
     if (typeof name !== 'string' || typeof datasetId !== 'number')
@@ -58,7 +55,7 @@ export async function POST(request: Request) {
             name,
             ownerId: request.headers.get("auth-js-id")!, //session!.user!.id!, //project.ownerId,
             datasetId,
-            blocks: await gzip('[]')
+            blocks
         },
     });
     return new Response(JSON.stringify(newProject), { status: 201 });
