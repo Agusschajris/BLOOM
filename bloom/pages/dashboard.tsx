@@ -19,7 +19,7 @@ const MainPage: React.FC = () => {
   }, [projects]);
 
   const onDuplicate = useCallback((id: number) => {
-    fetch(`http://localhost:3000/api/projects/${id}`, {
+    fetch(`/api/projects/${id}`, {
       method: "POST",
     }).then(response => {
       response.json().then((copy: Project) => {
@@ -29,7 +29,7 @@ const MainPage: React.FC = () => {
   }, [projects]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/projects", {
+    fetch("/api/projects", {
       method: 'GET'
     }).then(response => {
       if (!response.ok) {
@@ -67,7 +67,7 @@ const MainPage: React.FC = () => {
         formData.append(file.name, file);
       });
       formData.append("close", "close");
-      fetch("http://localhost:3000/api/dataset/upload", {
+      fetch("/api/dataset/upload", {
         method: 'POST',
         body: formData
       }).then((response) => {
@@ -78,7 +78,7 @@ const MainPage: React.FC = () => {
         console.log(err);
       });
     }
-    fetch("http://localhost:3000/api/projects", {
+    fetch("/api/projects", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

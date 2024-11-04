@@ -173,7 +173,7 @@ function getBackendBlock(block: BlockInstance): DataBlock {
     if (!id || !projectName.current) return
     
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
-    fetch(`http://localhost:3000/api/projects/${id}`, {
+    fetch(`/api/projects/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
