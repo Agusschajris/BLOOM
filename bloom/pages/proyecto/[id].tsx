@@ -12,6 +12,8 @@ import { Project } from '@prisma/client';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
+import { trimUndefinedRecursively, compress, decompress } from 'compress-json';
+import { zlibSync, decompressSync, zlib } from 'fflate';
 
 export type ArgValue = undefined | null | StoredArgValue;
 export type StoredArgValue = boolean | number | [number, number] | [number, number, number] | string;
@@ -47,6 +49,15 @@ interface BlockInstance extends Block {
 
 export type { BlockInstance, Argument };
 
+function decompressBlocks(data: Uint8Array): DataBlock[] {
+  return decompress(JSON.parse(new TextDecoder().decode(decompressSync(data))));
+}
+
+function compressBlocks(blocks: DataBlock[]): Uint8Array {
+  trimUndefinedRecursively(blocks);
+  return zlibSync(new TextEncoder().encode(JSON.stringify(compress(blocks))));
+}
+
 const Proyecto: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -67,6 +78,7 @@ const Proyecto: React.FC = () => {
 
         response.json().then((project: Project) => {
           projectName.current = project.name;
+
           setCanvasBlocks((project.blocks as any as DataBlock[]).map(getFrontendBlock));
         })
       });
