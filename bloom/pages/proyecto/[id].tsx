@@ -8,7 +8,6 @@ import homeSVG from '../../public/home.svg';
 import masSVG from '../../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
 // import * as tf from '@tensorflow/tfjs'; comentado por vercel
-import { Project } from '@prisma/client';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
