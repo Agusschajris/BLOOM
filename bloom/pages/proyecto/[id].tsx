@@ -8,10 +8,11 @@ import homeSVG from '../../public/home.svg';
 import masSVG from '../../public/mas.svg';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
 // import * as tf from '@tensorflow/tfjs'; comentado por vercel
-import { Project } from '@prisma/client';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
+import { trimUndefinedRecursively, compress, decompress } from 'compress-json';
+import { zlibSync, decompressSync } from 'fflate';
 
 export type ArgValue = undefined | null | StoredArgValue;
 export type StoredArgValue = boolean | number | [number, number] | [number, number, number] | string;
@@ -47,6 +48,38 @@ interface BlockInstance extends Block {
 
 export type { BlockInstance, Argument };
 
+export const emptyCompression = compressBlocks([]);
+
+function decompressBlocks(data: Buffer): DataBlock[] {
+  // 5 buffer to Uint8Array
+  const array = new Uint8Array(data);
+  // 4 zlib decompress
+  const decompressed = decompressSync(array);
+  // 3 Uint8Array to string
+  const decoded = new TextDecoder().decode(decompressed);
+  // 2 string to Json
+  const parsed = JSON.parse(decoded);
+  // 1 decompress object
+  return decompress(parsed);
+  //return decompress(JSON.parse(new TextDecoder().decode(decompressSync(data.buffer))));
+}
+
+function compressBlocks(blocks: DataBlock[]): Buffer {
+  // 0 trim Blocks
+  trimUndefinedRecursively(blocks);
+  // 1 compress blocks
+  const compressedBlocks = compress(blocks);
+  // 2 stringify compressedBlocks
+  const stringified = JSON.stringify(compressedBlocks);
+  // 3 string to Uint8Array
+  const array = new TextEncoder().encode(stringified);
+  // 4 zlib compress
+  const compressed = zlibSync(array);
+  // 5 Uint8Array to buffer
+  return Buffer.from(compressed);
+  //return Buffer.from(zlibSync(new TextEncoder().encode(JSON.stringify(compress(blocks)))));
+}
+
 const Proyecto: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -65,9 +98,9 @@ const Proyecto: React.FC = () => {
         if (response.status !== 200)
           return handle404();
 
-        response.json().then((project: Project) => {
+        response.json().then((project: {name: string, blocks: {type: string, data: number[]}}) => {
           projectName.current = project.name;
-          setCanvasBlocks((project.blocks as any as DataBlock[]).map(getFrontendBlock));
+          setCanvasBlocks((decompressBlocks(Buffer.from(project.blocks.data))).map(getFrontendBlock));
         })
       });
     }
@@ -172,13 +205,14 @@ function getBackendBlock(block: BlockInstance): DataBlock {
   useEffect(() => {
     if (!id || !projectName.current) return
     
-    const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
+    const dataBlocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
+    const compressedBlocks = compressBlocks(dataBlocks);
     fetch(`/api/projects/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ blocks }),
+      body: JSON.stringify({ blocks: compressedBlocks }),
     }).then();
   }, [canvasBlocks, id]);
   useEffect(() => {

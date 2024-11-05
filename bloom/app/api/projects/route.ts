@@ -1,18 +1,12 @@
 //import { auth } from "../../../auth";
-import { gzip as _gzip } from 'node:zlib';
-import { promisify } from 'node:util';
 //import { Session } from "node:inspector";
 import prisma from "../../../lib/prisma";
 import {NextRequest} from "next/server";
 
-const gzip = promisify(_gzip);
+const authHeader = "auth-js-id";
 
 // Obtener todos los proyectos
 export async function GET(request: NextRequest) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
-
     let orderBy = {};
     const defaultOrAsc = request.nextUrl.searchParams.get("orderDirection") ?? 'asc';
     const defaultOrDesc = request.nextUrl.searchParams.get("orderDirection") ?? 'desc';
@@ -30,24 +24,32 @@ export async function GET(request: NextRequest) {
             break;
         default: // Por defecto, se ordena por el último editado
             orderBy = { lastEdited: 'desc' };
+            break;
     }
 
-    const projects = await prisma.project.findMany({
-        where: {
-            ownerId: request.headers.get("auth-js-id")!, //session!.user!.id,
-        },
-        orderBy,
-    });
-    return new Response(JSON.stringify(projects), { status: 200 });
+    const ownerId = request.headers.get(authHeader);
+    console.log("Owner ID: ", ownerId);
+    console.log("Order By: ", orderBy)
+    if (!ownerId)
+        return new Response("Not authenticated.", { status: 403 });
+    try {
+        const projects = await prisma.project.findMany({
+            where: {
+                ownerId, //session!.user!.id,
+            },
+            orderBy,
+        });
+        return new Response(JSON.stringify(projects), { status: 200 });
+    } catch (e) {
+        console.error('Error fetching projects:', e); // Log the error to debug
+        return new Response("Internal Server Error", { status: 500 });
+    }
 }
 
 // Guardar un nuevo proyecto
 export async function POST(request: Request) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
+    const { name, datasetId, blocks } = await request.json();
 
-    const { name, datasetId } = await request.json();
     if (!name || !datasetId)
         return new Response("Falta información para crear un proyecto.", { status: 400 })
     if (typeof name !== 'string' || typeof datasetId !== 'number')
@@ -58,7 +60,7 @@ export async function POST(request: Request) {
             name,
             ownerId: request.headers.get("auth-js-id")!, //session!.user!.id!, //project.ownerId,
             datasetId,
-            blocks: await gzip('[]')
+            blocks: Buffer.from(blocks.data)
         },
     });
     return new Response(JSON.stringify(newProject), { status: 201 });

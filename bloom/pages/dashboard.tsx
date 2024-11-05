@@ -8,6 +8,7 @@ import ProyectPrev from '../components/proyectPrev';
 import { Dataset } from "@prisma/client";
 import NavBar from '../components/navBar';
 import { Project } from '@prisma/client';
+import { emptyCompression } from "./proyecto/[id]";
 
 const MainPage: React.FC = () => {
   const router = useRouter(); 
@@ -84,8 +85,9 @@ const MainPage: React.FC = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-          name: `Proyecto ${projects.length > 0 ? projects.length + 1 : "Inicial"}`,
-          datasetId: dataset
+        name: `Proyecto ${projects.length > 0 ? projects.length + 1 : "Inicial"}`,
+        datasetId: dataset,
+        blocks: emptyCompression
       })
     }).then(response => {
       if (response.status !== 201) {

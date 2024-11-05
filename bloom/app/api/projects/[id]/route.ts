@@ -1,18 +1,9 @@
 import prisma from '../../../../lib/prisma';
 import { Prisma, Project } from '@prisma/client';
-import { gzip as _gzip, gunzip as _gunzip } from "node:zlib";
-import { promisify } from 'node:util';
-//import { auth } from '../../../../auth';
-//import { Session } from 'node:inspector';
-
-const gzip = promisify(_gzip);
-const gunzip = promisify(_gunzip);
+import {Buffer} from "node:buffer";
 
 // Obtener un proyecto de un usuario en específico
 export async function GET(request: Request, { params } : { params: { id: string }}) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     const project: Project | null = await prisma.project.findUnique({
         where: {
@@ -24,20 +15,17 @@ export async function GET(request: Request, { params } : { params: { id: string 
     if (!project)
         return new Response("Project not found.", { status: 404 });
 
-    if (project.blocks) {
+    /*if (project.blocks) {
         const gunzippedBlocks = await gunzip(project.blocks);
         console.log(gunzippedBlocks.toString()); // DEBUG
         project.blocks = JSON.parse(gunzippedBlocks.toString());
-    }
+    }*/
 
     return new Response(JSON.stringify(project), { status: 200 });
 }
 
 // Updatear proyecto
 export async function PUT(request: Request, { params } : { params: { id: string }}) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     let { name, blocks } = await request.json();
     const data: Prisma.ProjectUpdateInput = {};
@@ -55,7 +43,7 @@ export async function PUT(request: Request, { params } : { params: { id: string 
     if (name)
         data.name = name;
     if (blocks) {
-        data.blocks = await gzip(JSON.stringify(blocks));
+        data.blocks = Buffer.from(blocks.data);
         data.lastEdited = { set: new Date() };
     }
 
@@ -69,9 +57,6 @@ export async function PUT(request: Request, { params } : { params: { id: string 
 
 // Eliminar un proyecto
 export async function DELETE(request: Request, { params } : { params: { id: string }}) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     const deletedProject = await prisma.project.delete({
         where: {
