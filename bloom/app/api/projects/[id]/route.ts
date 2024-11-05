@@ -1,14 +1,9 @@
 import prisma from '../../../../lib/prisma';
 import { Prisma, Project } from '@prisma/client';
-//import { auth } from '../../../../auth';
-//import { Session } from 'node:inspector';
-
+import {Buffer} from "node:buffer";
 
 // Obtener un proyecto de un usuario en específico
 export async function GET(request: Request, { params } : { params: { id: string }}) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     const project: Project | null = await prisma.project.findUnique({
         where: {
@@ -31,9 +26,6 @@ export async function GET(request: Request, { params } : { params: { id: string 
 
 // Updatear proyecto
 export async function PUT(request: Request, { params } : { params: { id: string }}) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     let { name, blocks } = await request.json();
     const data: Prisma.ProjectUpdateInput = {};
@@ -51,7 +43,7 @@ export async function PUT(request: Request, { params } : { params: { id: string 
     if (name)
         data.name = name;
     if (blocks) {
-        data.blocks = blocks;
+        data.blocks = Buffer.from(blocks.data);
         data.lastEdited = { set: new Date() };
     }
 
@@ -65,9 +57,6 @@ export async function PUT(request: Request, { params } : { params: { id: string 
 
 // Eliminar un proyecto
 export async function DELETE(request: Request, { params } : { params: { id: string }}) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     const deletedProject = await prisma.project.delete({
         where: {

@@ -13,7 +13,7 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
 import { trimUndefinedRecursively, compress, decompress } from 'compress-json';
-import { zlibSync, decompressSync, zlib } from 'fflate';
+import { zlibSync, decompressSync } from 'fflate';
 
 export type ArgValue = undefined | null | StoredArgValue;
 export type StoredArgValue = boolean | number | [number, number] | [number, number, number] | string;
@@ -49,13 +49,15 @@ interface BlockInstance extends Block {
 
 export type { BlockInstance, Argument };
 
+export const emptyCompression = compressBlocks([]);
+
 function decompressBlocks(data: Uint8Array): DataBlock[] {
   return decompress(JSON.parse(new TextDecoder().decode(decompressSync(data))));
 }
 
-function compressBlocks(blocks: DataBlock[]): Uint8Array {
+function compressBlocks(blocks: DataBlock[]) {
   trimUndefinedRecursively(blocks);
-  return zlibSync(new TextEncoder().encode(JSON.stringify(compress(blocks))));
+  return Buffer.from(zlibSync(new TextEncoder().encode(JSON.stringify(compress(blocks)))));
 }
 
 const Proyecto: React.FC = () => {
@@ -78,8 +80,7 @@ const Proyecto: React.FC = () => {
 
         response.json().then((project: Project) => {
           projectName.current = project.name;
-
-          setCanvasBlocks((project.blocks as any as DataBlock[]).map(getFrontendBlock));
+          setCanvasBlocks((decompressBlocks(project.blocks) as any as DataBlock[]).map(getFrontendBlock));
         })
       });
     }
@@ -184,13 +185,14 @@ function getBackendBlock(block: BlockInstance): DataBlock {
   useEffect(() => {
     if (!id || !projectName.current) return
     
-    const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
+    const dataBlocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
+    const compressedBlocks = compressBlocks(dataBlocks);
     fetch(`/api/projects/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ blocks }),
+      body: JSON.stringify({ blocks: compressedBlocks }),
     }).then();
   }, [canvasBlocks, id]);
   useEffect(() => {
