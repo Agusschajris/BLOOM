@@ -55,7 +55,7 @@ function decompressBlocks(data: Uint8Array): DataBlock[] {
   return decompress(JSON.parse(new TextDecoder().decode(decompressSync(data))));
 }
 
-function compressBlocks(blocks: DataBlock[]) {
+function compressBlocks(blocks: DataBlock[]): Buffer {
   trimUndefinedRecursively(blocks);
   return Buffer.from(zlibSync(new TextEncoder().encode(JSON.stringify(compress(blocks)))));
 }
