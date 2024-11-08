@@ -1,18 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
+import React, {useEffect, useRef, useState} from 'react';
+import {useRouter} from 'next/router';
 import Bloque from '../../components/block';
 import data from "../../public/blocks.json";
 import styles from '../../styles/proyecto.module.scss';
 import Image from 'next/image';
 import homeSVG from '../../public/home.svg';
 import masSVG from '../../public/mas.svg';
-import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Draggable,
+  DraggableProvided,
+  Droppable,
+  DroppableProvided,
+  DropResult
+} from 'react-beautiful-dnd';
 // import * as tf from '@tensorflow/tfjs'; comentado por vercel
 import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
-import { trimUndefinedRecursively, compress, decompress } from 'compress-json';
-//import { zlibSync, decompressSync } from 'fflate';
+import {compress, decompress, trimUndefinedRecursively} from 'compress-json';
 import {Project} from "@prisma/client";
 
 export type ArgValue = undefined | null | StoredArgValue;
@@ -49,30 +55,9 @@ interface BlockInstance extends Block {
 
 export type { BlockInstance, Argument };
 
-//export const emptyCompression = compressBlocks([]);
-
-//console.log(emptyCompression);
 
 function decompressBlocks(data: string): DataBlock[] {
-  console.log(data);
-  try {
-    // 6 URI decode
-    //const decodedURI = decodeURI(data);
-    //console.log(decodedURI);
-    // 5 string to Uint8Array
-    //const encode = new TextEncoder().encode(decodedURI);
-    // 4 zlib decompress
-    //const decompressed = decompressSync(encode);
-    // 3 Uint8Array to string
-    //const decoded = new TextDecoder().decode(decompressed);
-    // 2 string to Json
-    const parsed = JSON.parse(data); //decoded);
-    // 1 decompress object
-    return decompress(parsed);
-  } catch (e) {
-    console.error("Peruga", e);
-    return [];
-  }
+    return decompress(JSON.parse(data));
 }
 
 function compressBlocks(blocks: DataBlock[]): string {
@@ -80,20 +65,7 @@ function compressBlocks(blocks: DataBlock[]): string {
   trimUndefinedRecursively(blocks);
   // 1 compress blocks
   const compressedBlocks = compress(blocks);
-  // 2 stringify compressedBlocks
-  const stringified = JSON.stringify(compressedBlocks);
-  // 3 string to Uint8Array
-  //const array = new TextEncoder().encode(stringified);
-  // 4 zlib compress
-  //const compressed = zlibSync(array);
-  // 5 Uint8Array to string
-  //const encoded = new TextDecoder().decode(compressed);
-  //console.log(encoded);
-  // 6 URI encode
-  //const encodedURI = encodeURI(encoded);
-  //console.log(encodedURI);
-  //return encodedURI;
-  return stringified;
+  return JSON.stringify(compressedBlocks);
 }
 
 const Proyecto: React.FC = () => {
