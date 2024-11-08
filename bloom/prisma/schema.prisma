@@ -99,7 +99,7 @@ model Project {
   name              String
   creationDate      DateTime      @default(now())
   lastEdited        DateTime?     @default(now()) @updatedAt
-  blocks            Bytes
+  blocks            String        @default("[]")
   owner             User          @relation(fields: [ownerId], references: [id])
   ownerId           String
   dataset           Dataset?      @relation(fields: [datasetId], references: [id])

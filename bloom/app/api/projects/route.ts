@@ -28,27 +28,28 @@ export async function GET(request: NextRequest) {
     }
 
     const ownerId = request.headers.get(authHeader);
-    console.log("Owner ID: ", ownerId);
-    console.log("Order By: ", orderBy)
+
     if (!ownerId)
         return new Response("Not authenticated.", { status: 403 });
-    try {
-        const projects = await prisma.project.findMany({
-            where: {
-                ownerId, //session!.user!.id,
-            },
-            orderBy,
-        });
-        return new Response(JSON.stringify(projects), { status: 200 });
-    } catch (e) {
-        console.error('Error fetching projects:', e); // Log the error to debug
-        return new Response("Internal Server Error", { status: 500 });
-    }
+
+    const projects = await prisma.project.findMany({
+        where: {
+            ownerId, //session!.user!.id,
+        },
+        orderBy,
+        select: {
+            id: true,
+            name: true,
+            creationDate: true,
+            lastEdited: true,
+        }
+    });
+    return new Response(JSON.stringify(projects), { status: 200 });
 }
 
 // Guardar un nuevo proyecto
 export async function POST(request: Request) {
-    const { name, datasetId, blocks } = await request.json();
+    const { name, datasetId } = await request.json();
 
     if (!name || !datasetId)
         return new Response("Falta información para crear un proyecto.", { status: 400 })
@@ -59,8 +60,7 @@ export async function POST(request: Request) {
         data: {
             name,
             ownerId: request.headers.get("auth-js-id")!, //session!.user!.id!, //project.ownerId,
-            datasetId,
-            blocks: Buffer.from(blocks.data)
+            datasetId
         },
     });
     return new Response(JSON.stringify(newProject), { status: 201 });

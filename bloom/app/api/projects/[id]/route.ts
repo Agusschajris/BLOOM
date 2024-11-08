@@ -1,6 +1,5 @@
 import prisma from '../../../../lib/prisma';
 import { Prisma, Project } from '@prisma/client';
-import {Buffer} from "node:buffer";
 
 // Obtener un proyecto de un usuario en específico
 export async function GET(request: Request, { params } : { params: { id: string }}) {
@@ -14,12 +13,6 @@ export async function GET(request: Request, { params } : { params: { id: string 
 
     if (!project)
         return new Response("Project not found.", { status: 404 });
-
-    /*if (project.blocks) {
-        const gunzippedBlocks = await gunzip(project.blocks);
-        console.log(gunzippedBlocks.toString()); // DEBUG
-        project.blocks = JSON.parse(gunzippedBlocks.toString());
-    }*/
 
     return new Response(JSON.stringify(project), { status: 200 });
 }
@@ -43,7 +36,7 @@ export async function PUT(request: Request, { params } : { params: { id: string 
     if (name)
         data.name = name;
     if (blocks) {
-        data.blocks = Buffer.from(blocks.data);
+        data.blocks = blocks;
         data.lastEdited = { set: new Date() };
     }
 
@@ -73,9 +66,6 @@ export async function DELETE(request: Request, { params } : { params: { id: stri
 
 // Duplicar un proyecto
 export async function POST(request: Request, { params } : { params: { id: string }}) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     const userId = request.headers.get("auth-js-id")!;
 

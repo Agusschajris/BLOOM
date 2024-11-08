@@ -12,7 +12,8 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
 import { trimUndefinedRecursively, compress, decompress } from 'compress-json';
-import { zlibSync, decompressSync } from 'fflate';
+//import { zlibSync, decompressSync } from 'fflate';
+import {Project} from "@prisma/client";
 
 export type ArgValue = undefined | null | StoredArgValue;
 export type StoredArgValue = boolean | number | [number, number] | [number, number, number] | string;
@@ -48,23 +49,33 @@ interface BlockInstance extends Block {
 
 export type { BlockInstance, Argument };
 
-export const emptyCompression = compressBlocks([]);
+//export const emptyCompression = compressBlocks([]);
 
-function decompressBlocks(data: Buffer): DataBlock[] {
-  // 5 buffer to Uint8Array
-  const array = new Uint8Array(data);
-  // 4 zlib decompress
-  const decompressed = decompressSync(array);
-  // 3 Uint8Array to string
-  const decoded = new TextDecoder().decode(decompressed);
-  // 2 string to Json
-  const parsed = JSON.parse(decoded);
-  // 1 decompress object
-  return decompress(parsed);
-  //return decompress(JSON.parse(new TextDecoder().decode(decompressSync(data.buffer))));
+//console.log(emptyCompression);
+
+function decompressBlocks(data: string): DataBlock[] {
+  console.log(data);
+  try {
+    // 6 URI decode
+    //const decodedURI = decodeURI(data);
+    //console.log(decodedURI);
+    // 5 string to Uint8Array
+    //const encode = new TextEncoder().encode(decodedURI);
+    // 4 zlib decompress
+    //const decompressed = decompressSync(encode);
+    // 3 Uint8Array to string
+    //const decoded = new TextDecoder().decode(decompressed);
+    // 2 string to Json
+    const parsed = JSON.parse(data); //decoded);
+    // 1 decompress object
+    return decompress(parsed);
+  } catch (e) {
+    console.error("Peruga", e);
+    return [];
+  }
 }
 
-function compressBlocks(blocks: DataBlock[]): Buffer {
+function compressBlocks(blocks: DataBlock[]): string {
   // 0 trim Blocks
   trimUndefinedRecursively(blocks);
   // 1 compress blocks
@@ -72,12 +83,17 @@ function compressBlocks(blocks: DataBlock[]): Buffer {
   // 2 stringify compressedBlocks
   const stringified = JSON.stringify(compressedBlocks);
   // 3 string to Uint8Array
-  const array = new TextEncoder().encode(stringified);
+  //const array = new TextEncoder().encode(stringified);
   // 4 zlib compress
-  const compressed = zlibSync(array);
-  // 5 Uint8Array to buffer
-  return Buffer.from(compressed);
-  //return Buffer.from(zlibSync(new TextEncoder().encode(JSON.stringify(compress(blocks)))));
+  //const compressed = zlibSync(array);
+  // 5 Uint8Array to string
+  //const encoded = new TextDecoder().decode(compressed);
+  //console.log(encoded);
+  // 6 URI encode
+  //const encodedURI = encodeURI(encoded);
+  //console.log(encodedURI);
+  //return encodedURI;
+  return stringified;
 }
 
 const Proyecto: React.FC = () => {
@@ -98,16 +114,16 @@ const Proyecto: React.FC = () => {
         if (response.status !== 200)
           return handle404();
 
-        response.json().then((project: {name: string, blocks: {type: string, data: number[]}}) => {
+        response.json().then((project: Project) => {
           projectName.current = project.name;
-          setCanvasBlocks((decompressBlocks(Buffer.from(project.blocks.data))).map(getFrontendBlock));
+          setCanvasBlocks(decompressBlocks(project.blocks).map(getFrontendBlock));
         })
       });
     }
   }, [id]);
 
   function handle404() {
-    // TODO: Implement project not found 404 page
+    router.push("/_notFound").then();
   }
   
   const handleClick = () => {
