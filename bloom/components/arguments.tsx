@@ -88,7 +88,7 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
                   onChange={(e) => handleChange(index, arg.type !== 'checkbox' ? e.target.value : e.target.checked)}
                   value={arg.type === 'checkbox' ? undefined : (arg.default !== undefined && arg.value === undefined ? arg.default : arg.value) as undefined|string|number}
                   checked={arg.type !== 'checkbox' ? undefined : (arg.value === undefined ? arg.default : arg.value) as boolean}
-                  min={arg.values === 'N' ? 1 : arg.type === 'range' ? 0 : undefined}
+                  min={arg.values === 'N' ? 1 : arg.values === "%" ? 0 : undefined}
                   step={(arg.values === 'N' || arg.values === 'Z') ? 1 : undefined}
                   max={arg.values === '%' ? 1 : undefined}
                 />

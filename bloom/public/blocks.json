@@ -134,7 +134,7 @@
                 "visualName": "Rate",
                 "exp": "Fraction of the input units to drop.",
                 "argName": "rate",
-                "type": "range",
+                "type": "number",
                 "values": "%"
             },
             {
