@@ -21,22 +21,22 @@
   .token.attr-name,
   .token.char,
   .token.inserted {
-    color: #0C2BA7; /* Azul para los resaltados */
+    color: #70A2FF /* Azul para los resaltados */
   }
   
   .token.function,
   .token.class-name {
-    color: #060C65; /* Color para funciones y nombres de clases */
+    color: #70A2FF; /* Color para funciones y nombres de clases */
   }
   
   .token.operator,
   .token.keyword {
-    color: #0C2BA7;
+    color: #70A2FF;
   }
   
   .token.attr-value,
   .token.string {
-    color: #060C65; /* Color para valores de atributos y cadenas */
+    color: #70A2FF; /* Color para valores de atributos y cadenas */
   }
   
   pre {
