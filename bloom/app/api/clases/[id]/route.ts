@@ -1,15 +1,10 @@
-import prisma from '../../../../lib/prisma';
+import prisma from '@lib/prisma';
 import { Clase } from '@prisma/client';
 import { gzip as _gzip, gunzip as _gunzip } from "node:zlib";
-//import { auth } from '../../../../auth';
-//import { Session } from 'node:inspector';
 
 
 // Obtener una clase de un usuario en específico
 export async function GET(request: Request, { params } : { params: { id: string }}) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     const clase: Clase | null = await prisma.clase.findUnique({
         where: {
@@ -24,11 +19,9 @@ export async function GET(request: Request, { params } : { params: { id: string 
     return new Response(JSON.stringify(clase), { status: 200 });
 }
 
+
 // Eliminar una clase
 export async function DELETE(request: Request, { params } : { params: { id: string }}) {
-    // const session = await auth();
-    // if (session !instanceof Session)
-    //     return new Response("Not authenticated.", { status: 403 });
 
     const deletedClase = await prisma.clase.delete({
         where: {
@@ -42,6 +35,7 @@ export async function DELETE(request: Request, { params } : { params: { id: stri
 
     return new Response(JSON.stringify(deletedClase), { status: 200 });
 }
+
 
 // Unirse a una clase (alumnos)
 export async function POST(request: Request, { params } : { params: { id: string }}) {

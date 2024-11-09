@@ -1,9 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import style from '../styles/navBar.module.scss';
+import style from '@styles/navBar.module.scss';
 import Image from 'next/image';
-import logoSVG from '../public/logo.svg';
-import userSVG from '../public/user.svg';
+import logoSVG from '@public/logo.svg';
+import userSVG from '@public/user.svg';
 
 const NavBar: React.FC = () => {
   const router = useRouter();

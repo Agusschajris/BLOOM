@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useRouter} from 'next/router';
-import Bloque from '../../components/block';
-import data from "../../public/blocks.json";
-import styles from '../../styles/proyecto.module.scss';
+import Bloque from '@components/block';
+import data from "@public/blocks.json";
+import styles from '@styles/proyecto.module.scss';
 import Image from 'next/image';
-import homeSVG from '../../public/home.svg';
-import masSVG from '../../public/mas.svg';
+import homeSVG from '@public/home.svg';
+import masSVG from '@public/mas.svg';
 import {
   DragDropContext,
   Draggable,

@@ -2,13 +2,12 @@
 
 import React, {useState, useEffect, useCallback} from 'react';
 import { useRouter } from 'next/navigation'; 
-import Popup from '../components/popUp';
-import styles from '../styles/main.module.scss';
-import ProyectPrev from '../components/proyectPrev';
+import Popup from '@components/popUp';
+import styles from '@styles/main.module.scss';
+import ProyectPrev from '@components/proyectPrev';
 import { Dataset } from "@prisma/client";
-import NavBar from '../components/navBar';
+import NavBar from '@components/navBar';
 import { Project } from '@prisma/client';
-//import { emptyCompression } from "./proyecto/[id]";
 
 const MainPage: React.FC = () => {
   const router = useRouter(); 
@@ -86,8 +85,7 @@ const MainPage: React.FC = () => {
       },
       body: JSON.stringify({
         name: `Proyecto ${projects.length > 0 ? projects.length + 1 : "Inicial"}`,
-        datasetId: dataset,
-        //blocks: emptyCompression
+        datasetId: dataset
       })
     }).then(response => {
       if (response.status !== 201) {

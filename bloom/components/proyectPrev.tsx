@@ -1,8 +1,8 @@
 import React from "react";
-import style from "../styles/proyectPrev.module.scss";
+import style from "@styles/proyectPrev.module.scss";
 import Image from 'next/image';
-import configSVG from '../public/config.svg';
-import closeSVG from '../public/close.svg';
+import configSVG from '@public/config.svg';
+import closeSVG from '@public/close.svg';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 

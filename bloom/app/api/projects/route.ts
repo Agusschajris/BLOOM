@@ -1,9 +1,6 @@
-//import { auth } from "../../../auth";
-//import { Session } from "node:inspector";
-import prisma from "../../../lib/prisma";
+import prisma from "@lib/prisma";
 import {NextRequest} from "next/server";
 
-const authHeader = "auth-js-id";
 
 // Obtener todos los proyectos
 export async function GET(request: NextRequest) {
@@ -27,7 +24,7 @@ export async function GET(request: NextRequest) {
             break;
     }
 
-    const ownerId = request.headers.get(authHeader);
+    const ownerId = request.headers.get("auth-js-id");
 
     if (!ownerId)
         return new Response("Not authenticated.", { status: 403 });
@@ -46,6 +43,7 @@ export async function GET(request: NextRequest) {
     });
     return new Response(JSON.stringify(projects), { status: 200 });
 }
+
 
 // Guardar un nuevo proyecto
 export async function POST(request: Request) {

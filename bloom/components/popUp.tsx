@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import popupStyle from "../styles/popup.module.scss";
+import popupStyle from "@styles/popup.module.scss";
 
 interface PopupProps {
     onConfirm: (dataset: FileList | number) => void;

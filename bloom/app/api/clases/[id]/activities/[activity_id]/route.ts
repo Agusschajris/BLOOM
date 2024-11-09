@@ -1,4 +1,4 @@
-import prisma from '../../../../../../lib/prisma';
+import prisma from '@lib/prisma';
 import { Prisma, Activity } from '@prisma/client';
 
 // Obtener una actividad de una clase en específico

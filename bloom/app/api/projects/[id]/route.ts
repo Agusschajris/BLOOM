@@ -1,5 +1,6 @@
-import prisma from '../../../../lib/prisma';
+import prisma from '@lib/prisma';
 import { Prisma, Project } from '@prisma/client';
+
 
 // Obtener un proyecto de un usuario en específico
 export async function GET(request: Request, { params } : { params: { id: string }}) {
@@ -16,6 +17,7 @@ export async function GET(request: Request, { params } : { params: { id: string 
 
     return new Response(JSON.stringify(project), { status: 200 });
 }
+
 
 // Updatear proyecto
 export async function PUT(request: Request, { params } : { params: { id: string }}) {

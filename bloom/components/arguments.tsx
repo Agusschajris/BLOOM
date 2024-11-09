@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import {Argument, ArgValue, BlockInstance} from '../pages/proyecto/[id]';
-import style from "../styles/arguments.module.scss"
-import closeSVG from "../public/close.svg"
-import ticSVG from "../public/tic.svg"
+import {Argument, ArgValue, BlockInstance} from '@/pages/proyecto/[id]';
+import style from "@styles/arguments.module.scss"
+import closeSVG from "@public/close.svg"
+import ticSVG from "@public/tic.svg"
 import Image from 'next/image';
 
 interface PopupProps {

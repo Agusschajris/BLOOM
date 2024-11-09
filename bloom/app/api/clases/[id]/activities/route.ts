@@ -1,4 +1,4 @@
-import prisma from "../../../../../lib/prisma";
+import prisma from "@lib/prisma";
 // import {NextRequest} from "next/server";
 
 
@@ -10,7 +10,7 @@ export async function GET(request: Request, { params } : { params: { id: string 
         return new Response("Authorization ID is missing.", { status: 400 });
     }
 
-    let orderBy = {};
+    let orderBy: {};
     const url = new URL(request.url);
 
     const defaultOrAsc = url.searchParams.get("orderDirection") ?? 'asc';
@@ -49,6 +49,7 @@ export async function GET(request: Request, { params } : { params: { id: string 
     });
     return new Response(JSON.stringify(activities), { status: 200 });
 }
+
 
 // Crear una nueva actividad
 export async function POST(request: Request, { params }: { params: { id: string }}) {

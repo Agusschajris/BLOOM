@@ -1,10 +1,10 @@
 import React from 'react';
-import style from '../styles/bloque.module.scss';
+import style from '@styles/bloque.module.scss';
 import Image from 'next/image';
-import masSVG from '../public/mas.svg';
-import PopUp from '../components/arguments';
+import masSVG from '@public/mas.svg';
+import PopUp from '@components/arguments';
 import { useState } from 'react';
-import { BlockInstance, Argument } from '../pages/proyecto/[id]';
+import { BlockInstance, Argument } from '@/pages/proyecto/[id]';
 
 interface BloqueProps {
   block: BlockInstance;
@@ -19,6 +19,8 @@ const Bloque: React.FC<BloqueProps> = ({ block, isInBlockList, isInCanvas, onSav
   const handleMoreClick = () => {
     setShowPopup(true);
   };
+
+  // TODO: si hay argumentos sin default y sin valor (osea al insertar el bloque) abrir el popup de argumentos, y no dejarlo cerrar hasta haber puesto los valores.
 
   return (
     <div className={style.container}>

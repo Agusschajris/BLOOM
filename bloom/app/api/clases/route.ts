@@ -1,14 +1,9 @@
-//import { auth } from "../../../auth";
-import { gzip as _gzip } from 'node:zlib';
-//import { Session } from "node:inspector";
-import prisma from "../../../lib/prisma";
+import prisma from "@lib/prisma";
 import {NextRequest} from "next/server";
+
 
 // Obtener todos las clases
 export async function GET(request: NextRequest) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     let orderBy = {};
     const defaultOrAsc = request.nextUrl.searchParams.get("orderDirection") ?? 'asc';
@@ -38,11 +33,9 @@ export async function GET(request: NextRequest) {
     return new Response(JSON.stringify(clases), { status: 200 });
 }
 
+
 // Crear nueva clase
 export async function POST(request: Request) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     const { name } = await request.json();
     if (!name)
