@@ -20,8 +20,6 @@ const Bloque: React.FC<BloqueProps> = ({ block, isInBlockList, isInCanvas, onSav
     setShowPopup(true);
   };
 
-  // TODO: si hay argumentos sin default y sin valor (osea al insertar el bloque) abrir el popup de argumentos, y no dejarlo cerrar hasta haber puesto los valores.
-
   return (
     <div className={style.container}>
       <div className={style.bloque}>

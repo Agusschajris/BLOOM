@@ -1,5 +1,16 @@
 import prisma from '@lib/prisma';
 import { Prisma, Project } from '@prisma/client';
+import fetch from "node-fetch";
+
+export type DatasetInfo = {
+    has_missing_values: boolean,
+    variables: number,
+    features: number,
+    target: number
+}
+export interface ProjectData extends Project {
+    datasetInfo: DatasetInfo;
+}
 
 
 // Obtener un proyecto de un usuario en específico
@@ -14,6 +25,24 @@ export async function GET(request: Request, { params } : { params: { id: string 
 
     if (!project)
         return new Response("Project not found.", { status: 404 });
+
+    // Add dataset metadata
+    const archiveResponse = await fetch(`https://archive.ics.uci.edu/api/dataset?id=${project.dataset}`, {
+        method: "GET",
+    });
+
+    if (!archiveResponse.ok)
+        return new Response("Dataset not found.", { status: 404 });
+
+    const meta = await archiveResponse.json();
+    const datasetInfo: DatasetInfo = {
+        has_missing_values: meta.data.has_missing_values as boolean,
+        variables: (meta.data.variables as any[]).length,
+        features: (meta.data.variables as any[]).filter(f => f.role == "Feature").length,
+        target: (meta.data.variables as any[]).filter(f => f.role == "Target").length
+    };
+
+    (project as ProjectData).datasetInfo = datasetInfo;
 
     return new Response(JSON.stringify(project), { status: 200 });
 }
@@ -85,7 +114,7 @@ export async function POST(request: Request, { params } : { params: { id: string
         data: {
             name: `Copy of ${existingProject.name}`,
             ownerId: userId, //session!.user!.id!,
-            datasetId: existingProject.datasetId,
+            dataset: existingProject.dataset,
             blocks: existingProject.blocks,
         },
     });

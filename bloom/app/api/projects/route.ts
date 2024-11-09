@@ -58,7 +58,7 @@ export async function POST(request: Request) {
         data: {
             name,
             ownerId: request.headers.get("auth-js-id")!, //session!.user!.id!, //project.ownerId,
-            datasetId
+            dataset: datasetId
         },
     });
     return new Response(JSON.stringify(newProject), { status: 201 });

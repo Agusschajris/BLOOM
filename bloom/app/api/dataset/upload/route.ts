@@ -1,3 +1,4 @@
+/*
 import prisma from '../../../../lib/prisma';
 import busboy from "busboy";
 import { v2 as cloudinary } from "cloudinary";
@@ -37,9 +38,6 @@ export async function GET(request: NextRequest) {
 
 // Create a new dataset
 export async function POST(request: Request) {
-    /*const session = await auth();
-    if (!(session instanceof Session))
-        return new Response("Not authenticated", { status: 403 });*/
 
     const incomingHttpHeaders: IncomingHttpHeaders = {};
 
@@ -87,3 +85,4 @@ export async function POST(request: Request) {
 
     return response;
 }
+*/

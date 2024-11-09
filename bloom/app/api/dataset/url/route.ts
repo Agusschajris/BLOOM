@@ -1,3 +1,4 @@
+/*
 import prisma from "../../../../lib/prisma";
 
 // Save a new dataset
@@ -14,3 +15,4 @@ export async function POST(request: Request) {
 
   return new Response(JSON.stringify(newDataset), { status: 201 });
 }
+*/
