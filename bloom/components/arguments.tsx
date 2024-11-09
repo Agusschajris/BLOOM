@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {Argument, ArgValue, BlockInstance} from '@/pages/proyecto/[id]';
-import style from "@styles/arguments.module.scss"
-import closeSVG from "@public/close.svg"
-import ticSVG from "@public/tic.svg"
+import style from "@styles/arguments.module.scss";
+import ticSVG from "@public/tic.svg";
 import Image from 'next/image';
 
 interface PopupProps {
@@ -15,6 +14,7 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
   const [args, setArgs] = useState<Argument[]>(block.args);
 
   const handleChange = (index: number, value: ArgValue) => {
+    if (value === undefined) return;
     const newArgs = [...args];
     if (newArgs[index].values === 'N' || newArgs[index].values === 'Z')
       value = Math.floor(value as number);
@@ -54,20 +54,20 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
       <div className={style.popUp}>
         <div className={style.header}>
           <h1>{block.visualName}</h1>
-          <button className={style.cancel} onClick={onClose}>
-            <Image src={closeSVG} alt="close" width={15} height={15} />
+          <button className={style.save} onClick={handleSave/*onClose*/}>
+            <Image src={ticSVG} alt="close" width={20} height={16}/>
           </button>
         </div>
         {args.map((arg, index) => (
           <div className={style.argWrapper} key={arg.argName}>
-            <label className={style.argName} >{arg.visualName}</label>
+            <label className={style.argName}>{arg.visualName}</label>
             {
               arg.type === 'select' ? (
                 <select
                   className={style.input}
-                  required={null !in (arg.values as (string | null)[])}
+                  required={null ! in (arg.values as (string | null)[])}
                   onChange={(e) => handleChange(index, e.target.value)}
-                  value={((arg.default !== undefined && arg.value === undefined) ? arg.default : arg.value) as string|null ?? ''}
+                  value={((arg.default !== undefined && arg.value === undefined) ? arg.default : arg.value) as string | null ?? ''}
                 >
                   {(arg.values! as (string | null)[]).map((value, i) => (
                     <option value={value ?? ''} key={i}>{value ?? 'null'}</option>
@@ -86,7 +86,7 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
                   className={style.input}
                   type={arg.type}
                   onChange={(e) => handleChange(index, arg.type !== 'checkbox' ? e.target.value : e.target.checked)}
-                  value={arg.type === 'checkbox' ? undefined : (arg.default !== undefined && arg.value === undefined ? arg.default : arg.value) as undefined|string|number}
+                  value={arg.type === 'checkbox' ? undefined : (arg.default !== undefined && arg.value === undefined ? arg.default : arg.value) as undefined | string | number}
                   checked={arg.type !== 'checkbox' ? undefined : (arg.value === undefined ? arg.default : arg.value) as boolean}
                   min={arg.values === 'N' ? 1 : arg.values === "%" ? 0 : undefined}
                   step={(arg.values === 'N' || arg.values === 'Z') ? 1 : undefined}
@@ -96,9 +96,6 @@ const Popup: React.FC<PopupProps> = ({ block, onClose, onSave }) => {
             }
           </div>
         ))}
-        <button className={style.save} onClick={handleSave}>
-          <Image src={ticSVG} alt='save' width={15} height={15}/>
-        </button>
       </div>
     </div>
   );

@@ -74,8 +74,13 @@
 .save{
     align-self: flex-end;
     background-color: #060C65;
-    padding: 8px;
-    border-radius: 6px;
+    padding: 10px;
+    border-radius: 4px;
     border: none;
-    margin-right: 25px;
+    //margin-right: 25px;
+    cursor: pointer;
+
+    img{
+        margin-top: 1px;
+    }
 }

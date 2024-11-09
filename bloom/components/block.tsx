@@ -14,7 +14,7 @@ interface BloqueProps {
 }
 
 const Bloque: React.FC<BloqueProps> = ({ block, isInBlockList, isInCanvas, onSave }) => {
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(block.args.some(x => isInCanvas && x.default === undefined && x.value === undefined));
 
   const handleMoreClick = () => {
     setShowPopup(true);
