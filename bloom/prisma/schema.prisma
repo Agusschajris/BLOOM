@@ -37,7 +37,7 @@ model User {
   clases               UserClase[]
   createdClases        Clase[]       @relation("OwnerClases")
   // datasets             Dataset[]
-  datasets             String[]
+  datasets             Int[]
 }
 
 model Account {
@@ -105,7 +105,7 @@ model Project {
   ownerId           String
   // dataset           Dataset?      @relation(fields: [datasetId], references: [id])
   // datasetId         Int
-  dataset           String?
+  dataset           Int?
 }
 
 model Clase {
@@ -137,7 +137,7 @@ model Activity {
   blocks            String        @default("[]")
   task              String?
   // datasets          Dataset[]
-  datasets          String[]
+  datasets          Int[]
 }
 
 
