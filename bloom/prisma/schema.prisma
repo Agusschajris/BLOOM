@@ -132,7 +132,7 @@ model Activity {
   claseId           Int?
   creationDate      DateTime      @default(now())
   lastEdited        DateTime?     @default(now()) @updatedAt
-  blocks            Bytes
+  blocks            String        @default("[]")
   task              String?
   datasets          Dataset[]
 }

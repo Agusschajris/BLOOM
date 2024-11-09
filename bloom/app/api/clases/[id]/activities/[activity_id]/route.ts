@@ -1,12 +1,5 @@
 import prisma from '../../../../../../lib/prisma';
 import { Prisma, Activity } from '@prisma/client';
-import { gzip as _gzip, gunzip as _gunzip } from "node:zlib";
-import { promisify } from 'node:util';
-//import { auth } from '../../../../auth';
-//import { Session } from 'node:inspector';
-
-const gzip = promisify(_gzip);
-const gunzip = promisify(_gunzip);
 
 // Obtener una actividad de una clase en específico
 export async function GET(request: Request, { params } : { params: { id: string; claseId: string }}) {
@@ -43,12 +36,6 @@ export async function GET(request: Request, { params } : { params: { id: string;
 
     if (!clase || clase.ownerId !== authId) {
         return new Response("You do not own this class.", { status: 403 });
-    }
-
-    if (activity.blocks) {
-        const gunzippedBlocks = await gunzip(activity.blocks);
-        console.log(gunzippedBlocks.toString()); // DEBUG
-        activity.blocks = JSON.parse(gunzippedBlocks.toString());
     }
 
     return new Response(JSON.stringify(activity), { status: 200 });
@@ -101,7 +88,7 @@ export async function PUT(request: Request, { params } : { params: { id: string;
         data.task = task;
 
     if (blocks) {
-        data.blocks = await gzip(JSON.stringify(blocks));
+        data.blocks = blocks;
         data.lastEdited = { set: new Date() };
     }
 

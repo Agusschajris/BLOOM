@@ -1,17 +1,9 @@
-//import { auth } from "../../../auth";
-import { gzip as _gzip } from 'node:zlib';
-import { promisify } from 'node:util';
-//import { Session } from "node:inspector";
 import prisma from "../../../../../lib/prisma";
 // import {NextRequest} from "next/server";
 
-const gzip = promisify(_gzip);
 
 // Obtener todas las actividades de una clase determinada
 export async function GET(request: Request, { params } : { params: { id: string }}) {
-    /*const session = await auth();
-    if (session !instanceof Session)
-        return new Response("Not authenticated.", { status: 403 });*/
 
     const authId = request.headers.get("auth-js-id");
     if (!authId) {
@@ -88,8 +80,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
             datasets: {
                 connect: datasets.map((datasetId: number) => ({ id: datasetId })),
             },
-            task,
-            blocks: await gzip('[]'),
+            task
         },
     });
 
