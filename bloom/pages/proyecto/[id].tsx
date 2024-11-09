@@ -14,15 +14,15 @@ import {
   DroppableProvided,
   DropResult
 } from 'react-beautiful-dnd';
-// import * as tf from '@tensorflow/tfjs'; comentado por vercel
+import * as tf from '@tensorflow/tfjs';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
 import {compress, decompress, trimUndefinedRecursively} from 'compress-json';
-import {Project} from "@prisma/client";
+import {DatasetInfo, ProjectData} from "@/app/api/projects/[id]/route";
 
 export type ArgValue = undefined | null | StoredArgValue;
-export type StoredArgValue = boolean | number | [number, number] | [number, number, number] | string;
+export type StoredArgValue = boolean | number | [number] | [number, number] | [number, number, number] | string;
 
 interface DataBlock {
   id: number;
@@ -76,22 +76,24 @@ const Proyecto: React.FC = () => {
 
   let projectName = useRef<string>('');
   let generatedCode = useRef<string>('');
+  let datasetInfo = useRef<DatasetInfo>();
   generateCode();
   
   useEffect(() => {
-    if (id) {
-      fetch(`/api/projects/${id}`, {
-        method: 'GET'
-      }).then(response => {
-        if (response.status !== 200)
-          return handle404();
+    if (!id) return;
 
-        response.json().then((project: Project) => {
-          projectName.current = project.name;
-          setCanvasBlocks(decompressBlocks(project.blocks).map(getFrontendBlock));
-        })
-      });
-    }
+    fetch(`/api/projects/${id}`, {
+      method: 'GET'
+    }).then(response => {
+      if (response.status !== 200)
+        return handle404();
+
+      response.json().then((project: ProjectData) => {
+        projectName.current = project.name;
+        datasetInfo.current = project.datasetInfo;
+        setCanvasBlocks(decompressBlocks(project.blocks).map(getFrontendBlock));
+      })
+    });
   }, [id]);
 
   function handle404() {
@@ -156,26 +158,37 @@ function getBackendBlock(block: BlockInstance): DataBlock {
     });
     return rebuiltBlock;
   }
-  
-  /* Comentado porque a vercel le molesta que no lo uses, descomentar cuando la uses (descomentar tambien el import de tf)
+
   const generateModel = async (blockInstances: BlockInstance[]) => {
     const blocks = blockInstances.map(getBackendBlock);
     const seq = tf.sequential({ name: projectName.current });
-    
+    if (blocks.length !== 0)
+      blocks[0].args.inputShape = [datasetInfo.current!.features];
+    let lastUnitSize = datasetInfo.current!.target;
+
     blocks.forEach((block) => {
       seq.add(
         (tf.layers[block.funName as keyof typeof tf.layers] as (
           args: any
         ) => tf.layers.Layer)(block.args)
       );
+      if (block.args.units)
+        lastUnitSize = block.args.units as number;
     });
+
+    if (lastUnitSize !== datasetInfo.current!.target)
+      seq.add(tf.layers.reshape({ targetShape: [datasetInfo.current!.target] }));
     
     // TODO: save model somewhere, then accessible in the generated code to train it or sth...
-  }; */
+    await seq.save(`downloads://${projectName.current}`);
+  };
   
   function generateCode() {
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
-    
+    if (blocks.length !== 0)
+      blocks[0].args.inputShape = [datasetInfo.current!.features];
+    let lastUnitSize = datasetInfo.current?.target;
+
     generatedCode.current = `import * as tf from "@tensorflow/tfjs";\n\nconst model = tf.sequential({\n  name: "${projectName.current}"\n});\n\n`;
     
     blocks.forEach((block) => {
@@ -183,8 +196,13 @@ function getBackendBlock(block: BlockInstance): DataBlock {
       if (Object.keys(block.args).length !== 0)
         generatedCode.current += JSON.stringify(block.args, null, 2);
       generatedCode.current += '));\n';
+      if (block.args.units)
+        lastUnitSize = block.args.units as number;
     });
-    
+
+    if (lastUnitSize !== datasetInfo.current?.target)
+      generatedCode.current += `model.add(tf.layers.reshape({\n  "targetShape": [${datasetInfo.current?.target}]\n}));\n`;
+
     generatedCode.current += '\nmodel.compile({\n  optimizer: "sgd",\n  loss: "meanSquaredError",\n  metrics: ["accuracy"],\n});\n';
   }
   
@@ -215,7 +233,7 @@ function getBackendBlock(block: BlockInstance): DataBlock {
             <Image src={homeSVG} alt="home" width={24} height={24} />
           </button>
           <h1 className={styles.name}>{projectName.current}</h1>
-          <button className={styles.export}>Exportar</button>
+          <button className={styles.export} onClick={() => generateModel(canvasBlocks)}>Exportar</button>
         </header>
 
         <div className={styles.container}>
