@@ -52,7 +52,8 @@
       "outputs": [],
       "source": [
         "import tensorflow as tf",
-        "from ucimlrepo import fetch_ucirepo"
+        "from ucimlrepo import fetch_ucirepo",
+        "from google.colab import drive"
       ]
     },
     {
@@ -78,6 +79,45 @@
       "source": [
         "dataset = fetch_ucirepo(id=",
         "print(dataset.metadata)"
+      ]
+    },
+    {
+      "id": "drive_mount_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Acceder al modelo",
+        "### Montar Google Drive",
+        "Para cargar el esquema del modelo, y luego guardar el modelo entrenado y los resultados, necesitamos montar Google Drive.",
+        "Para montar Google Drive, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "drive_mount",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": "drive.mount('/content/drive')"
+    },
+    {
+      "id": "model_import_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Cargar el modelo",
+        "Ahora sí, cargaremos el esquema del modelo que usaremos para entrenar.",
+        "Para cargar el esquema del modelo, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "model_import",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": [
+          "model = tf.keras.models.load_model('/content/drive/My Drive/Bloom/"
       ]
     }
   ]

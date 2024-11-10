@@ -48,14 +48,14 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
 
   const drive = google.drive({ version: "v3", auth: dAuth });
 
-  let bloomFolderId = await getFolderOrCreate(drive, "appDataFolder", "Bloom");
+  let bloomFolderId = await getFolderOrCreate(drive, "root", "Bloom");
   let projectFolderId = await getFolderOrCreate(drive, bloomFolderId, project.name);
   let modelFolderId = await getFolderOrCreate(drive, projectFolderId, "model");
 
   let notebookId = await getFileId(drive, projectFolderId, `${project.name}.ipynb`);
   if (!notebookId)
   {
-    const notebook = generateNotebook(project.dataset, project.datasetInfo);
+    const notebook = generateNotebook(project.name, project.dataset, project.datasetInfo);
     let notebookFile = await drive.files.create({
       requestBody: {
         name: `${project.name}.ipynb`,
@@ -144,13 +144,15 @@ function generateModel(blockData: string, datasetInfo: DatasetInfo): tf.Sequenti
   return seq;
 }
 
-function generateNotebook(datasetId: number, datasetInfo: DatasetInfo) {
+function generateNotebook(projectName: string, datasetId: number, datasetInfo: DatasetInfo) {
   const notebook = structuredClone(defaultNotebook);
 
   (notebook.cells[5].source as string[])[3] +=
     `${datasetInfo.name}](https://archive.ics.uci.edu/dataset/${datasetId}).`;
 
   (notebook.cells[6].source as string[])[0] += `${datasetId})`;
+
+  (notebook.cells[10].source as string[])[0] += `${projectName}/model')`;
 
   return notebook;
 }
