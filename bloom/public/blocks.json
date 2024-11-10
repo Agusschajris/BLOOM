@@ -1,5 +1,36 @@
 [
     {
+        "visualName": "Activation",
+        "exp": "Applies an activation function to an output.",
+        "category": "Basic",
+        "funName": "activation",
+        "args": [
+            {
+                "visualName": "Activation function",
+                "exp": "Activation function to use.",
+                "argName": "activation",
+                "type": "select",
+                "values": [
+                    "elu",
+                    "hardSigmoid",
+                    "linear",
+                    "relu",
+                    "relu6",
+                    "selu",
+                    "sigmoid",
+                    "softmax",
+                    "softplus",
+                    "softsign",
+                    "tanh",
+                    "swish",
+                    "mish",
+                    "gelu",
+                    "gelu_new"
+                ]
+            }
+        ]
+    },
+    {
         "visualName": "Dense",
         "exp": "Default simple layer of nodes.",
         "category": "Basic",
@@ -13,7 +44,7 @@
                 "values": "N"
             },
             {
-                "visualName": "Activation",
+                "visualName": "Activation function",
                 "exp": "Activation function to use.",
                 "argName": "activation",
                 "type": "select",
@@ -153,6 +184,28 @@
         "category": "Basic",
         "funName": "flatten",
         "args": []
+    },
+    {
+        "visualName": "Rescaling",
+        "exp": "A preprocessing layer which rescales input values to a new range.",
+        "category": "Rescaling",
+        "funName": "rescaling",
+        "args": [
+            {
+                "visualName": "Scale",
+                "exp": "The scale factor.",
+                "argName": "scale",
+                "type": "number",
+                "values": "R"
+            },
+            {
+                "visualName": "Offset",
+                "exp": "The offset.",
+                "argName": "offset",
+                "type": "number",
+                "values": "R"
+            }
+        ]
     },
     {
         "visualName": "1D Convolution",
@@ -931,6 +984,68 @@
                     "same",
                     "casual"
                 ]
+            }
+        ]
+    },
+    {
+        "visualName": "ELU",
+        "exp": "Exponential Linear Unit. It follows: f(x) = alpha * (exp(x) - 1.) for x < 0, f(x) = x for x >= 0.",
+        "category": "Advanced Activation",
+        "funName": "elu",
+        "args": [
+            {
+                "visualName": "Alpha",
+                "exp": "Negative slope coefficient.",
+                "argName": "alpha",
+                "type": "number",
+                "values": "R+",
+                "default": 1.0
+            }
+        ]
+    },
+    {
+        "visualName": "Leaky ReLU",
+        "exp": "Leaky version of a Rectified Linear Unit. It allows a small gradient when the unit is not active: f(x) = alpha * x for x < 0. f(x) = x for x >= 0.",
+        "category": "Advanced Activation",
+        "funName": "leakyReLU",
+        "args": [
+            {
+                "visualName": "Alpha",
+                "exp": "Negative slope coefficient.",
+                "argName": "alpha",
+                "type": "number",
+                "values": "R+",
+                "default": 0.3
+            }
+        ]
+    },
+    {
+        "visualName": "ReLU",
+        "exp": "Rectified Linear Unit activation function.",
+        "category": "Advanced Activation",
+        "funName": "reLU",
+        "args": [
+            {
+                "visualName": "Max Value",
+                "exp": "Maximum output value.",
+                "argName": "maxValue",
+                "type": "number",
+                "values": "R"
+            }
+        ]
+    },
+    {
+        "visualName": "Thresholded ReLU",
+        "exp": "Thresholded Rectified Linear Unit activation function. It follows: f(x) = x for x > theta, f(x) = 0 otherwise.",
+        "category": "Advanced Activation",
+        "funName": "thresholdedReLU",
+        "args": [
+            {
+                "visualName": "Theta",
+                "exp": "Threshold value for thresholded activation.",
+                "argName": "theta",
+                "type": "number",
+                "values": "R+"
             }
         ]
     }
