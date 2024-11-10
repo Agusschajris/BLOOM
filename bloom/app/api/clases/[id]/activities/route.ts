@@ -78,9 +78,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
         data: {
             name,
             claseId: Number(params.id),
-            datasets: {
-                connect: datasets.map((datasetId: number) => ({ id: datasetId })),
-            },
+            datasets,
             task
         },
     });
