@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Popup from '@components/popUp';
 import styles from '@styles/main.module.scss';
 import ProyectPrev from '@components/proyectPrev';
-import { Dataset } from "@prisma/client";
 import NavBar from '@components/navBar';
 import { Project } from '@prisma/client';
 
@@ -59,25 +58,7 @@ const MainPage: React.FC = () => {
     setShowPopup(false);
   };
 
-  const handleConfirm = (dataset: FileList | number) => {
-    if (typeof dataset !== 'number') {
-      let formData = new FormData();
-      Array.from(dataset).forEach(file => {
-        console.log('Archivo seleccionado:', file.name);
-        formData.append(file.name, file);
-      });
-      formData.append("close", "close");
-      fetch("/api/dataset/upload", {
-        method: 'POST',
-        body: formData
-      }).then((response) => {
-        response.json().then((data: Dataset[]) => {
-          dataset = data[0].id;
-        });
-      }).catch(err => {
-        console.log(err);
-      });
-    }
+  const handleConfirm = (dataset: number) => {
     fetch("/api/projects", {
       method: 'POST',
       headers: {

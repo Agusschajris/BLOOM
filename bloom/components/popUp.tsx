@@ -3,27 +3,21 @@ import React, { useState } from 'react';
 import popupStyle from "@styles/popup.module.scss";
 
 interface PopupProps {
-    onConfirm: (dataset: FileList | number) => void;
+    onConfirm: (dataset: number) => void;
     onCancel: () => void;
 }
 
 const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
     const [selectedDataset, setSelectedDataset] = useState<number | null>(null);
-    const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
     const [selectedButton, setSelectedButton] = useState<number | null>(null);
 
     const handleConfirm = () => {
-        if (selectedFiles) {
-            onConfirm(selectedFiles);
-        } else if (selectedDataset) {
-            onConfirm(selectedDataset);
-        }
+        onConfirm(selectedDataset!);
     };
 
-    const onDatasetClick = (dataset: number) => {
+    const onDatasetClick = (button: number, dataset: number) => {
         setSelectedDataset(dataset);
-        setSelectedFiles(null);
-        setSelectedButton(dataset);
+        setSelectedButton(button);
     };
 
     return (
@@ -41,16 +35,16 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
                         <div className={popupStyle.predeterminados}>
                             <button
                               className={`${popupStyle.btn} ${selectedButton === 1 ? popupStyle.clicked : ''}`}
-                              onClick={() => onDatasetClick(1)}
-                            >DataSet 1</button>
+                              onClick={() => onDatasetClick(1, 53)}
+                            >Iris</button>
                             <button
                               className={`${popupStyle.btn} ${selectedButton === 2 ? popupStyle.clicked : ''}`}
-                              onClick={() => onDatasetClick(2)}
-                            >DataSet 2</button>
+                              onClick={() => onDatasetClick(2, 109)}
+                            >Wine</button>
                             <button
                               className={`${popupStyle.btn} ${selectedButton === 3 ? popupStyle.clicked : ''}`}
-                              onClick={() => onDatasetClick(3)}
-                            >DataSet 3</button>
+                              onClick={() => onDatasetClick(3, 602)}
+                            >Dry Bean</button>
                         </div>
                     </div>
 
@@ -61,18 +55,14 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
                         <div className={popupStyle.uploadWrap}>
                             <button className={popupStyle.uploadButton}>
                                 <label className={popupStyle.explorar} htmlFor="fileUpload">Explorar Archivos</label>
-                                <input className={popupStyle.input} id="fileUpload" type="file" onChange={(e) => {
-                                    setSelectedFiles(e.target.files);
-                                    setSelectedDataset(null);
-                                    setSelectedButton(null);
-                                }} />
+                                <input className={popupStyle.input} id="fileUpload" type="file" />
                             </button>
-                            <span>{selectedFiles ? `"${selectedFiles[0].name}"` : '""'}</span>
+                            <span>""</span>
                         </div>
                     </div>
                 </div>
                 <div className={popupStyle.footer}>
-                    <button className={popupStyle.confirm} onClick={handleConfirm} disabled={!selectedDataset && !selectedFiles}>Confirmar</button>
+                    <button className={popupStyle.confirm} onClick={handleConfirm} disabled={!selectedDataset}>Confirmar</button>
                     <button className={popupStyle.cancel} onClick={onCancel}>Cancelar</button>
                 </div>
             </div>
