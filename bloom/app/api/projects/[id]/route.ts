@@ -3,6 +3,7 @@ import { Prisma, Project } from '@prisma/client';
 import fetch from "node-fetch";
 
 export type DatasetInfo = {
+    name: string,
     has_missing_values: boolean,
     variables: number,
     features: number,
@@ -39,7 +40,8 @@ export async function GET(request: Request, { params } : { params: { id: string 
         has_missing_values: meta.data.has_missing_values as boolean,
         variables: (meta.data.variables as any[]).length,
         features: (meta.data.variables as any[]).filter(f => f.role == "Feature").length,
-        target: (meta.data.variables as any[]).filter(f => f.role == "Target").length
+        target: (meta.data.variables as any[]).filter(f => f.role == "Target").length,
+        name: meta.data.name as string
     };
 
     (project as ProjectData).datasetInfo = datasetInfo;

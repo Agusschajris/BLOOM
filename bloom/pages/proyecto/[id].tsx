@@ -20,6 +20,7 @@ import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
 import {compress, decompress, trimUndefinedRecursively} from 'compress-json';
 import {DatasetInfo, ProjectData} from "@/app/api/projects/[id]/route";
+import defaultNotebook from "@public/defaultNotebook.json";
 
 export type ArgValue = undefined | null | StoredArgValue;
 export type StoredArgValue = boolean | number | [number] | [number, number] | [number, number, number] | string;
@@ -77,6 +78,7 @@ const Proyecto: React.FC = () => {
   let projectName = useRef<string>('');
   let generatedCode = useRef<string>('');
   let datasetInfo = useRef<DatasetInfo>();
+  let datasetId = useRef<number>();
   generateCode();
   
   useEffect(() => {
@@ -91,6 +93,7 @@ const Proyecto: React.FC = () => {
       response.json().then((project: ProjectData) => {
         projectName.current = project.name;
         datasetInfo.current = project.datasetInfo;
+        datasetId.current = project.dataset!;
         setCanvasBlocks(decompressBlocks(project.blocks).map(getFrontendBlock));
       })
     });
@@ -178,7 +181,14 @@ function getBackendBlock(block: BlockInstance): DataBlock {
 
     if (lastUnitSize !== datasetInfo.current!.target)
       seq.add(tf.layers.reshape({ targetShape: [datasetInfo.current!.target] }));
-    
+
+    const notebook = structuredClone(defaultNotebook);
+
+    (notebook.cells[5].source as string[])[3] +=
+      `${datasetInfo.current?.name}](https://archive.ics.uci.edu/dataset/${datasetId}).`;
+
+    (notebook.cells[6].source as string[])[0] += `${datasetId})`;
+
     // TODO: save model somewhere, then accessible in the generated code to train it or sth...
     await seq.save(`downloads://${projectName.current}`);
   };

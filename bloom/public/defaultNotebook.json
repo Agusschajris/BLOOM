@@ -1,0 +1,84 @@
+{
+  "metadata": {},
+  "nbformat": 4,
+  "nbformat_minor": 5,
+  "cells": [
+    {
+      "id": "notebook_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Jupyter Notebooks",
+        "Esto es un notebook de Jupyter, puedes ejecutar cada celda de código presionando el botón de play que aparece al lado de cada celda, o usar la opción de ejecutar todo.",
+        "Los notebooks de Jupyter son una herramienta muy útil para experimentar con código, visualizar datos y compartir resultados. Son muy populares en el mundo de la ciencia de datos y el machine learning."
+      ]
+    },
+    {
+      "id": "package_install_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Instalación de paquetes",
+        "Primero, necesitamos instalar las librerías a usar en nuestro código.",
+        "[TensorFlow](https://www.tensorflow.org/), que es la librería que usaremos para entrenar el modelo de machine learning.",
+        "Y la herramienta de datasets de [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/).",
+        "Otros paquetes necesarios para el entrenamiento del modelo se instalarán automáticamente como dependencias; por ejemplo, la librería utilizada para leer datasets, [pandas](https://pandas.pydata.org/).",
+        "Para instalar estos paquetes, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "package_install",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": "!pip install tensorflow[and-cuda] ucimlrepo"
+    },
+    {
+      "id": "library_import_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Importación de librerías",
+        "Ahora, importaremos las librerías que usaremos en nuestro código.",
+        "Para importar las librerías, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "library_import",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": [
+        "import tensorflow as tf",
+        "from ucimlrepo import fetch_ucirepo"
+      ]
+    },
+    {
+      "id": "dataset_import_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Importación de Dataset",
+        "Ahora, importaremos el dataset que usaremos para entrenar el modelo.",
+        "Usaremos la función `fetch_ucirepo` para importar el dataset.",
+        "En este caso, el dataset que usaremos es [",
+        "Esta herramienta nos facilita la importación de los datasets, procesando los datos y devolviendo un DataFrame de pandas, sin tener que depurarlo nosotros a mano.",
+        "Esto está bien para empezar, pero en un proyecto real, es más complejo, debiendo entender la estructura y el formato de los datos.",
+        "Para importar el dataset, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "dataset_import",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": [
+        "dataset = fetch_ucirepo(id=",
+        "print(dataset.metadata)"
+      ]
+    }
+  ]
+}
