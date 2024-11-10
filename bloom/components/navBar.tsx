@@ -17,7 +17,7 @@ const NavBar: React.FC = () => {
       classProyect = style.selected;
       classClass = style.notSelected;
       break;
-    case "/clases":
+    case "/classes":
       classProyect = style.notSelected;
       classClass = style.selected;
       break;
@@ -32,7 +32,7 @@ const NavBar: React.FC = () => {
   }
 
   const handleClasses = () => {
-    
+    router.push('/classes')
   }
 
   const handleUser = () => {

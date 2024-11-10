@@ -1,0 +1,44 @@
+.mainPage{
+    background-color: #07021A;
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    width: 90%;
+    height: 100%;
+    border: #07021A;
+}
+
+.tittle{
+    margin-top: 20px;
+    font-size: 35px;
+}
+
+.classesContainer{
+    height: 25%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.newClassBtn{
+    width: 270px;
+    background-color: #07021A;
+    border: 4px dashed rgb(234, 233, 252, 0.5);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.newClassBtn:hover{
+    border-color: #EAE9FC;
+}
+
+.createdClasses{
+    overflow-x: scroll;
+}
