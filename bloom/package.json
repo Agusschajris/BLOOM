@@ -12,6 +12,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.3",
     "@google-cloud/local-auth": "^2.1.0",
+    "@jupyterlab/nbformat": "^4.3.0",
     "@neondatabase/serverless": "^0.9.5",
     "@prisma/adapter-neon": "^5.22.0",
     "@prisma/client": "5.22.0",
