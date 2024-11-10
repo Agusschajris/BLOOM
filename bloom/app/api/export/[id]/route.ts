@@ -6,7 +6,14 @@ import defaultNotebook from "@public/defaultNotebook.json";
 import {DatasetInfo, ProjectData} from "@/app/api/projects/[id]/route";
 import {auth} from "@/auth";
 import prisma from "@lib/prisma";
-//import { drive_v3 } from "googleapis";
+import { drive_v3 } from "googleapis";
+import Drive = drive_v3.Drive;
+import {
+  getModelArtifactsInfoForJSON,
+  getModelJSONForModelArtifacts
+} from "@tensorflow/tfjs-core/dist/io/io_utils";
+import {ModelArtifacts, ModelJSON, SaveResult, WeightsManifestConfig} from "@tensorflow/tfjs-core/dist/io/types";
+import {CompositeArrayBuffer} from "@tensorflow/tfjs-core/dist/io/composite_array_buffer";
 
 export async function GET(request: NextRequest, { params } : { params: { id: string }}) {
 
@@ -19,9 +26,6 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
     return new Response("Project not found.", projectResponse);
 
   const project = await projectResponse.json() as ProjectData;
-
-  const model = generateModel(project.blocks, project.datasetInfo);
-  const notebook = generateNotebook(project.dataset, project.datasetInfo);
 
   const session = await auth();
   if (!session || !session.user)
@@ -44,14 +48,74 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
 
   const drive = google.drive({ version: "v3", auth: dAuth });
 
-  const res = await drive.files.list({
-    pageSize: 10,
-    fields: 'files(id, name)',
+  let bloomFolderId = await getFolderOrCreate(drive, "appDataFolder", "Bloom");
+  let projectFolderId = await getFolderOrCreate(drive, bloomFolderId, project.name);
+  let modelFolderId = await getFolderOrCreate(drive, projectFolderId, "model");
+
+  const notebook = generateNotebook(project.dataset, project.datasetInfo);
+
+  let notebookFile = await drive.files.create({
+    requestBody: {
+      name: `${project.name}.ipynb`,
+      //mimeType: "application/x-ipynb+json",
+      parents: [projectFolderId],
+    },
+    media: {
+      mimeType: "application/x-ipynb+json",
+      body: JSON.stringify(notebook),
+    },
+    fields: "id"
   });
 
-  console.log(res.data);
+  if (!notebookFile.data.id)
+    throw new Error("Error creating notebook file.");
 
-  return new Response(JSON.stringify({ model, notebook }), { status: 200 });
+  const model = generateModel(project.blocks, project.datasetInfo);
+
+  await model.save((tf.io.withSaveHandler(async (modelArtifacts: ModelArtifacts): Promise<SaveResult> => {
+    const weightsManifest: WeightsManifestConfig = [{
+      paths: ['./model.weights.bin'],
+      weights: modelArtifacts.weightSpecs!,
+    }];
+    const modelTopologyAndWeightManifest: ModelJSON =
+      getModelJSONForModelArtifacts(modelArtifacts, weightsManifest);
+
+    await drive.files.create({
+      requestBody: {
+        name: "model.json",
+        mimeType: "application/json",
+        parents: [modelFolderId]
+      },
+      media: {
+        mimeType: "application/json",
+        body: JSON.stringify(modelTopologyAndWeightManifest)
+      }
+    });
+
+
+    if (modelArtifacts.weightData != null) {
+      const weightBuffer = CompositeArrayBuffer.join(modelArtifacts.weightData);
+
+      await drive.files.create({
+        requestBody: {
+          name: "model.weights.bin",
+          mimeType: "application/octet-stream",
+          parents: [modelFolderId]
+        },
+        media: {
+          mimeType: "application/octet-stream",
+          body: weightBuffer
+        }
+      });
+    }
+
+    return {
+      modelArtifactsInfo: getModelArtifactsInfoForJSON(modelArtifacts),
+      responses: []
+    };
+  })))
+
+  return new Response(JSON.stringify({notebookId: notebookFile.data.id!}), { status: 200 });
 }
 
 function generateModel(blockData: string, datasetInfo: DatasetInfo): tf.Sequential {
@@ -86,4 +150,30 @@ function generateNotebook(datasetId: number, datasetInfo: DatasetInfo) {
   (notebook.cells[6].source as string[])[0] += `${datasetId})`;
 
   return notebook;
+}
+
+async function getFolderOrCreate(drive: Drive, parentFolderId: string, folderName: string): Promise<string> {
+  const response = await drive.files.list({
+    q: `mimeType = 'application/vnd.google-apps.folder' and name = '${folderName}' and '${parentFolderId}' in parents`,
+    fields: "files(id)"
+  });
+
+  const list = response.data.files;
+
+  if (list && list.length > 0 && list[0].id)
+    return list[0].id;
+
+  const newFolder = await drive.files.create({
+    requestBody: {
+      name: folderName,
+      mimeType: "application/vnd.google-apps.folder",
+      parents: [parentFolderId]
+    },
+    fields: "id"
+  });
+
+  if (!newFolder.data.id)
+    throw new Error("Error creating folder.");
+
+  return newFolder.data.id;
 }
