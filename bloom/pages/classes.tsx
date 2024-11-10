@@ -4,10 +4,12 @@ import styles from "@styles/classes.module.scss";
 import masSVG from "@public/masClasses.svg";
 import Image from "next/image";
 import ClassPreview from "@/components/classPreview";
+import JoinedClassPreview from "@/components/joinedClassPreview";
 
 interface Class {
     id: number;
     name: string;
+    owner: string;
 }
 
 const ClassesPage: React.FC = () => {
@@ -38,8 +40,8 @@ const ClassesPage: React.FC = () => {
                         </button>
                     </div>
                     <div className={styles.createdClasses}>
-                        {classesCreated.map((project) => (
-                            <ClassPreview key={project.id} id={project.id} name={project.name} />
+                        {classesCreated.map((classCreated) => (
+                            <ClassPreview key={classCreated.id} id={classCreated.id} name={classCreated.name}/>
                         ))}
                     </div>
                     
@@ -51,7 +53,7 @@ const ClassesPage: React.FC = () => {
                     </div>
                     <div className={styles.createdClasses}>
                         {joinedClasses.map((joinedClass) => (
-                            <ClassPreview key={joinedClass.id} id={joinedClass.id} name={joinedClass.name} />
+                            <JoinedClassPreview key={joinedClass.id} id={joinedClass.id} name={joinedClass.name} owner={joinedClass.owner}/>
                         ))}
                     </div>
                 </div>
