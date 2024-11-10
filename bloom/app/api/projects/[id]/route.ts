@@ -1,6 +1,5 @@
 import prisma from '@lib/prisma';
 import { Prisma, Project } from '@prisma/client';
-import fetch from "node-fetch";
 
 export type DatasetInfo = {
     name: string,

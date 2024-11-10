@@ -14,60 +14,20 @@ import {
   DroppableProvided,
   DropResult
 } from 'react-beautiful-dnd';
-import * as tf from '@tensorflow/tfjs';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import '/styles/prism-custom.css';
-import {compress, decompress, trimUndefinedRecursively} from 'compress-json';
 import {DatasetInfo, ProjectData} from "@/app/api/projects/[id]/route";
-import defaultNotebook from "@public/defaultNotebook.json";
-
-export type ArgValue = undefined | null | StoredArgValue;
-export type StoredArgValue = boolean | number | [number] | [number, number] | [number, number, number] | string;
-
-interface DataBlock {
-  id: number;
-  visualName: string;
-  funName: string;
-  args: { [key: string]: StoredArgValue };
-}
-
-type Block = {
-  visualName: string;
-  exp: string;
-  category: string;
-  funName: string;
-  args: Argument[];
-};
-
-type Argument = {
-  visualName: string;
-  exp: string;
-  argName: string;
-  type: string;
-  values: undefined | null | string | (string | null)[];
-  default: ArgValue;
-  value: ArgValue;
-};
-
-interface BlockInstance extends Block {
-  id: string;
-}
-
-export type { BlockInstance, Argument };
-
-
-function decompressBlocks(data: string): DataBlock[] {
-    return decompress(JSON.parse(data));
-}
-
-function compressBlocks(blocks: DataBlock[]): string {
-  // 0 trim Blocks
-  trimUndefinedRecursively(blocks);
-  // 1 compress blocks
-  const compressedBlocks = compress(blocks);
-  return JSON.stringify(compressedBlocks);
-}
+import {
+  Argument,
+  ArgValue,
+  Block,
+  BlockInstance,
+  compressBlocks,
+  DataBlock,
+  decompressBlocks,
+  StoredArgValue
+} from "@lib/blockydata";
 
 const Proyecto: React.FC = () => {
   const router = useRouter();
@@ -137,9 +97,9 @@ const Proyecto: React.FC = () => {
     return [...prevBlocks];
   });
 
-function getBackendBlock(block: BlockInstance): DataBlock {
-  const args = block.args.reduce((acc, arg) => {
-    if (arg.value !== undefined && arg.value !== null) {
+  function getBackendBlock(block: BlockInstance): DataBlock {
+    const args = block.args.reduce((acc, arg) => {
+      if (arg.value !== undefined && arg.value !== null) {
         acc[arg.argName] = arg.value as StoredArgValue;
       }
       return acc;
@@ -161,37 +121,6 @@ function getBackendBlock(block: BlockInstance): DataBlock {
     });
     return rebuiltBlock;
   }
-
-  const generateModel = async (blockInstances: BlockInstance[]) => {
-    const blocks = blockInstances.map(getBackendBlock);
-    const seq = tf.sequential({ name: projectName.current });
-    if (blocks.length !== 0)
-      blocks[0].args.inputShape = [datasetInfo.current!.features];
-    let lastUnitSize = datasetInfo.current!.target;
-
-    blocks.forEach((block) => {
-      seq.add(
-        (tf.layers[block.funName as keyof typeof tf.layers] as (
-          args: any
-        ) => tf.layers.Layer)(block.args)
-      );
-      if (block.args.units)
-        lastUnitSize = block.args.units as number;
-    });
-
-    if (lastUnitSize !== datasetInfo.current!.target)
-      seq.add(tf.layers.reshape({ targetShape: [datasetInfo.current!.target] }));
-
-    const notebook = structuredClone(defaultNotebook);
-
-    (notebook.cells[5].source as string[])[3] +=
-      `${datasetInfo.current?.name}](https://archive.ics.uci.edu/dataset/${datasetId}).`;
-
-    (notebook.cells[6].source as string[])[0] += `${datasetId})`;
-
-    // TODO: save model somewhere, then accessible in the generated code to train it or sth...
-    await seq.save(`downloads://${projectName.current}`);
-  };
   
   function generateCode() {
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
@@ -214,6 +143,20 @@ function getBackendBlock(block: BlockInstance): DataBlock {
       generatedCode.current += `model.add(tf.layers.reshape({\n  "targetShape": [${datasetInfo.current?.target}]\n}));\n`;
 
     generatedCode.current += '\nmodel.compile({\n  optimizer: "sgd",\n  loss: "meanSquaredError",\n  metrics: ["accuracy"],\n});\n';
+  }
+
+  function exportModel() {
+    fetch(`/api/export/${id}`, {
+      method: 'GET',
+    }).then(response => {
+      if (!response.ok)
+        return console.error("Failed to fetch model:", response);
+
+      /*response.json().then((data) => {
+        const { model, notebook } = data;
+        console.log(model, notebook);
+      });*/
+    });
   }
   
   useEffect(generateCode, [projectName, canvasBlocks, id]);
@@ -243,7 +186,7 @@ function getBackendBlock(block: BlockInstance): DataBlock {
             <Image src={homeSVG} alt="home" width={24} height={24} />
           </button>
           <h1 className={styles.name}>{projectName.current}</h1>
-          <button className={styles.export} onClick={() => generateModel(canvasBlocks)}>Exportar</button>
+          <button className={styles.export} onClick={() => exportModel()}>Exportar</button>
         </header>
 
         <div className={styles.container}>

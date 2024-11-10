@@ -10,6 +10,14 @@ const providers: Provider[] = [
   Google({
     clientId: process.env.AUTH_GOOGLE_ID,
     clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    authorization: {
+      params: {
+        prompt: "consent",
+        access_type: "offline",
+        response_type: "code",
+        scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.metadata"
+      },
+    },
     /* TODO : get needed values and add to schema
     async profile(profile) {
       return {...profile}
@@ -22,7 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers,
   callbacks: {
-    /*async session({ session, user }) {
+    async session({ session, user }) {
       const [googleAccount] = await prisma.account.findMany({
         where: { userId: user.id, provider: "google" },
       });
@@ -72,7 +80,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
       return session
-    },*/
+    },
     async authorized({ request, auth }) {
       const serverUrl = `${request.nextUrl.protocol}//${request.nextUrl.hostname}${request.nextUrl.port ? `:${request.nextUrl.port}` : ''}`;
 
