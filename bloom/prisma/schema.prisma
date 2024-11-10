@@ -105,7 +105,7 @@ model Project {
   ownerId           String
   // dataset           Dataset?      @relation(fields: [datasetId], references: [id])
   // datasetId         Int
-  dataset           Int?
+  dataset           Int
 }
 
 model Clase {
