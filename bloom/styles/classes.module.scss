@@ -41,4 +41,23 @@
 
 .createdClasses{
     overflow-x: scroll;
+    overflow-y: hidden;
+    width: 80%;
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+
+    &::-webkit-scrollbar {
+        height: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #060C65;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #0C2BA7;
+    }
 }
+
