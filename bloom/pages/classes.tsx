@@ -13,20 +13,40 @@ interface Class {
 }
 
 const ClassesPage: React.FC = () => {
-    const [classesCreated, setClassesCreated] = useState<Class[]>([]);
-    const [joinedClasses, setJoinedClasses] = useState<Class[]>([]);
+  const [classesCreated, setClassesCreated] = useState<Class[]>([]);
+  const [joinedClasses, setJoinedClasses] = useState<Class[]>([]);
 
-    useEffect(() => {
-        // Acá van los dos fetch!!
-    }, []);
+  useEffect(() => {
+    // Acá van los dos fetch!!
+    fetch("/api/clases?role=owner", {
+      method: "GET"
+    }).then(res => {
+      if (!res.ok)
+        throw new Error(`HTTP error! status: ${res.status}`);
 
-    const handleNewClass = () => {
-        
-    };
+      res.json().then(
+        data => setClassesCreated(data)
+      );
+    });
+    fetch("/api/clases?role=joined", {
+      method: "GET"
+    }).then(res => {
+      if (!res.ok)
+        throw new Error(`HTTP error! status: ${res.status}`);
 
-    const handleJoinClass = () => {
+      res.json().then(
+        data => setJoinedClasses(data)
+      );
+    });
+  }, []);
 
-    };
+  const handleNewClass = () => {
+
+  };
+
+  const handleJoinClass = () => {
+
+  };
 
     return (
         <>
@@ -59,8 +79,7 @@ const ClassesPage: React.FC = () => {
                 </div>
             </div>
         </>
-    );
 
-};
+);}
 
 export default ClassesPage;

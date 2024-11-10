@@ -4,7 +4,8 @@ import {NextRequest} from "next/server";
 
 // Obtener todos los proyectos
 export async function GET(request: NextRequest) {
-    let orderBy = {};
+
+    let orderBy: {};
     const defaultOrAsc = request.nextUrl.searchParams.get("orderDirection") ?? 'asc';
     const defaultOrDesc = request.nextUrl.searchParams.get("orderDirection") ?? 'desc';
 
