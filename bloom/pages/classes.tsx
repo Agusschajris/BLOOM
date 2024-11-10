@@ -46,38 +46,39 @@ const ClassesPage: React.FC = () => {
 
   };
 
-  return (
-    <>
-      <NavBar />
-      <div className={styles.mainPage}>
-        <div className={styles.container}>
-          <h1 className={styles.tittle}>Clases creadas</h1>
-          <div className={styles.classesContainer}>
-            <button className={styles.newClassBtn} onClick={handleNewClass}>
-              <Image src={masSVG} alt="nueva clase" className={styles.masSVG} />
-            </button>
-            <div className={styles.createdClasses}>
-              {classesCreated.map((project) => (
-                <ClassPreview key={project.id} id={project.id} name={project.name} />
-              ))}
-            </div>
-          </div>
+    return (
+        <>
+            <NavBar />
+            <div className={styles.mainPage}>
+                <div className={styles.container}>
+                    <div className={styles.header}>
+                        <h1 className={styles.tittle}>Clases creadas</h1>
+                        <button className={styles.newClassBtn} onClick={handleNewClass}>
+                            <Image src={masSVG} alt="nueva clase" className={styles.masSVG} width={20}/>
+                        </button>
+                    </div>
+                    <div className={styles.createdClasses}>
+                        {classesCreated.map((project) => (
+                            <ClassPreview key={project.id} id={project.id} name={project.name} />
+                        ))}
+                    </div>
 
-          <h1 className={styles.tittle}>Clases unidas</h1>
-          <div className={styles.classesContainer}>
-            <button className={styles.newClassBtn} onClick={handleJoinClass}>
-              <Image src={masSVG} alt="unirse a una clase" className={styles.masSVG} />
-            </button>
-            <div className={styles.createdClasses}>
-              {joinedClasses.map((joinedClass) => (
-                <ClassPreview key={joinedClass.id} id={joinedClass.id} name={joinedClass.name} />
-              ))}
+                    <div className={styles.header}>
+                        <h1 className={styles.tittle}>Clases unidas</h1>
+                        <button className={styles.newClassBtn} onClick={handleJoinClass}>
+                            <Image src={masSVG} alt="unirse a una clase" className={styles.masSVG} width={20}/>
+                        </button>
+                    </div>
+                    <div className={styles.createdClasses}>
+                        {joinedClasses.map((joinedClass) => (
+                            <ClassPreview key={joinedClass.id} id={joinedClass.id} name={joinedClass.name} />
+                        ))}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
+
 };
 
 export default ClassesPage;
