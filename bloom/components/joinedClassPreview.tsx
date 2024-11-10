@@ -6,9 +6,10 @@ import Image from "next/image"
 interface Props{
     id: number,
     name: string,
+    owner: string;
 }
 
-const ClassPreview: React.FC<Props> = ({id, name}) => {
+const JoinedClassPreview: React.FC<Props> = ({id, name, owner}) => {
 
     const handleMore = () => {
         
@@ -17,6 +18,7 @@ const ClassPreview: React.FC<Props> = ({id, name}) => {
     return(
     <div className={style.container}>
         <h1 className={style.name}>{name}</h1>
+        <p className={style.owner}>Creador por: {owner}</p>
         <button className={style.more} onClick={handleMore}>
             <Image src={dots} alt="más" className={style.dotsSVG}/>
         </button>
@@ -24,4 +26,4 @@ const ClassPreview: React.FC<Props> = ({id, name}) => {
     )
 };
 
-export default ClassPreview;
+export default JoinedClassPreview;
