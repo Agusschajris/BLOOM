@@ -52,23 +52,26 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
   let projectFolderId = await getFolderOrCreate(drive, bloomFolderId, project.name);
   let modelFolderId = await getFolderOrCreate(drive, projectFolderId, "model");
 
-  const notebook = generateNotebook(project.dataset, project.datasetInfo);
-
-  let notebookFile = await drive.files.create({
-    requestBody: {
-      name: `${project.name}.ipynb`,
-      //mimeType: "application/x-ipynb+json",
-      parents: [projectFolderId],
-    },
-    media: {
-      mimeType: "application/x-ipynb+json",
-      body: JSON.stringify(notebook),
-    },
-    fields: "id"
-  });
-
-  if (!notebookFile.data.id)
-    throw new Error("Error creating notebook file.");
+  let notebookId = await getFileId(drive, projectFolderId, `${project.name}.ipynb`);
+  if (!notebookId)
+  {
+    const notebook = generateNotebook(project.dataset, project.datasetInfo);
+    let notebookFile = await drive.files.create({
+      requestBody: {
+        name: `${project.name}.ipynb`,
+        //mimeType: "application/x-ipynb+json",
+        parents: [projectFolderId],
+      },
+      media: {
+        mimeType: "application/x-ipynb+json",
+        body: JSON.stringify(notebook),
+      },
+      fields: "id"
+    });
+    if (!notebookFile.data.id)
+      throw new Error("Error creating notebook file.");
+    notebookId = notebookFile.data.id!;
+  }
 
   const model = generateModel(project.blocks, project.datasetInfo);
 
@@ -115,7 +118,7 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
     };
   })))
 
-  return new Response(JSON.stringify({notebookId: notebookFile.data.id!}), { status: 200 });
+  return new Response(JSON.stringify({notebookId}), { status: 200 });
 }
 
 function generateModel(blockData: string, datasetInfo: DatasetInfo): tf.Sequential {
@@ -150,6 +153,20 @@ function generateNotebook(datasetId: number, datasetInfo: DatasetInfo) {
   (notebook.cells[6].source as string[])[0] += `${datasetId})`;
 
   return notebook;
+}
+
+async function getFileId(drive: Drive, parentFolderId: string, fileName: string): Promise<string | null> {
+  const response = await drive.files.list({
+    q: `name = '${fileName}' and '${parentFolderId}' in parents`,
+    fields: "files(id)"
+  });
+
+  const list = response.data.files;
+
+  if (list && list.length > 0 && list[0].id)
+    return list[0].id;
+
+  return null;
 }
 
 async function getFolderOrCreate(drive: Drive, parentFolderId: string, folderName: string): Promise<string> {
