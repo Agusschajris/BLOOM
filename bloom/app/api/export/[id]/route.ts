@@ -74,6 +74,14 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
     notebookId = notebookFile.data.id!;
   }
 
+  let modelJsonId = await getFileId(drive, modelFolderId, "model.json");
+  if (modelJsonId)
+    await drive.files.delete({ fileId: modelJsonId });
+
+  let modelWeightsId = await getFileId(drive, modelFolderId, "model.weights.bin");
+  if (modelWeightsId)
+    await drive.files.delete({ fileId: modelWeightsId });
+
   const model = generateModel(project.blocks, project.datasetInfo);
 
   await model.save((tf.io.withSaveHandler(async (modelArtifacts: ModelArtifacts): Promise<SaveResult> => {
