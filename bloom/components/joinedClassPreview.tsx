@@ -9,7 +9,7 @@ interface Props{
     owner: string;
 }
 
-const JoinedClassPreview: React.FC<Props> = ({id, name, owner}) => {
+const JoinedClassPreview: React.FC<Props> = ({/*id,*/ name, owner}) => {
 
     const handleMore = () => {
         
