@@ -15,7 +15,7 @@ import {
   DropResult
 } from 'react-beautiful-dnd';
 import Prism from 'prismjs';
-import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-javascript';
 import '/styles/prism-custom.css';
 import {DatasetInfo, ProjectData} from "@/app/api/projects/[id]/route";
 import {
@@ -160,7 +160,8 @@ const Proyecto: React.FC = () => {
   }
   
   useEffect(generateCode, [projectName, canvasBlocks, id]);
-  
+
+  // Save project to backend
   useEffect(() => {
     if (!id || !projectName.current) return
     
@@ -174,9 +175,10 @@ const Proyecto: React.FC = () => {
       body: JSON.stringify({ blocks: compressedBlocks }),
     }).then();
   }, [canvasBlocks, id]);
+
   useEffect(() => {
     Prism.highlightAll(); 
-  }, [generatedCode]);
+  }, [generatedCode, projectName, canvasBlocks, id]);
   
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -252,7 +254,7 @@ const Proyecto: React.FC = () => {
           <aside className={styles.codigoWrap}>
             <h1 className={styles.h1}>CÓDIGO</h1>
             <pre>
-              <code className="language-python">{generatedCode.current}</code>
+              <code className="language-javascript">{generatedCode.current}</code>
             </pre>
           </aside>
         </div>
