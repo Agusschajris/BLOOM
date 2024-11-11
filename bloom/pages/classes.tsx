@@ -60,6 +60,9 @@ const ClassesPage: React.FC = () => {
                         </button>
                     </div>
                     <div className={styles.createdClasses}>
+                    <ClassPreview key={0} id={0} name={"Clase 1"}/>
+                    <ClassPreview key={0} id={0} name={"Clase de prueba"}/>
+                    <ClassPreview key={0} id={0} name={"Clase Julian"}/>
                         {classesCreated.map((classCreated) => (
                             <ClassPreview key={classCreated.id} id={classCreated.id} name={classCreated.name}/>
                         ))}
@@ -72,6 +75,11 @@ const ClassesPage: React.FC = () => {
                         </button>
                     </div>
                     <div className={styles.createdClasses}>
+                    <JoinedClassPreview key={0} id={0} name={"Clase Julian"} owner={"Zoe Pérez Colman"}/>
+                    <JoinedClassPreview key={0} id={0} name={"Clase Julian"} owner={"Tomás Blur Spurio"}/>
+                    <JoinedClassPreview key={0} id={0} name={"Clase Julian"} owner={"Brenda Oriolo"}/>
+                    <JoinedClassPreview key={0} id={0} name={"Clase Julian"} owner={"Agustina Schajris"}/>
+                    <JoinedClassPreview key={0} id={0} name={"Clase Julian"} owner={"Julian Zylber"}/>
                         {joinedClasses.map((joinedClass) => (
                             <JoinedClassPreview key={joinedClass.id} id={joinedClass.id} name={joinedClass.name} owner={joinedClass.owner}/>
                         ))}

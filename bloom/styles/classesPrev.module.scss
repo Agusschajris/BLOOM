@@ -3,7 +3,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px;
+    height: 50px;
+    min-height: 50px;
 }
 
 .name{
@@ -12,6 +13,11 @@
 
 .owner{
     opacity: 50%;
+    justify-self: flex-start;
+}
+
+.ownerWrap{
+    width: 35%;
 }
 
 .more{

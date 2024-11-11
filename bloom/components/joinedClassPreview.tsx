@@ -18,7 +18,9 @@ const JoinedClassPreview: React.FC<Props> = ({/*id,*/ name, owner}) => {
     return(
     <div className={style.container}>
         <h1 className={style.name}>{name}</h1>
-        <p className={style.owner}>Creador por: {owner}</p>
+        <div className={style.ownerWrap}>
+            <p className={style.owner}>Creador por: {owner}</p>
+        </div>
         <button className={style.more} onClick={handleMore}>
             <Image src={dots} alt="más" className={style.dotsSVG}/>
         </button>
