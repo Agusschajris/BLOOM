@@ -4,7 +4,7 @@ import Image from 'next/image';
 import masSVG from '@public/mas.svg';
 import PopUp from '@components/arguments';
 import { useState } from 'react';
-import { BlockInstance, Argument } from '@/pages/proyecto/[id]';
+import { BlockInstance, Argument } from '@lib/blockydata';
 
 interface BloqueProps {
   block: BlockInstance;

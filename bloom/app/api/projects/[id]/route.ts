@@ -93,6 +93,11 @@ export async function DELETE(request: Request, { params } : { params: { id: stri
     if (!deletedProject)
         return new Response("Project not found.", { status: 404 });
 
+    await fetch(`http://localhost:3000/api/export/${params.id}`, {
+        method: "DELETE",
+        headers: request.headers
+    });
+
     return new Response(JSON.stringify(deletedProject), { status: 200 });
 }
 

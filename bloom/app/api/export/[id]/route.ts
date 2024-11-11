@@ -111,6 +111,32 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
   return new Response(JSON.stringify({notebookId}), { status: 200 });
 }
 
+export async function DELETE(request: NextRequest, { params } : { params: { id: string }}) {
+  const drive = await getDriveFromAuth();
+
+  const projectResponse = await fetch(`http://localhost:3000/api/projects/${params.id}`, {
+    method: "GET",
+    headers: request.headers
+  });
+
+  if (!projectResponse.ok)
+    return new Response("Project not found.", projectResponse);
+
+  const project = await projectResponse.json() as ProjectData;
+
+  let bloomFolderId = await getFolderId(drive, "root", "Bloom");
+  if (!bloomFolderId)
+    return new Response("Bloom folder not found.", { status: 200 });
+
+  let projectFolderId = await getFolderId(drive, bloomFolderId, project.name);
+  if (!projectFolderId)
+    return new Response("Project folder not found.", { status: 200 });
+
+  await drive.files.delete({ fileId: projectFolderId });
+
+  return new Response("Project deleted.", { status: 200 });
+}
+
 async function getDriveFromAuth(): Promise<Drive> {
   const session = await auth();
   if (!session || !session.user)
