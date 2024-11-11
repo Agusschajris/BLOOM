@@ -1,18 +1,27 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import popupStyle from "@styles/popup.module.scss";
+import DatasetOption, { DatasetOptionProps } from './dataset';
 
 interface PopupProps {
-    onConfirm: (dataset: number) => void;
+    onConfirm: (dataset: number, projectName: string) => void;
     onCancel: () => void;
 }
 
 const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
     const [selectedDataset, setSelectedDataset] = useState<number | null>(null);
     const [selectedButton, setSelectedButton] = useState<number | null>(null);
+    const [projectName, setProjectName] = useState<string>("");
+    const [datasets, setDatasets] = useState<DatasetOptionProps[]>([]);
 
+    useEffect(() => {
+        // Llamada para obtener los datasets
+    }, []);
+    
     const handleConfirm = () => {
-        onConfirm(selectedDataset!);
+        if (selectedDataset && projectName) {
+            onConfirm(selectedDataset, projectName);
+        }
     };
 
     const onDatasetClick = (button: number, dataset: number) => {
@@ -24,7 +33,9 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
         <>
             <div className={popupStyle.overlay} onClick={onCancel} />
             <div className={popupStyle.wrapper}>
-                <h1 className={popupStyle.tittle}>Seleccionar DataSet</h1>
+                <h1 className={popupStyle.tittle}>Crear proyecto</h1>
+                <label className={popupStyle.label} htmlFor="projectName">Nombre</label>
+                <input className={popupStyle.input} id="projectName" type="text" value={projectName} placeholder='proyecto inicial' onChange={(e) => setProjectName(e.target.value)}/>
 
                 <div className={popupStyle.optionsWrapper}>
                     
@@ -50,19 +61,15 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
 
                     <div className={popupStyle.segmentUpload}>
                         <div className={popupStyle.nombreWrap}>
-                            <p className={popupStyle.nombre}>Subir Archivo</p>
+                            <p className={popupStyle.nombre}>Ver más Datasets</p>
                         </div>
                         <div className={popupStyle.uploadWrap}>
-                            <button className={popupStyle.uploadButton}>
-                                <label className={popupStyle.explorar} htmlFor="fileUpload">Explorar Archivos</label>
-                                <input className={popupStyle.input} id="fileUpload" type="file" />
-                            </button>
-                            <span>""</span>
+                        {datasets.map((dataset, index) => ( <DatasetOption key={index} name={dataset.name} link={new URL(dataset.link)}/>))}
                         </div>
                     </div>
                 </div>
                 <div className={popupStyle.footer}>
-                    <button className={popupStyle.confirm} onClick={handleConfirm} disabled={!selectedDataset}>Confirmar</button>
+                    <button className={popupStyle.confirm} onClick={handleConfirm} disabled={!selectedDataset || !projectName}>Confirmar</button>
                     <button className={popupStyle.cancel} onClick={onCancel}>Cancelar</button>
                 </div>
             </div>
