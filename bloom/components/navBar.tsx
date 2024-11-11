@@ -4,6 +4,7 @@ import style from '@styles/navBar.module.scss';
 import Image from 'next/image';
 import logoSVG from '@public/logo.svg';
 import userSVG from '@public/user.svg';
+import { signOut } from 'next-auth/react';
 
 const NavBar: React.FC = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const NavBar: React.FC = () => {
   }
 
   const handleUser = () => {
-    
+    signOut({redirectTo: "/"}).then();
   }
 
   useEffect(() => {
