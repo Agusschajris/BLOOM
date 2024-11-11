@@ -28,26 +28,7 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
 
   const project = await projectResponse.json() as ProjectData;
 
-  const session = await auth();
-  if (!session || !session.user)
-    return new Response("Not authenticated.", { status: 401 });
-
-  const account = await prisma.account.findFirst({
-    where: {
-      userId: session.user.id!,
-    },
-    select: {
-      access_token: true,
-    }
-  });
-
-  if (!account || !account.access_token)
-    return new Response("Account not found.", { status: 401 });
-
-  const dAuth = new google.auth.OAuth2();
-  dAuth.setCredentials({ access_token: account.access_token });
-
-  const drive = google.drive({ version: "v3", auth: dAuth });
+  const drive = await getDriveFromAuth();
 
   let bloomFolderId = await getFolderOrCreate(drive, "root", "Bloom");
   let projectFolderId = await getFolderOrCreate(drive, bloomFolderId, project.name);
@@ -60,7 +41,7 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
     let notebookFile = await drive.files.create({
       requestBody: {
         name: `${project.name}.ipynb`,
-        //mimeType: "application/x-ipynb+json",
+        mimeType: "application/x-ipynb+json",
         parents: [projectFolderId],
       },
       media: {
@@ -130,6 +111,29 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
   return new Response(JSON.stringify({notebookId}), { status: 200 });
 }
 
+async function getDriveFromAuth(): Promise<Drive> {
+  const session = await auth();
+  if (!session || !session.user)
+    throw new Error("User not found.");
+
+  const account = await prisma.account.findFirst({
+    where: {
+      userId: session.user.id!,
+    },
+    select: {
+      access_token: true,
+    }
+  });
+
+  if (!account || !account.access_token)
+    throw new Error("Account not found.");
+
+  const dAuth = new google.auth.OAuth2();
+  dAuth.setCredentials({ access_token: account.access_token });
+
+  return google.drive({ version: "v3", auth: dAuth });
+}
+
 function generateModel(blockData: string, datasetInfo: DatasetInfo): tf.Sequential {
   const blocks = decompressBlocks(blockData);
   const seq = tf.sequential();
@@ -180,7 +184,7 @@ async function getFileId(drive: Drive, parentFolderId: string, fileName: string)
   return null;
 }
 
-async function getFolderOrCreate(drive: Drive, parentFolderId: string, folderName: string): Promise<string> {
+async function getFolderId(drive: Drive, parentFolderId: string, folderName: string): Promise<string | null> {
   const response = await drive.files.list({
     q: `mimeType = 'application/vnd.google-apps.folder' and name = '${folderName}' and '${parentFolderId}' in parents`,
     fields: "files(id)"
@@ -190,6 +194,15 @@ async function getFolderOrCreate(drive: Drive, parentFolderId: string, folderNam
 
   if (list && list.length > 0 && list[0].id)
     return list[0].id;
+
+  return null;
+}
+
+async function getFolderOrCreate(drive: Drive, parentFolderId: string, folderName: string): Promise<string> {
+  const possibleFolderId = await getFolderId(drive, parentFolderId, folderName);
+
+  if (possibleFolderId)
+    return possibleFolderId;
 
   const newFolder = await drive.files.create({
     requestBody: {
