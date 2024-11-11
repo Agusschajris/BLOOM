@@ -12,10 +12,15 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
     const [selectedDataset, setSelectedDataset] = useState<number | null>(null);
     const [selectedButton, setSelectedButton] = useState<number | null>(null);
     const [projectName, setProjectName] = useState<string>("");
-    const [datasets, /*setDatasets*/] = useState<DatasetOptionProps[]>([]);
+    const [datasets, setDatasets] = useState<DatasetOptionProps[]>([]);
 
     useEffect(() => {
         // Llamada para obtener los datasets
+        fetch("/api/datasets", {
+            method: "GET",
+        }).then(response => {
+            response.json().then(data => setDatasets(data));
+        })
     }, []);
     
     const handleConfirm = () => {
