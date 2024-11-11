@@ -83,6 +83,11 @@ export async function PUT(request: Request, { params } : { params: { id: string 
 // Eliminar un proyecto
 export async function DELETE(request: Request, { params } : { params: { id: string }}) {
 
+    await fetch(`http://localhost:3000/api/export/${params.id}`, {
+        method: "DELETE",
+        headers: request.headers
+    });
+
     const deletedProject = await prisma.project.delete({
         where: {
             id: Number(params.id),
@@ -92,11 +97,6 @@ export async function DELETE(request: Request, { params } : { params: { id: stri
 
     if (!deletedProject)
         return new Response("Project not found.", { status: 404 });
-
-    await fetch(`http://localhost:3000/api/export/${params.id}`, {
-        method: "DELETE",
-        headers: request.headers
-    });
 
     return new Response(JSON.stringify(deletedProject), { status: 200 });
 }
