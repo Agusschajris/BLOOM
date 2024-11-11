@@ -140,7 +140,7 @@ const Proyecto: React.FC = () => {
     });
 
     if (lastUnitSize !== datasetInfo.current?.target)
-      generatedCode.current += `model.add(tf.layers.reshape({\n  "targetShape": [${datasetInfo.current?.target}]\n}));\n`;
+      generatedCode.current += `// Dense layer to match output shape\nmodel.add(tf.layers.dense({\n  "units": ${datasetInfo.current?.target}\n}));\n`;
 
     generatedCode.current += '\nmodel.compile({\n  optimizer: "sgd",\n  loss: "meanSquaredError",\n  metrics: ["accuracy"],\n});\n';
   }

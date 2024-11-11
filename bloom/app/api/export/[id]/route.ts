@@ -152,7 +152,7 @@ function generateModel(blockData: string, datasetInfo: DatasetInfo): tf.Sequenti
   });
 
   if (lastUnitSize !== datasetInfo.target)
-    seq.add(tf.layers.reshape({ targetShape: [datasetInfo.target] }));
+    seq.add(tf.layers.dense({ units: datasetInfo.target }));
 
   return seq;
 }
