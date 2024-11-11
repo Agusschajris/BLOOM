@@ -8,7 +8,7 @@ interface Props{
     name: string,
 }
 
-const ClassPreview: React.FC<Props> = ({id, name}) => {
+const ClassPreview: React.FC<Props> = ({/*id,*/ name}) => {
 
     const handleMore = () => {
         
