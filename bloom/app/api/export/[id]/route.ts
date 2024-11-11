@@ -14,6 +14,7 @@ import {
 } from "@tensorflow/tfjs-core/dist/io/io_utils";
 import {ModelArtifacts, ModelJSON, SaveResult, WeightsManifestConfig} from "@tensorflow/tfjs-core/dist/io/types";
 import {CompositeArrayBuffer} from "@tensorflow/tfjs-core/dist/io/composite_array_buffer";
+import stream from "node:stream";
 
 export async function GET(request: NextRequest, { params } : { params: { id: string }}) {
 
@@ -107,7 +108,7 @@ export async function GET(request: NextRequest, { params } : { params: { id: str
         },
         media: {
           mimeType: "application/octet-stream",
-          body: weightBuffer
+          body: stream.Readable.from(Buffer.from(weightBuffer))
         }
       });
     }
