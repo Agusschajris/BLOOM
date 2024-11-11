@@ -10,6 +10,8 @@ export const config = {
     "/api/clases/:path*",
     "/api/export",
     "/api/export/:path*",
+    "/api/auth/profile",
+    "/api/auth/profile/:path*",
     "/dashboard",
     "/proyecto",
     "/proyecto/:path*",

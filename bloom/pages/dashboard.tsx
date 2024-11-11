@@ -58,14 +58,14 @@ const MainPage: React.FC = () => {
     setShowPopup(false);
   };
 
-  const handleConfirm = (dataset: number) => {
+  const handleConfirm = (dataset: number, projectName: string) => {
     fetch("/api/projects", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: `Proyecto ${projects.length > 0 ? projects.length + 1 : "Inicial"}`,
+        name: projectName === "" ? `Proyecto ${projects.length > 0 ? projects.length + 1 : "Inicial"}` : projectName,
         datasetId: dataset
       })
     }).then(response => {

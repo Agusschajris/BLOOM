@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useRouter } from 'next/router';
 import style from '@styles/navBar.module.scss';
 import Image from 'next/image';
 import logoSVG from '@public/logo.svg';
 import userSVG from '@public/user.svg';
+import { signOut } from 'next-auth/react';
 
 const NavBar: React.FC = () => {
   const router = useRouter();
   const { pathname } = router;
+  const [userPfp, setUserPfp] = useState<string | null>(null);
   
   let classProyect = "";
   let classClass = "";
@@ -36,8 +38,16 @@ const NavBar: React.FC = () => {
   }
 
   const handleUser = () => {
-    
+    signOut({redirectTo: "/"}).then();
   }
+
+  useEffect(() => {
+    fetch("/api/auth/profile", {
+      method: "GET",
+    }).then(response => {
+      response.json().then(data => setUserPfp(data.image ?? null));
+    });
+  }, []);
 
   return (
     <div className={style.bar}>
@@ -47,7 +57,7 @@ const NavBar: React.FC = () => {
         <button className={classClass} onClick={handleClasses}>Clases</button>
       </div>
       <button className={style.userBtn} onClick={handleUser}>
-        <Image src={userSVG} alt="user" className={style.user}/>
+        <Image src={userPfp ?? userSVG} alt="user" className={style.user} width={30} height={30} />
       </button>
     </div>
   );
