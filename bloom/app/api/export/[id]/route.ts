@@ -148,11 +148,11 @@ function generateNotebook(projectName: string, datasetId: number, datasetInfo: D
   const notebook = structuredClone(defaultNotebook);
 
   (notebook.cells[5].source as string[])[3] +=
-    `${datasetInfo.name}](https://archive.ics.uci.edu/dataset/${datasetId}).`;
+    `${datasetInfo.name}](https://archive.ics.uci.edu/dataset/${datasetId}).\n`;
 
-  (notebook.cells[6].source as string[])[0] += `${datasetId})`;
+  (notebook.cells[6].source as string[])[0] += `${datasetId})\n`;
 
-  (notebook.cells[10].source as string[])[0] += `${projectName}/model')`;
+  (notebook.cells[10].source as string[])[0] += `${projectName}/model/model.json')\n`;
 
   return notebook;
 }
