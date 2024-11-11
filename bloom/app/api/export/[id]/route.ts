@@ -221,7 +221,7 @@ function generateNotebook(projectName: string, datasetId: number, datasetInfo: D
     );
   }
   (notebook.cells[23].source as string[]).push(
-    "result = model.predict(predictData)\n",
+    "result = model.predict(predict_data)\n",
     "df = pd.DataFrame([dict(zip(dataset.targets.columns, result))])\n"
   )
   if (datasetInfo.has_categorical_values) {
