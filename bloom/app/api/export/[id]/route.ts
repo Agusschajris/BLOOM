@@ -161,11 +161,14 @@ async function getDriveFromAuth(): Promise<Drive> {
 }
 
 function generateModel(blockData: string, datasetInfo: DatasetInfo): tf.Sequential {
+  // Reset the TensorFlow backend to clear any existing variables
+  tf.disposeVariables();
+
   const blocks = decompressBlocks(blockData);
   const seq = tf.sequential();
   if (blocks.length !== 0)
-    blocks[0].args.inputShape = [datasetInfo.features];
-  let lastUnitSize = datasetInfo.target;
+    blocks[0].args.inputShape = [datasetInfo.features.length];
+  let lastUnitSize = datasetInfo.features.length;
 
   blocks.forEach((block) => {
     seq.add(
@@ -177,8 +180,11 @@ function generateModel(blockData: string, datasetInfo: DatasetInfo): tf.Sequenti
       lastUnitSize = block.args.units as number;
   });
 
-  if (lastUnitSize !== datasetInfo.target)
-    seq.add(tf.layers.dense({ units: datasetInfo.target }));
+  if (lastUnitSize !== datasetInfo.target.length)
+    seq.add(tf.layers.dense({
+      units: datasetInfo.target.length,
+      inputShape: blocks.length > 0 ? undefined : [datasetInfo.features.length]
+    }));
 
   return seq;
 }
@@ -186,12 +192,32 @@ function generateModel(blockData: string, datasetInfo: DatasetInfo): tf.Sequenti
 function generateNotebook(projectName: string, datasetId: number, datasetInfo: DatasetInfo) {
   const notebook = structuredClone(defaultNotebook);
 
+  // 5dataset_id_explanation
   (notebook.cells[5].source as string[])[3] +=
     `${datasetInfo.name}](https://archive.ics.uci.edu/dataset/${datasetId}).\n`;
 
+  // 6dataset_id
   (notebook.cells[6].source as string[])[0] += `${datasetId})\n`;
 
-  (notebook.cells[10].source as string[])[0] += `${projectName}/model/model.json')\n`;
+  // 14model_import
+  (notebook.cells[14].source as string) += `${projectName}/model/model.json')\n`;
+
+  // 21model_predict
+  datasetInfo.features.forEach((feature, i) => {
+    (notebook.cells[21].source as string[]).push("  # " + feature.name + "\n", `  ${i + 1},\n`);
+  });
+  (notebook.cells[21].source as string[]).push("])\n");
+
+  // 23model_save
+  (notebook.cells[23].source as string) += `${projectName}/model/model.json')`;
+
+  // TODO: add categorical related cells (and remove them)
+
+  if (!datasetInfo.has_missing_values) {
+    // 7missing_values_explanation
+    // 8missing_values
+    (notebook.cells as any[]).splice(7, 2);
+  }
 
   return notebook;
 }

@@ -1,12 +1,18 @@
 import prisma from '@lib/prisma';
 import { Prisma, Project } from '@prisma/client';
 
+export type Column = {
+    name: string,
+    role: string,
+    type: string
+}
 export type DatasetInfo = {
     name: string,
     has_missing_values: boolean,
-    variables: number,
-    features: number,
-    target: number
+    has_categorical_values: boolean,
+    variables: Column[],
+    features: Column[],
+    target: Column[]
 }
 export interface ProjectData extends Project {
     datasetInfo: DatasetInfo;
@@ -37,9 +43,10 @@ export async function GET(request: Request, { params } : { params: { id: string 
     const meta = await archiveResponse.json();
     const datasetInfo: DatasetInfo = {
         has_missing_values: meta.data.has_missing_values as boolean,
-        variables: (meta.data.variables as any[]).length,
-        features: (meta.data.variables as any[]).filter(f => f.role == "Feature").length,
-        target: (meta.data.variables as any[]).filter(f => f.role == "Target").length,
+        has_categorical_values: (meta.data.variables as Column[]).some(v => v.type == "Categorical"),
+        variables: (meta.data.variables as Column[]),
+        features: (meta.data.variables as Column[]).filter(f => f.role == "Feature"),
+        target: (meta.data.variables as Column[]).filter(f => f.role == "Target"),
         name: meta.data.name as string
     };
 

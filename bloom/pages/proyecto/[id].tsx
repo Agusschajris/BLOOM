@@ -125,8 +125,8 @@ const Proyecto: React.FC = () => {
   function generateCode() {
     const blocks: DataBlock[] = canvasBlocks.map(getBackendBlock);
     if (blocks.length !== 0)
-      blocks[0].args.inputShape = [datasetInfo.current!.features];
-    let lastUnitSize = datasetInfo.current?.target;
+      blocks[0].args.inputShape = [datasetInfo.current!.features.length];
+    let lastUnitSize = datasetInfo.current?.features.length;
 
     generatedCode.current = `import * as tf from "@tensorflow/tfjs";\n\nconst model = tf.sequential({\n  name: "${projectName.current}"\n});\n\n`;
     
@@ -139,8 +139,13 @@ const Proyecto: React.FC = () => {
         lastUnitSize = block.args.units as number;
     });
 
-    if (lastUnitSize !== datasetInfo.current?.target)
-      generatedCode.current += `// Dense layer to match output shape\nmodel.add(tf.layers.dense({\n  "units": ${datasetInfo.current?.target}\n}));\n`;
+    if (lastUnitSize !== datasetInfo.current?.target.length)
+    {
+      generatedCode.current += `// Dense layer to match output shape\nmodel.add(tf.layers.dense({\n  "units": ${datasetInfo.current?.target.length}`;
+      if (blocks.length === 0)
+        generatedCode.current += `,\n  "inputShape": [${datasetInfo.current?.features.length}]`;
+      generatedCode.current += "\n}));\n";
+    }
 
     generatedCode.current += '\nmodel.compile({\n  optimizer: "sgd",\n  loss: "meanSquaredError",\n  metrics: ["accuracy"],\n});\n';
   }
@@ -152,10 +157,9 @@ const Proyecto: React.FC = () => {
       if (!response.ok)
         return console.error("Failed to fetch model:", response);
 
-      /*response.json().then((data) => {
-        const { model, notebook } = data;
-        console.log(model, notebook);
-      });*/
+      response.json().then((data) => {
+        window.open(`https://colab.research.google.com/drive/${data.notebookId}`, '_blank');
+      });
     });
   }
   

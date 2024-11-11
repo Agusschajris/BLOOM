@@ -1,10 +1,16 @@
 {
-  "metadata": {},
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
   "nbformat": 4,
   "nbformat_minor": 5,
   "cells": [
     {
-      "id": "notebook_explanation",
+      "id": "0notebook_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -14,7 +20,7 @@
       ]
     },
     {
-      "id": "package_install_explanation",
+      "id": "1package_install_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -29,15 +35,15 @@
       ]
     },
     {
-      "id": "package_install",
+      "id": "2package_install",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
       "outputs": [],
-      "source": "!pip install tensorflow[and-cuda] tensorflowjs ucimlrepo"
+      "source": "!pip install tensorflowjs ucimlrepo"
     },
     {
-      "id": "library_import_explanation",
+      "id": "3library_import_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -47,7 +53,7 @@
       ]
     },
     {
-      "id": "library_import",
+      "id": "4library_import",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
@@ -56,11 +62,12 @@
         "import tensorflow as tf\n",
         "import tensorflowjs as tfjs\n",
         "from ucimlrepo import fetch_ucirepo\n",
+        "from sklearn.model_selection import train_test_split\n",
         "from google.colab import drive"
       ]
     },
     {
-      "id": "dataset_import_explanation",
+      "id": "5dataset_import_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -74,18 +81,75 @@
       ]
     },
     {
-      "id": "dataset_import",
+      "id": "6dataset_import",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
       "outputs": [],
       "source": [
         "dataset = fetch_ucirepo(id=",
-        "print(dataset.metadata)"
+        "print(dataset.metadata)\n",
+        "display(dataset.data.features)\n",
+        "display(dataset.data.targets)"
       ]
     },
     {
-      "id": "drive_mount_explanation",
+      "id": "7missing_values_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Valores faltantes\n",
+        "En este caso, nuestro dataset tiene valores faltantes.\n",
+        "Esto es un problema, ya que los modelos de machine learning no pueden manejar valores faltantes.\n",
+        "Para solucionar este problema, eliminaremos las filas con valores faltantes.\n",
+        "Para eliminar las filas con valores faltantes, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "8missing_values",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": [
+        "# Contar valores faltantes antes.\n",
+        "print('Antes: ', dataset.data.features.isna().sum().sum() + dataset.data.targets.isna().sum().sum())\n",
+        "\n",
+        "# Ahora limpiamos el dataset.\n",
+        "dataset.data.features = dataset.data.features.dropna()\n",
+        "dataset.data.targets = dataset.data.targets.dropna()\n",
+        "\n",
+        "# Contar valores faltantes después.\n",
+        "print('Después: ', dataset.data.features.isna().sum().sum() + dataset.data.targets.isna().sum().sum())"
+      ]
+    },
+    {
+      "id": "9data_split_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### División de datos\n",
+        "Para entrenar un modelo de machine learning, necesitamos dividir los datos en dos conjuntos: uno para entrenar el modelo y otro para evaluarlo.\n",
+        "Usaremos el 80% de los datos para entrenar el modelo y el 20% restante para evaluarlo.\n",
+        "Para dividir los datos, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "10data_split",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+        "source": [
+          "X_train, X_test, y_train, y_test = train_test_split(dataset.data.features, dataset.data.targets, test_size=0.2)\n",
+          "display(X_train)\n",
+          "display(y_train)\n",
+          "display(X_test)\n",
+          "display(y_test)"
+        ]
+    },
+    {
+      "id": "11drive_mount_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -97,7 +161,7 @@
       ]
     },
     {
-      "id": "drive_mount",
+      "id": "12drive_mount",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
@@ -105,7 +169,7 @@
       "source": "drive.mount('/content/drive')"
     },
     {
-      "id": "model_import_explanation",
+      "id": "13model_import_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -115,14 +179,103 @@
       ]
     },
     {
-      "id": "model_import",
+      "id": "14model_import",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": "model = tfjs.converters.load_keras_model('/content/drive/My Drive/Bloom/"
+    },
+    {
+      "id": "15model_train_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Entrenar el modelo\n",
+        "Ahora, entrenaremos el modelo con los datos de entrenamiento, pasándole los datos que le habíamos separado.\n",
+        "Para entrenar el modelo, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "16model_train",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
       "outputs": [],
       "source": [
-          "model = tfjs.converters.load_keras_model('/content/drive/My Drive/Bloom/"
+        "model.compile(optimizer='adam', loss='mean_squared_error')\n",
+        "model.fit(X_train, y_train, epochs=10, verbose=2, validation_data=(X_test, y_test))"
       ]
+    },
+    {
+      "id": "17epochs_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+          "### Mientras se entrena: Epochs\n",
+          "Un epoch es una pasada completa de todos los datos de entrenamiento a través del modelo.\n",
+          "En cada epoch, el modelo ajusta sus pesos para minimizar la función de pérdida.\n",
+          "El número de epochs es un hiperparámetro que debemos ajustar.\n",
+          "Si el número de epochs es muy bajo, el modelo no tendrá suficiente tiempo para aprender.\n",
+          "Si el número de epochs es muy alto, el modelo puede sobreajustarse a los datos de entrenamiento.\n",
+          "Puedes jugar cambiando el número de epochs y ver cómo afecta al modelo!"
+      ]
+    },
+    {
+      "id": "18model_analysis_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+          "## Analizar el modelo\n",
+          "Ahora, analizaremos el modelo entrenado.\n",
+          "Para analizar el modelo, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "19model_analysis",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": "model.summary()"
+    },
+    {
+      "id": "20model_predict_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Predecir con el modelo\n",
+        "Finalmente, usaremos el modelo entrenado para hacer predicciones con los datos de prueba.\n",
+        "Para hacer predicciones con el modelo, rellena los valores en el código y ejecuta la siguiente la celda."
+      ]
+    },
+    {
+      "id": "21model_predict",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": [
+        "model.predict([\n"
+      ]
+    },
+    {
+      "id": "22model_save_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Guardar el modelo\n",
+        "Finalmente, guardaremos el modelo entrenado en Google Drive.\n",
+        "Para guardar el modelo, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "23model_save",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": "tfjs.converters.save_keras_model(model, '/content/drive/My Drive/Bloom/"
     }
   ]
 }
