@@ -35,7 +35,7 @@ const Popup: React.FC<PopupProps> = ({ onConfirm, onCancel }) => {
             <div className={popupStyle.wrapper}>
                 <h1 className={popupStyle.tittle}>Crear proyecto</h1>
                 <label className={popupStyle.label} htmlFor="projectName">Nombre</label>
-                <input className={popupStyle.input} id="projectName" type="text" value={projectName} placeholder='proyecto inicial' onChange={(e) => setProjectName(e.target.value)}/>
+                <input className={popupStyle.inputName} id="projectName" type="text" value={projectName} placeholder='proyecto inicial' onChange={(e) => setProjectName(e.target.value)}/>
 
                 <div className={popupStyle.optionsWrapper}>
                     
