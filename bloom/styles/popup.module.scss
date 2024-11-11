@@ -149,10 +149,6 @@
   border-radius: 6px;
 }
 
-.input{
-  display: none;
-}
-
 .footer {
   display: flex;
   align-self: flex-end;
@@ -184,4 +180,22 @@
 .confirm:disabled {
   background: #5a5a5a;
   cursor: not-allowed;
+}
+
+.inputName{
+  margin-top: 3%;
+  background-color: #07021A;
+  border: none;
+  width: 90%;
+  height: 30px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 10px 4px rgba(234, 233, 252, 0.20);
+  backdrop-filter: blur(25px);
+  color: #EAE9FC;
+}
+.label{
+  margin-top: 5%;
+  font-size: 20px;
+  align-self: flex-start;
+  margin-left: 5%;
 }
