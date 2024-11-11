@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Argument, ArgValue, BlockInstance} from '@/pages/proyecto/[id]';
+import {Argument, ArgValue, BlockInstance} from '@lib/blockydata';
 import style from "@styles/arguments.module.scss";
 import ticSVG from "@public/tic.svg";
 import Image from 'next/image';
