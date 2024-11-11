@@ -1,18 +1,19 @@
 import React from 'react';
-import { signIn } from "../auth";
-import '../styles/landing.css';
-import style from "../styles/landing.module.scss"
-import logo from "../public/bigLogo.svg"
+import {auth, signIn } from "@/auth";
+import '@styles/landing.css';
+import style from "@styles/landing.module.scss"
+import logo from "@public/bigLogo.svg"
 import Image from 'next/image';
-import bloquecitos from "../public/bloquecitos.svg"
-import arrow from "../public/arrow.svg"
-import aprendizaje from "../public/aprendizaje.svg"
-import enseñanza from "../public/enseñanza.svg"
-import educacion from "../public/educacion.svg"
-import codigo from "../public/Codigo.svg"
-import estadistica1 from "../public/87,5.svg"
-import estadistica2 from "../public/83.svg"
-import estadistica3 from "../public/54.svg"
+import bloquecitos from "@public/bloquecitos.svg"
+import arrow from "@public/arrow.svg"
+import aprendizaje from "@public/aprendizaje.svg"
+import enseñanza from "@public/enseñanza.svg"
+import educacion from "@public/educacion.svg"
+import codigo from "@public/Codigo.svg"
+import estadistica1 from "@public/87,5.svg"
+import estadistica2 from "@public/83.svg"
+import estadistica3 from "@public/54.svg"
+import { redirect } from "next/navigation";
 
 export default function App() {
   return (
@@ -23,7 +24,11 @@ export default function App() {
         <p>Tu herramienta preferida para aprender sobre Machine Learning con una simple interfaz visual</p>
         <form action={async () => {
           "use server"
-          await signIn("google", {redirectTo: "/dashboard"});
+          const session = await auth();
+          if (session)
+            redirect("/dashboard");
+          else
+            await signIn("google", {redirectTo: "/dashboard"});
         }}>
           <button type="submit">
             Ingresa ahora
