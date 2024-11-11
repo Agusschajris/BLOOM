@@ -54,6 +54,7 @@
       "outputs": [],
       "source": [
         "import tensorflow as tf\n",
+        "import tensorflowjs as tfjs\n",
         "from ucimlrepo import fetch_ucirepo\n",
         "from google.colab import drive"
       ]
