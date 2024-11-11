@@ -63,7 +63,9 @@
         "import tensorflowjs as tfjs\n",
         "from ucimlrepo import fetch_ucirepo\n",
         "from sklearn.model_selection import train_test_split\n",
-        "from google.colab import drive"
+        "from google.colab import drive\n",
+        "from tensorflow.keras.utils import to_categorical\n",
+        "import numpy as np"
       ]
     },
     {
@@ -124,7 +126,52 @@
       ]
     },
     {
-      "id": "9data_split_explanation",
+      "id": "9categorical_explanation",
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Variables categóricas\n",
+        "En este caso, nuestro dataset tiene variables categóricas.\n",
+        "Esto es un problema, ya que los modelos de machine learning no pueden manejar variables de texto, solo números.\n",
+        "Para solucionar este problema, convertiremos las variables categóricas en variables numéricas, asignandole un número a cada categoría.\n",
+        "Para convertir las variables categóricas en variables numéricas, ejecuta la siguiente celda de código."
+      ]
+    },
+    {
+      "id": "10categorical",
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": null,
+      "outputs": [],
+      "source": [
+        "# Lista con las asignaciones de las variables categóricas.\n",
+        "label_encoders = {}\n",
+        "for column in dataset.features.columns:\n",
+        "    if dataset.features[column].dtype == 'object':  # Fijarse si la columna es categórica.\n",
+        "        # Crear un codificador para asignar números a las categorías.\n",
+        "        le = LabelEncoder()\n",
+        "        dataset.features[column] = le.fit_transform(data[column])\n",
+        "        label_encoders[column] = le\n",
+        "\n",
+        "        # Aplicar el mismo codificador a los datos.\n",
+        "        dataset.features[column] = le.transform(dataset.features[column])\n",
+        "\n",
+        "for column in dataset.targets.columns:\n",
+        "    if dataset.targets[column].dtype == 'object':  # Fijarse si la columna es categórica.\n",
+        "        # Crear un codificador para asignar números a las categorías.\n",
+        "        le = LabelEncoder()\n",
+        "        dataset.targets[column] = le.fit_transform(data[column])\n",
+        "        label_encoders[column] = le\n",
+        "\n",
+        "        # Aplicar el mismo codificador a los datos.\n",
+        "        dataset.targets[column] = le.transform(dataset.targets[column])\n",
+        "\n",
+        "display(dataset.data.features)\n",
+        "display(dataset.data.targets)"
+      ]
+    },
+    {
+      "id": "11data_split_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -135,7 +182,7 @@
       ]
     },
     {
-      "id": "10data_split",
+      "id": "12data_split",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
@@ -149,7 +196,7 @@
         ]
     },
     {
-      "id": "11drive_mount_explanation",
+      "id": "13drive_mount_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -161,7 +208,7 @@
       ]
     },
     {
-      "id": "12drive_mount",
+      "id": "14drive_mount",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
@@ -169,7 +216,7 @@
       "source": "drive.mount('/content/drive')"
     },
     {
-      "id": "13model_import_explanation",
+      "id": "15model_import_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -179,7 +226,7 @@
       ]
     },
     {
-      "id": "14model_import",
+      "id": "16model_import",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
@@ -187,7 +234,7 @@
       "source": "model = tfjs.converters.load_keras_model('/content/drive/My Drive/Bloom/"
     },
     {
-      "id": "15model_train_explanation",
+      "id": "17model_train_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -197,7 +244,7 @@
       ]
     },
     {
-      "id": "16model_train",
+      "id": "18model_train",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
@@ -208,7 +255,7 @@
       ]
     },
     {
-      "id": "17epochs_explanation",
+      "id": "19epochs_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -222,7 +269,7 @@
       ]
     },
     {
-      "id": "18model_analysis_explanation",
+      "id": "20model_analysis_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -232,7 +279,7 @@
       ]
     },
     {
-      "id": "19model_analysis",
+      "id": "21model_analysis",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
@@ -240,7 +287,7 @@
       "source": "model.summary()"
     },
     {
-      "id": "20model_predict_explanation",
+      "id": "22model_predict_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -250,17 +297,17 @@
       ]
     },
     {
-      "id": "21model_predict",
+      "id": "23model_predict",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,
       "outputs": [],
       "source": [
-        "model.predict([\n"
+        "predict_data = pd.DataFrame({\n"
       ]
     },
     {
-      "id": "22model_save_explanation",
+      "id": "24model_save_explanation",
       "cell_type": "markdown",
       "metadata": {},
       "source": [
@@ -270,7 +317,7 @@
       ]
     },
     {
-      "id": "23model_save",
+      "id": "25model_save",
       "cell_type": "code",
       "metadata": {},
       "execution_count": null,

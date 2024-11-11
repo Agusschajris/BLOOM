@@ -199,19 +199,54 @@ function generateNotebook(projectName: string, datasetId: number, datasetInfo: D
   // 6dataset_id
   (notebook.cells[6].source as string[])[0] += `${datasetId})\n`;
 
-  // 14model_import
-  (notebook.cells[14].source as string) += `${projectName}/model/model.json')\n`;
+  // 16model_import
+  (notebook.cells[16].source as string) += `${projectName}/model/model.json')\n`;
 
-  // 21model_predict
-  datasetInfo.features.forEach((feature, i) => {
-    (notebook.cells[21].source as string[]).push("  # " + feature.name + "\n", `  ${i + 1},\n`);
+  // 23model_predict
+  datasetInfo.features.forEach(feature => {
+    (notebook.cells[23].source as string[]).push(`    '${feature.name}': [${feature.type === "Categorical" ? "''" : "0"}],\n`);
   });
-  (notebook.cells[21].source as string[]).push("])\n");
-
-  // 23model_save
-  (notebook.cells[23].source as string) += `${projectName}/model/model.json')`;
+  (notebook.cells[23].source as string[]).push(
+    "})\n",
+    "\n"
+  );
+  if (datasetInfo.has_categorical_values)
+  {
+    (notebook.cells[23].source as string[]).push(
+      "# Codificar valores categóricos a números.\n",
+      "for column in predict_data.columns:\n",
+      "    if column in label_encoders:\n",
+      "        predict_data[column] = label_encoders[column].transform(predict_data[column])\n",
+      "\n"
+    );
+  }
+  (notebook.cells[23].source as string[]).push(
+    "result = model.predict(predictData)\n",
+    "df = pd.DataFrame([dict(zip(dataset.targets.columns, result))])\n"
+  )
+  if (datasetInfo.has_categorical_values) {
+    (notebook.cells[23].source as string[]).push(
+      "# Codificar valores categóricos a números.\n",
+      "for column in df.columns:\n",
+      "    if column in label_encoders:\n",
+      "        predict_data[column] = label_encoders[column].inverse_transform(predict_data[column])\n",
+      "\n"
+    );
+  }
+  (notebook.cells[23].source as string[]).push("display(df)");
+  
+  // 25model_save
+  (notebook.cells[25].source as string) += `${projectName}/model/model.json')`;
 
   // TODO: add categorical related cells (and remove them)
+  if (!datasetInfo.has_categorical_values) {
+    // 4library_import
+    (notebook.cells[4].source as string[]).pop();
+    (notebook.cells[4].source as string[]).pop();
+    // 9categorical_explanation
+    // 10categorical
+    (notebook.cells as any[]).splice(9, 2);
+  }
 
   if (!datasetInfo.has_missing_values) {
     // 7missing_values_explanation
