@@ -6,6 +6,13 @@
     align-items: center;
     justify-content: space-between;
 }
+.name{
+    font-size: 15px;
+    width: 70%;
+    white-space: nowrap;
+    overflow: hidden;    
+    text-overflow: ellipsis;
+}
 .btns{
     width: 25%;
     display: flex;

@@ -19,13 +19,13 @@ const DatasetOption: React.FC<DatasetOptionProps> = ({ name, link }) => {
 
     return(
         <div className={style.wrapper}>
-            <h1 className={style.name}>{name}</h1>
+            <p className={style.name}>{name}</p>
             <div className={style.btns}>
                 <button onClick={handleRedirect} className={style.redirect}>
-                    <Image src={redirectSVG} alt="redirigir" className={style.redirectSVG} width={25}/>
+                    <Image src={redirectSVG} alt="redirigir" className={style.redirectSVG} width={20}/>
                 </button>
                 <button onClick={handleSelect} className={style.select}>
-                    <Image src={ticSVG} alt="seleccionar" className={style.ticSVG} width={17}/>
+                    <Image src={ticSVG} alt="seleccionar" className={style.ticSVG} width={15}/>
                 </button>
             </div>
         </div>

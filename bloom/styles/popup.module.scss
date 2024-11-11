@@ -56,6 +56,7 @@
   background: #060C65;
   width: 100%;
   margin-top: 0px;
+  margin-bottom: 5px;
 }
 
 .nombre{
@@ -109,12 +110,12 @@
   flex-direction: column;
   align-self: flex-start;
   padding-left: 5px;
-  padding-top: 5px;
+  padding-top: 20px;
   height: 130px;
   justify-content: center;
   overflow-y: scroll;
   max-height: 130px;
-  gap: 3px;
+  gap: 5px;
 
   &::-webkit-scrollbar {
     width: 10px;
