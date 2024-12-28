@@ -1,36 +1,35 @@
 # BLOOM
+Introduction
+BLOOM is a tool that facilitates the teaching and learning of a concept as complicated as Machine Learning. We want to provide both teachers and students with a more user-friendly way to delve into this concept. To achieve this, we use visual resources to simplify the understanding of abstract concepts on the subject.
 
-## Introducción
+## BLOOM developers
+- Brenda Oriolo - designer
+- Zoe Perez Colman - front-end developer
+- Agustina Schajris Garati - back-end developer
+- Tomás "Blur" Spurio - full-stack developer
 
-Bloom es una herramienta que facilita la enseñanza y aprendizaje de un concepto tán complicado como el de Machine Learning. Queremos facilitarle, tanto a profesores como a estudiantes, una manera más amigable para adentrarse en este concepto. Para ello, hacemos uso de recursos visuales para simplificar el entendimiento de los conceptos abstractos del tema.
+## Problem
+When it comes to learning to program, jumping straight into learning lines of code can be confusing for those who lack knowledge in the area, which is why Scratch is useful. This tool is an excellent introduction to programming logic because it allows understanding the fundamentals of programming visually, eliminating the complexity of the code.
 
-## Problematica
+This same situation is replicated in the area of Machine Learning. People find it difficult to understand how it works when they jump directly into lines of code, regardless of whether they know how to program or not.
 
-A la hora de aprender a programar, lanzarse directo a aprender líneas de código puede resultar confuso para quienes carecen de conocimiento en el área, por eso es útil Scratch. Esta herramienta resulta una excelente introducción a la lógica de la programación, porque deja comprender los fundamentos de la programación de forma visual, eliminando la complejidad del código. Esto está probado por la Universidad de Harvard en su curso introductorio a la programación CS50.
+We conducted some surveys with high school and university-level students and teachers, which received more than 50 responses, so we can state:
+- 87.5% do not know about Machine Learning and prefer to learn with the help of an educational app.
+- 83.3% think Scratch is a good tool to enter the world of programming.
+- 54.5% would feel more comfortable with a graphical interface for learning Artificial Intelligence.
 
-Esta misma situación se replica en el área de Machine Learning, a las personas les resulta difícil comprender su funcionamiento cuando se lanzan directamente a líneas de código, independientemente de que dichas personas sepan programar o no.
+## Objectives
+- Facilitated teaching
+- Friendly learning
+- Simplified education
 
-Hicimos algunas encuestas a jóvenes y profesores de la escuela secundaria y nivel universitario que recibieron más de 50 respuestas, por lo que podemos afirmar:
+## Solution
+We propose creating a web application similar to Tinkercad and Scratch, but focused on Machine Learning, with a graphical editor that allows replicating the functionality of some of the most used libraries for building predictive models or neural networks, such as Scikit-Learn and TensorFlow.
 
-- El 87,5% no sabe sobre Machine Learning y prefiere aprender con la ayuda de una app educativa.
-- El 83,3% piensa que Scratch es una buena herramienta para entrar al mundo de la programación.
-- El 54,5% se sentiría más cómodo ante una interfaz gráfica para el aprendizaje de Inteligencia Artificial.
+Each user can create multiple projects, for which they can choose from several predetermined datasets (or their own) to base their model on. Once inside the project, the user can build their model with a kind of “blocks” that can be found in a catalog, functioning as lines of code (the block format may vary). In a tab on the side, the user will have a “dual visualization” of the “blocks” and the generated code to which these refer. Once the model is finished, the user can export the code in Jupyter notebook format to Google Colab or download it to run locally.
 
-## Objetivos
+Additionally, each teacher can create classes for their students. There, they can write explanations and give assignments for students to complete. This section will have an auto-correction system where the teacher can limit the blocks students can use and define the correct answers.
 
-- Enseñanza facilitada
-- Aprendizaje amigable
-- Educación simplificada
-
-## Solución
-
-Proponemos crear una aplicación web al estilo de Tinkercad y Scratch, pero dirigida a Machine Learning, con un editor gráfico que permita replicar la funcionalidad de algunas librerías más usadas para hacer modelos predictivos o redes neuronales, tales como Scikit-Learn y Tensor Flow.
-
-Cada usuario podrá crear varios proyectos, para los que podrá elegir uno de varios datasets predeterminados (o uno propio) en el cual se podrá basar para desarrollar su modelo. Una vez dentro del proyecto, el usuario podrá armar su modelo con una suerte de “bloques” que va a poder encontrar en un catálogo, funcionando como líneas de código (el formato de bloques podría variar). En una solapa  al costado, el usuario tendrá una “doble visualización” de los “bloques” y el código generado al que estos hacen referencia. Una vez terminado el modelo, el usuario podrá exportar el código en formato de Jupyter notebook a Google Colab, o descargarlo para correrlo de forma local.
-
-Además, cada profesor podrá crear clases para sus alumnos. Allí podrá redactar explicaciones y dar consignas para tareas que los alumnos podrán entregar. Esta sección tendrá un sistema de auto corrección donde el profesor limitará los bloques que podrán usar los alumnos y definirá la/las respuestas correctas.
-
-## Usuarios
-
-- Estudiantes secundarios y universitarios interesados en el área de tecnología, independientemente de sus conocimientos previos sobre programación.
-- Profesores de los niveles  secundario o universitario en el área de la tecnología que quieren presentar y enseñar el concepto de Machine Learning.
+## Users
+- High school and university students interested in the technology field, regardless of their previous programming knowledge.
+- High school or university technology teachers who want to introduce and teach the concept of Machine Learning.
