@@ -8,6 +8,11 @@ BLOOM is a tool that facilitates the teaching and learning of a concept as compl
 - Agustina Schajris Garati - back-end developer
 - Tomás "Blur" Spurio - full-stack developer
 
+## BLOOM tutors
+- Ignacio Pardo
+- Ignacio Vigilante
+- Micaela Viegas
+
 ## Problem
 When it comes to learning to program, jumping straight into learning lines of code can be confusing for those who lack knowledge in the area, which is why Scratch is useful. This tool is an excellent introduction to programming logic because it allows understanding the fundamentals of programming visually, eliminating the complexity of the code.
 
