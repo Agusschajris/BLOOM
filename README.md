@@ -1,5 +1,5 @@
 # BLOOM
-Introduction
+## Introduction
 BLOOM is a tool that facilitates the teaching and learning of a concept as complicated as Machine Learning. We want to provide both teachers and students with a more user-friendly way to delve into this concept. To achieve this, we use visual resources to simplify the understanding of abstract concepts on the subject.
 
 ## BLOOM developers
